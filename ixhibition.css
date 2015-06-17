@@ -1,0 +1,149 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+#ixhibition{
+
+    position: absolute;
+    top: calc(50% - 179px);
+    left: calc(50% - 319px);
+    height: 360px;
+    width: 640px;
+
+    border: 1px solid black;
+
+    //overflow: hidden;
+
+}
+
+#ixb_listcontainer{
+
+
+    display: flex;
+    //flex-flow: column wrap; /*Horizontal*/
+    flex-flow: row wrap; /*Vertical*/
+    justify-content: center;
+    align-items: center;
+
+
+    height: 100%;
+    width: 100%;
+
+}
+
+.ixb_images{
+
+    /* Set for Overlay
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    */
+
+    flex: 0 0 100%;
+
+    height: 100%;
+    width: 100%;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    background-color: lightgrey;
+
+}
+
+
+/*
+@keyframes example{
+
+    0%      {margin-top: 0px;}
+
+    20%     {margin-top: 0px;}
+    25%     {margin-top: calc(360 / 640 * -100%);}
+
+    45%     {margin-top: calc(360 / 640 * -100%);}
+    50%     {margin-top: calc(360 / 640 * -200%);}
+
+    70%     {margin-top: calc(360 / 640 * -200%);}
+    75%     {margin-top: calc(360 / 640 * -300%);}
+
+    95%     {margin-top: calc(360 / 640 * -300%);}
+    100%    {margin-top: 0px;}
+
+
+}
+
+#ixb_listcontainer{
+    //animation: example;
+    animation-duration: 20s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 3;
+}
+
+
+@keyframes example2{
+
+
+    0%      {position: inherit; opacity: 0;}
+    10%     {position: absolute; opacity: 1;}
+
+    40%     {position: absolute; opacity: 1;}
+    50%     {position: inherit; opacity: 0;}
+
+    100%    {position: inherit; opacity: 0;}
+
+
+}
+
+.ixb_images{
+    top: 0px;
+    left: 0px;
+
+    //opacity: 0;
+    //animation: example2;
+    animation-duration: 10s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 3;
+}
+
+
+#ixb_image1{
+    animation-delay: 0s;
+}
+
+#ixb_image2{
+    animation-delay: 5s;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ixb_image1{
+    background-image: url("images/EarthMoon.jpg");
+}
+
+#ixb_image2{
+    background-image: url("images/Fuji.jpg");
+}
+
+#ixb_image3{
+    background-image: url("images/SeaMist.jpg");
+}
+
+#ixb_image4{
+    background-image: url("images/Bahamas.jpg");
+}
