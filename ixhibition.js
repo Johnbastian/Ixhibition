@@ -45,14 +45,18 @@ console.log(delayList);
 
 
 
+var fadeIn = true,
+    fadeOut = true;
+
+
 var phaseIn_animations = [
-    "{opacity: 0;}",
-    "{opacity: 1;}"
+    {"transform": "rotateY(90deg)"},
+    {"transform": "rotateY(10deg)"}
 ];
 
 var phaseOut_animations = [
-    "{opacity: 1;}",
-    "{opacity: 0;}"
+    {"transform": "rotateY(-10deg)"},
+    {"transform": "rotateY(-90deg)"}
 ];
 
 
@@ -86,27 +90,19 @@ var transition_animation =
             100%    {opacity: 0;}   \
         }   \
         .ixb_images{ \
+            perspective-origin: center center; \
             opacity: 0; \
             animation: ixbTransition;        \
-            animation-duration: 20s;    \
+            animation-duration: " + totalTime + "s;    \
             animation-timing-function: ease-in-out; \
             animation-iteration-count: 3;   \
         }   \
     ";
 
-var animation_delays =
-    "\
-        #ixb_image1{ animation-delay: 0s;    }   \
-        #ixb_image2{ animation-delay: 5.5s;    }   \
-        #ixb_image3{ animation-delay: 11s;    }   \
-        #ixb_image4{ animation-delay: 16.5s;    }   \
-    ";
-
-
-
-
-
-
+var animation_delays = "";
+for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
+    animation_delays += "#ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
+}
 
 
 document.getElementById("ixb_animation").innerHTML = transition_animation;

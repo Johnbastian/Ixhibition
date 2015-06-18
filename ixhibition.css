@@ -32,15 +32,22 @@ body{
 
 }
 
-.ixb_images{
+.ixb_wrapper{
 
-    /* Set for Overlay
+    /* Set for Overlay*/
     position: absolute;
-    top: 0px;
+    top: 100%;
     left: 0px;
-    */
+
 
     flex: 0 0 100%;
+
+    height: 100%;
+    width: 100%;
+
+}
+
+.ixb_images{
 
     height: 100%;
     width: 100%;
@@ -54,34 +61,39 @@ body{
 }
 
 
-/*
+
 @keyframes example{
 
-    0%      {margin-top: 0px;}
+    0%      {}
+    7.5%    {transform: translate(0px, -100%);}
 
-    20%     {margin-top: 0px;}
-    25%     {margin-top: calc(360 / 640 * -100%);}
+    27.5%   {transform: translate(0px, -100%);}
+    35%     {transform: translate(0px, -200%);}
 
-    45%     {margin-top: calc(360 / 640 * -100%);}
-    50%     {margin-top: calc(360 / 640 * -200%);}
-
-    70%     {margin-top: calc(360 / 640 * -200%);}
-    75%     {margin-top: calc(360 / 640 * -300%);}
-
-    95%     {margin-top: calc(360 / 640 * -300%);}
-    100%    {margin-top: 0px;}
+    100%    {transform: translate(0px, -200%);}
 
 
 }
 
-#ixb_listcontainer{
-    //animation: example;
+.ixb_wrapper{
+    animation: example;
     animation-duration: 20s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: 3;
 }
 
 
+
+
+
+#ixb_wrapper0 {   animation-delay: -0.5s;  }
+#ixb_wrapper1 {   animation-delay: 5s;  }
+#ixb_wrapper2 {   animation-delay: 10.5s;  }
+#ixb_wrapper3 {   animation-delay: 16s;  }
+
+
+
+/*
 @keyframes example2{
 
 
@@ -116,34 +128,3 @@ body{
     animation-delay: 5s;
 }
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#ixb_image1{
-    background-image: url("images/EarthMoon.jpg");
-}
-
-#ixb_image2{
-    background-image: url("images/Fuji.jpg");
-}
-
-#ixb_image3{
-    background-image: url("images/SeaMist.jpg");
-}
-
-#ixb_image4{
-    background-image: url("images/Bahamas.jpg");
-}
