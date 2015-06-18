@@ -65,10 +65,10 @@ body{
 @keyframes example{
 
     0%      {}
-    7.5%    {transform: translate(0px, -100%);}
+    6.818181818%    {transform: translate(0px, -100%);}
 
-    27.5%   {transform: translate(0px, -100%);}
-    35%     {transform: translate(0px, -200%);}
+    25%   {transform: translate(0px, -100%);}
+    31.818181818%     {transform: translate(0px, -200%);}
 
     100%    {transform: translate(0px, -200%);}
 
@@ -77,7 +77,7 @@ body{
 
 .ixb_wrapper{
     animation: example;
-    animation-duration: 20s;
+    animation-duration: 22s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: 3;
 }

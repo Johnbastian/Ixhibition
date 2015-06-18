@@ -84,16 +84,16 @@ var transition_animation =
     "   \
         @keyframes ixbTransition{    \
             0%      {opacity: 0;}   \
-            5%      {opacity: 1;}   \
+            6.818181818%      {opacity: 1;}   \
             25%     {opacity: 1;}   \
-            30%     {opacity: 0;}   \
+            31.818181818%     {opacity: 0;}   \
             100%    {opacity: 0;}   \
         }   \
         .ixb_images{ \
             perspective-origin: center center; \
             opacity: 0; \
             animation: ixbTransition;        \
-            animation-duration: " + totalTime + "s;    \
+            animation-duration: " + 22 + "s;    \
             animation-timing-function: ease-in-out; \
             animation-iteration-count: 3;   \
         }   \
