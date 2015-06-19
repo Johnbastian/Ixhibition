@@ -18,15 +18,7 @@ body{
 }
 
 #ixb_listcontainer{
-
-
-    display: flex;
-    //flex-flow: column wrap; /*Horizontal*/
-    flex-flow: row wrap; /*Vertical*/
-    justify-content: center;
-    align-items: center;
-
-
+    
     height: 100%;
     width: 100%;
 
@@ -38,9 +30,6 @@ body{
     position: absolute;
     top: 100%;
     left: 0px;
-
-
-    flex: 0 0 100%;
 
     height: 100%;
     width: 100%;
@@ -62,7 +51,7 @@ body{
 
 
 
-@keyframes example{
+@keyframes xibSlide{
 
     0%      {}
     6.818181818%    {transform: translate(0px, -100%);}
@@ -76,55 +65,13 @@ body{
 }
 
 .ixb_wrapper{
-    animation: example;
+    animation: xibSlide;
     animation-duration: 22s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: 3;
 }
 
-
-
-
-
 #ixb_wrapper0 {   animation-delay: -0.5s;  }
 #ixb_wrapper1 {   animation-delay: 5s;  }
 #ixb_wrapper2 {   animation-delay: 10.5s;  }
 #ixb_wrapper3 {   animation-delay: 16s;  }
-
-
-
-/*
-@keyframes example2{
-
-
-    0%      {position: inherit; opacity: 0;}
-    10%     {position: absolute; opacity: 1;}
-
-    40%     {position: absolute; opacity: 1;}
-    50%     {position: inherit; opacity: 0;}
-
-    100%    {position: inherit; opacity: 0;}
-
-
-}
-
-.ixb_images{
-    top: 0px;
-    left: 0px;
-
-    //opacity: 0;
-    //animation: example2;
-    animation-duration: 10s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: 3;
-}
-
-
-#ixb_image1{
-    animation-delay: 0s;
-}
-
-#ixb_image2{
-    animation-delay: 5s;
-}
-*/
