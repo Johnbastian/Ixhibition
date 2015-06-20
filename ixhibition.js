@@ -10,15 +10,19 @@ var Ixhibition = (function (){
 
     var transitionTransforms = null;
 
-    var fadeIn = true,
-        fadeOut = true;
-
-
     var display_time = 4,
         phaseIn_duration = 1,
         phaseOut_duration = 1,
-        phaseOverlap_duration = 0,
+        phaseOverlap_duration = 0.5,
         loopCount = "3";
+
+    var fadeIn = true,
+        fadeOut = true,
+        phaseIn_animations = [{}, {}],
+        phaseOut_animations = [{}, {}],
+        phaseIn_length = phaseIn_animations.length,
+        phaseOut_length = phaseOut_animations.length;
+
 
     var fullPhase_duration = phaseIn_duration + display_time + phaseOut_duration,
         transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
@@ -32,6 +36,10 @@ var Ixhibition = (function (){
         phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage,
         transition_percentage = transition_duration * 100 / totalTime;
 
+
+    var delayList = [0],
+        keyframePositions = [0],
+        keyframeValues = "";
 
 
 
@@ -51,7 +59,17 @@ var Ixhibition = (function (){
 
         populateContainer();
 
-        transitionTransforms = public_setSlideFormat("vertical");
+        calculateCoreValues();
+
+        generateDelayList();
+
+        public_setSlideFormat("vertical");
+
+        processPhaseAnimations();
+
+        processKeyFrames();
+
+        applyAnimation();
 
     })();
 
@@ -84,7 +102,126 @@ var Ixhibition = (function (){
 
     }
 
+    function generateDelayList() {
 
+        delayList = [0];
+        var ulCounter = urlList.length - 1;
+        while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - phaseOverlap_duration);
+
+    }
+
+
+
+    function processPhaseAnimations() {
+
+        if (phaseIn_length == 1 || phaseOut_length == 1) {
+            //Throw Error
+            phaseIn_animations = phaseOut_animations = []; //Temporary
+            phaseIn_length = phaseOut_length = 0;
+        }
+
+        if (fadeIn) {
+            if (phaseIn_length) {
+                phaseIn_animations[0]["opacity"] = "0";
+                phaseIn_animations[phaseIn_length - 1]["opacity"] = "1";
+            }else {
+                phaseIn_animations[0] = {"opacity": "0"};
+                phaseIn_animations[1] = {"opacity": "1"};
+            }
+        }
+        if (fadeOut) {
+            if (phaseOut_length) {
+                phaseOut_animations[0]["opacity"] = "1";
+                phaseOut_animations[phaseOut_length - 1]["opacity"] = "0";
+            }else {
+                phaseOut_animations[0] = {"opacity": "1"};
+                phaseOut_animations[1] = {"opacity": "0"};
+            }
+        }
+
+    }
+
+    function getCSSFormat(animationObject) {
+
+        var cssValue = "{";
+        for (var key in animationObject) cssValue += key + ":" + animationObject[key] + ";";
+        cssValue += "}";
+
+        return cssValue;
+
+    }
+
+
+
+    function processKeyFrames(argument) {
+
+        var phaseIn_divider = phaseIn_length - 1,
+            phaseOut_divider = phaseOut_length - 1;
+
+        var phaseIn_intervals = (phaseIn_divider ? (phaseIn_percentage / phaseIn_divider) : (phaseIn_percentage) ),
+            phaseOut_intervals = (phaseOut_divider ? (phaseOut_percentage / phaseOut_divider) : (phaseOut_percentage) );
+
+        while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
+        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
+        while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
+        keyframePositions.push(100);
+
+        console.log("keyframePositions is: ");
+        console.log(keyframePositions);
+
+        var phase_animations = phaseIn_animations.concat(phaseOut_animations).concat([{}]);
+
+        for (var paCounter = 0; paCounter < phase_animations.length; paCounter++)
+            keyframeValues += keyframePositions[paCounter] + "% " + getCSSFormat(phase_animations[paCounter]) + " ";
+
+        console.log("keyframeValues");
+        console.log(keyframeValues);
+
+    }
+
+
+    function applyAnimation() {
+
+        var animation_css =
+            "   \
+                @keyframes ixbTransition{   " + keyframeValues + "    }   \
+                .ixb_images{ \
+                    " + (fadeIn ? "opacity: 0;" : "") + " \
+                    animation: ixbTransition;        \
+                    animation-duration: " + totalTime + "s;    \
+                    animation-iteration-count: " + loopCount + ";   \
+                }   \
+            ";
+
+        var transition_css =
+            "   \
+                @keyframes xibSlide{    \
+                    0%  {" + slide_format[0] + "}  \
+                    " + transition_percentage + "%  {" + slide_format[1] + "} \
+                    " + (transition_percentage + display_percentage) + "%   {" + slide_format[1] + "}  \
+                    " + (transition_percentage + display_percentage + transition_percentage) + "%   {" + slide_format[2] + "}  \
+                    100%    {}  \
+                }   \
+                .ixb_wrapper{   \
+                    position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; \
+                    animation: xibSlide; animation-duration: 22s; animation-iteration-count: 3; animation-timing-function: ease-in-out; \
+                }   \
+            ";
+
+        console.log("delayList: ");
+        console.log(delayList);
+
+        var animation_delays = "",
+            transition_delays = "";
+        for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
+            animation_delays += "#ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
+            transition_delays += "#ixb_wrapper" + dlCounter + "{ animation-delay: " + (delayList[dlCounter] - (transition_duration - phaseIn_duration)) + "s}\n";
+        }
+
+        document.getElementById("ixb_animation").innerHTML = animation_css + "\n" + transition_css;
+        document.getElementById("ixb_delays").innerHTML = animation_delays + "\n" + transition_delays;
+
+    }
 
 
 
@@ -154,6 +291,8 @@ var Ixhibition = (function (){
                 break;
         }
 
+        //transitionTransforms =
+
     }
 
     function public_setDurations(pIn, dDuration, pOut) {
@@ -175,6 +314,9 @@ var Ixhibition = (function (){
         phaseIn_duration = pIn;
         display_time = dDuration;
         phaseOut_duration = pOut;
+
+        phaseIn_length = phaseIn_animations.length,
+        phaseOut_length = phaseOut_animations.length;
 
         calculateCoreValues();
 
@@ -226,7 +368,7 @@ var display_percentage = (display_time / fullPhase_duration) * fullPhase_percent
 console.log("display_percentage: " + display_percentage);
 console.log("phaseIn_percentage: " + phaseIn_percentage);
 console.log("phaseOut_percentage: " + phaseOut_percentage);
-*/
+
 
 
 var delayList = [0],
@@ -283,6 +425,7 @@ function processPhaseAnimations() {
     }
 
 }
+
 
 processPhaseAnimations();
 
@@ -412,3 +555,4 @@ for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
 
 document.getElementById("ixb_animation").innerHTML = animation_css + "\n" + transition_css;
 document.getElementById("ixb_delays").innerHTML = animation_delays + "\n" + transition_delays;
+*/
