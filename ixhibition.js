@@ -1,13 +1,192 @@
-var main_styling = "#ixhibition{/* overflow: hidden !important; */ padding: 0px !important;} #ixb_listcontainer{ height: 100%; width: 100%;    }";
+var Ixhibition = (function (){
 
-main_styling += ".ixb_images{       \
-    height: 100%; width: 100%;  \
-    background-size: contain; background-repeat: no-repeat; background-position: center center; \
-    }";
+    var urlList = [ //Temp url values - should be empty
+        "images/EarthMoon.jpg"
+        , "images/Fuji.jpg"
+        , "images/SeaMist.jpg"
+        , "images/Bahamas.jpg"
+    ];
 
-document.getElementById("ixb_main").innerHTML = main_styling;
 
-var transition_type = "vertical-reverse"; //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
+    var transitionTransforms = null;
+
+    var fadeIn = true,
+        fadeOut = true;
+
+
+    var display_time = 4,
+        phaseIn_duration = 1,
+        phaseOut_duration = 1,
+        phaseOverlap_duration = 0,
+        loopCount = "3";
+
+    var fullPhase_duration = phaseIn_duration + display_time + phaseOut_duration,
+        transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
+
+    var totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
+
+    var fullPhase_percentage = fullPhase_duration / totalTime * 100;
+
+    var display_percentage = (display_time / fullPhase_duration) * fullPhase_percentage,
+        phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage,
+        phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage,
+        transition_percentage = transition_duration * 100 / totalTime;
+
+
+
+
+    (function initialSetup(){
+
+        document.getElementsByTagName("head")[0].innerHTML += "<style id='ixb_main'></style><style id='ixb_animation'></style><style id='ixb_delays'></style>";
+
+        document.getElementById("ixb_main").innerHTML =
+            "   \
+                #ixhibition{/* overflow: hidden !important; */ padding: 0px !important;}    \
+                #ixb_listcontainer{ height: 100%; width: 100%;    } \
+                .ixb_images{       \
+                    height: 100%; width: 100%;  \
+                    background-size: contain; background-repeat: no-repeat; background-position: center center; \
+                }   \
+            ";
+
+        populateContainer();
+
+        transitionTransforms = public_setSlideFormat("vertical");
+
+    })();
+
+
+
+    function populateContainer() {
+        var imageListHTML = "";
+        for (var ulCounter = 0; ulCounter < urlList.length; ulCounter++) {
+            imageListHTML += "<div id='ixb_wrapper" + ulCounter + "' class='ixb_wrapper'>";
+            imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
+            imageListHTML += "</div>";
+        }
+        document.getElementById("ixhibition").innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "<div>";
+    }
+
+
+    function calculateCoreValues() {
+
+        fullPhase_duration = display_time + phaseIn_duration + phaseOut_duration;
+        transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
+
+        totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
+
+        fullPhase_percentage = fullPhase_duration / totalTime * 100;
+
+        display_percentage = (display_time / fullPhase_duration) * fullPhase_percentage;
+        phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage;
+        phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage;
+        transition_percentage = transition_duration * 100 / totalTime;
+
+    }
+
+
+
+
+
+
+    return {
+        setImageList : public_setImageURLs,
+        setSlideFormat : public_setSlideFormat,
+        setDurations : public_setDurations
+    };
+
+
+    function public_setImageURLs(imgList) {
+
+        if (!Array.isArray(imgList)) {
+            throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
+            return;
+        }
+
+        if (imgList.length) {
+            urlList = imgList;
+            populateContainer();
+        }
+
+    }
+
+    function public_setSlideFormat(sType) { //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
+
+        switch (sType) {
+            case "stack":
+                slide_format = [
+                    "",
+                    "",
+                    ""
+                ];
+                break;
+            case "vertical":
+                slide_format = [
+                    "transform: translate(0px, 100%)",
+                    "transform: translate(0px, 0%)",
+                    "transform: translate(0px, -100%)"
+                ];
+                break;
+            case "vertical-reverse":
+                slide_format = [
+                    "transform: translate(0px, -100%)",
+                    "transform: translate(0px, 0%)",
+                    "transform: translate(0px, 100%)"
+                ];
+                break;
+            case "horizontal":
+                slide_format = [
+                    "transform: translate(100%, 0px)",
+                    "transform: translate(0%, 0px)",
+                    "transform: translate(-100%, 0px)"
+                ];
+                break;
+            case "horizontal-reverse":
+                slide_format = [
+                    "transform: translate(-100%, 0px)",
+                    "transform: translate(0%, 0px)",
+                    "transform: translate(100%, 0px)"
+                ];
+                break;
+            default:
+                throw new Error("The parameter for setSlideFormat accepts only the following values:  stack, vertical, vertical-reverse, horizontal, horizontal-reverse");
+                return;
+                break;
+        }
+
+    }
+
+    function public_setDurations(pIn, dDuration, pOut) {
+
+        var errorMsg = "The 3 parameters for setDurations accepts only positive integer values, in the order: phase-in duration value, display duration value, phase-out duration value";
+
+        if ((typeof pIn !== "number") || (typeof dDuration !== "number") || (typeof pOut !== "number")) {
+
+            throw new Error(errorMsg);
+            return;
+
+        }else if (!(pIn >= 0) || !(dDuration >= 0) || !(pOut >= 0)) {
+
+            throw new Error(errorMsg);
+            return;
+
+        }
+
+        phaseIn_duration = pIn;
+        display_time = dDuration;
+        phaseOut_duration = pOut;
+
+        calculateCoreValues();
+
+    }
+
+
+})();
+
+
+
+/*
+var slide_format = "stack"; //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
 
 var urlList = [
     "images/EarthMoon.jpg"
@@ -29,13 +208,13 @@ document.getElementById("ixhibition").innerHTML = "<div id='ixb_listcontainer'>"
 var display_time = 4,
     phaseIn_duration = 1,
     phaseOut_duration = 1,
-    transition_overlap = 0.5,
+    phaseOverlap_duration = 0,
     loopCount = "3";
 
 var fullPhase_duration = display_time + phaseIn_duration + phaseOut_duration,
-    transition_duration = phaseOut_duration + phaseIn_duration - transition_overlap;
+    transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
 
-var totalTime = urlList.length * (fullPhase_duration - transition_overlap);
+var totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
 console.log("totalTime time is: " + totalTime);
 
 var fullPhase_percentage = fullPhase_duration / totalTime * 100;
@@ -47,12 +226,12 @@ var display_percentage = (display_time / fullPhase_duration) * fullPhase_percent
 console.log("display_percentage: " + display_percentage);
 console.log("phaseIn_percentage: " + phaseIn_percentage);
 console.log("phaseOut_percentage: " + phaseOut_percentage);
-
+*/
 
 
 var delayList = [0],
     ulCounter = urlList.length - 1;
-while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - transition_overlap);
+while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - phaseOverlap_duration);
 console.log("delayList: ");
 console.log(delayList);
 
@@ -62,13 +241,13 @@ var fadeIn = true,
     fadeOut = true;
 
 var phaseIn_animations = [
-    {"transform": "rotateX(90deg)", "transform-origin" : "top center"},
+    {"transform": "rotateX(90deg)", "transform-origin" : "bottom center"},
     //{"transform": "rotateY(20deg)"},
     {"transform": "rotateX(0deg)"}
 ];
 
 var phaseOut_animations = [
-    {"transform": "rotateX(0deg)", "transform-origin" : "bottom center"},
+    {"transform": "rotateX(0deg)", "transform-origin" : "top center"},
     //{"transform": "rotateY(-20deg)"},
     {"transform": "rotateX(-90deg)"}
 ];
@@ -163,7 +342,7 @@ var animation_css =
     ";
 
 function getSlideTransition() {
-    switch (transition_type) {
+    switch (slide_format) {
         case "vertical":
             return [
                 "transform: translate(0px, 100%)",
