@@ -1,27 +1,30 @@
 var Ixhibition = (function (){
 
     //Variables that can be modified using public functions
-    var urlList = [""];
+    var urlList = [""];     //List of image urls that are set in "background-image:url([value])"
 
-    var segue_data = null;
+    var segue_data = null;  /*  How to transition from slide to slide:
+                                "vertical" (scroll up), "vertical-reverse" (scroll down),
+                                "horizontal" (RtL), "horizontal-reverse" (LtR), "stack" */
 
-    var display_time = 4,
-        phaseIn_duration = 1,
-        phaseOut_duration = 1,
-        phaseOverlap_duration = 0,
-        loopCount = "infinite";
+    var display_time = 4,           //Time image should be displayed for, (normally statically)
+        phaseIn_duration = 1,       //Time taken to show image
+        phaseOut_duration = 1,      //Time taken to hide image
+        phaseOverlap_duration = 0,  /*  Overlap amount of the last bit of the phaseOut of the last slide
+                                        and start bit of the phaseIn of the new slide */
+        loopCount = "infinite";     //Number of times to repeast the gallery (same as animation-iteration-count value)
 
-    var fadeIn = true,
-        fadeOut = true,
-        phaseIn_animations = [{}, {}],
-        phaseOut_animations = [{}, {}];
+    var fadeIn = true,                  //If the image should fade in during phaseIn (done via opacity)
+        fadeOut = true,                 //If the image should fade in during phaseOut (done via opacity)
+        phaseIn_animations = [{}, {}],  //The keyframe animations to perform durinng the phaseIn
+        phaseOut_animations = [{}, {}]; //The keyframe animations to perform durinng the phaseOut
 
 
     //Variables that are calculated by Ixhibition (see generateGallery & calculateCoreValues)
     var fullPhase_duration = null,
         transition_duration = null,
-        phaseIn_length = phaseIn_animations.length,
-        phaseOut_length = phaseOut_animations.length;
+        phaseIn_aCount = phaseIn_animations.length,
+        phaseOut_aCount = phaseOut_animations.length;
 
     var totalTime = null;
 
@@ -61,7 +64,7 @@ var Ixhibition = (function (){
 
     })();
 
-
+    //Populate the HTML with
     function populateContainer() {
         var imageListHTML = "";
         for (var ulCounter = 0; ulCounter < urlList.length; ulCounter++) {
@@ -76,22 +79,22 @@ var Ixhibition = (function (){
     }
 
 
-
+    //Calculate, generate, and apply gallery to HTML document
     function generateGallery() {
         calculateCoreValues();
         generateDelayList();
         processPhaseAnimations();
         processKeyFrames();
-        applyAnimation();
+        processAndApplyAnimation();
     }
 
-
+    //Calculate core values required for further calculations
     function calculateCoreValues() {
 
         fullPhase_duration = display_time + phaseIn_duration + phaseOut_duration;
         transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
-        phaseIn_length = phaseIn_animations.length;
-        phaseOut_length = phaseOut_animations.length;
+        phaseIn_aCount = phaseIn_animations.length;
+        phaseOut_aCount = phaseOut_animations.length;
 
         totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
 
@@ -104,6 +107,7 @@ var Ixhibition = (function (){
 
     }
 
+    //Generate array of animation delay values
     function generateDelayList() {
 
         delayList = [0];
@@ -112,29 +116,22 @@ var Ixhibition = (function (){
 
     }
 
-
-
+    //Add respective fading CSS to phaseIn and phaseOut keyframe animation
     function processPhaseAnimations() {
 
-        if (phaseIn_length == 1 || phaseOut_length == 1) {
-            //Throw Error
-            phaseIn_animations = phaseOut_animations = []; //Temporary
-            phaseIn_length = phaseOut_length = 0;
-        }
-
         if (fadeIn) {
-            if (phaseIn_length) {
+            if (phaseIn_aCount) {
                 phaseIn_animations[0]["opacity"] = "0";
-                phaseIn_animations[phaseIn_length - 1]["opacity"] = "1";
+                phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
             }else {
                 phaseIn_animations[0] = {"opacity": "0"};
                 phaseIn_animations[1] = {"opacity": "1"};
             }
         }
         if (fadeOut) {
-            if (phaseOut_length) {
+            if (phaseOut_aCount) {
                 phaseOut_animations[0]["opacity"] = "1";
-                phaseOut_animations[phaseOut_length - 1]["opacity"] = "0";
+                phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "0";
             }else {
                 phaseOut_animations[0] = {"opacity": "1"};
                 phaseOut_animations[1] = {"opacity": "0"};
@@ -143,6 +140,7 @@ var Ixhibition = (function (){
 
     }
 
+    //Generate and return CSS for a list of key-value pairs
     function getCSSFormat(animationObject) {
 
         var cssValue = "{";
@@ -153,12 +151,11 @@ var Ixhibition = (function (){
 
     }
 
-
-
+    //Generate keyframes CSS
     function processKeyFrames(argument) {
 
-        var phaseIn_divider = phaseIn_length - 1,
-            phaseOut_divider = phaseOut_length - 1;
+        var phaseIn_divider = phaseIn_aCount - 1,
+            phaseOut_divider = phaseOut_aCount - 1;
 
         var phaseIn_intervals = (phaseIn_divider ? (phaseIn_percentage / phaseIn_divider) : (phaseIn_percentage) ),
             phaseOut_intervals = (phaseOut_divider ? (phaseOut_percentage / phaseOut_divider) : (phaseOut_percentage) );
@@ -183,8 +180,8 @@ var Ixhibition = (function (){
 
     }
 
-
-    function applyAnimation() {
+    //Generate animation CSS and apply to document
+    function processAndApplyAnimation() {
 
         var animation_css =
             "   \
@@ -232,9 +229,13 @@ var Ixhibition = (function (){
     return {
         setImageList : public_setImageURLs,
         setSegueType : public_setSegueType,
-        setDurations : public_setDurations,
+        setPhaseIn : public_setPhaseIn,
+        setPhaseOut : public_setPhaseOut,
+        setDisplayDuration : public_setDisplayDuration,
+        setPhaseOverlap : public_setPhaseOverlap,
         setLoopCount : public_setLoopCount
     };
+
 
     //Public function for setting the list of image urls in the form of a string array of background-image values
     function public_setImageURLs(imgList) {
@@ -307,30 +308,81 @@ var Ixhibition = (function (){
 
     }
 
-    function public_setDurations(pIn, dDuration, pOut) {
+    //Public function for setting the phaseIn duration and animation set as an array of keyframes
+    function public_setPhaseIn(pIn, pAnimations) {
 
-        var errorMsg = "The 3 parameters for setDurations accepts only positive integer values, in the order: \
-                        phase-in duration value, display duration value, phase-out duration value";
-
-        if ((typeof pIn !== "number") || (typeof dDuration !== "number") || (typeof pOut !== "number")){
-            throw new Error(errorMsg);
-            return;
-        }else if (!(pIn >= 0) || !(dDuration >= 0) || !(pOut >= 0)){
-            throw new Error(errorMsg);
+        if (!(typeof pIn === "number" && pIn >= 0)) {
+            throw new Error("The first parameter of setPhaseIn must be a positive integer");
             return;
         }
 
-        phaseIn_duration = pIn;
-        display_time = dDuration;
-        phaseOut_duration = pOut;
+        if(!(Array.isArray(pAnimations) && pAnimations.length != 1)) {
+            throw new Error("   The second parameter of setPhaseIn must be an array of objects containing CSS key-pair values. \
+                                Additionally, the array must have a length of either 0 or 2 and higher");
+            return;
+        }
 
-        phaseIn_length = phaseIn_animations.length,
-        phaseOut_length = phaseOut_animations.length;
+        if (pAnimations.length == 0) pAnimations = [{}, {}];
+
+        phaseIn_duration = pIn;
+        phaseIn_animations = pAnimations;
 
         generateGallery();
 
     }
 
+    //Public function for setting the phaseOut duration and animation set as an array of keyframes
+    function public_setPhaseOut(pOut, pAnimations) {
+
+        if (!(typeof pOut === "number" && pOut >= 0)) {
+            throw new Error("The first parameter of setPhaseOut must be a positive integer");
+            return;
+        }
+
+        if(!(Array.isArray(pAnimations) && pAnimations.length != 1)) {
+            throw new Error("   The second parameter of  must be an array of objects containing CSS key-pair values. \
+                                Additionally, the array must have a length of either 0 or 2 and higher");
+            return;
+        }
+
+        if (pAnimations.length == 0) pAnimations = [{}, {}];
+
+        phaseOut_duration = pOut;
+        phaseOut_animations = pAnimations;
+
+        generateGallery();
+
+    }
+
+    //Public function for setting the display duration
+    function public_setDisplayDuration(dDuration) {
+
+        if (!(typeof dDuration === "number" && pOut >= 0)) {
+            throw new Error("setDisplayDuration parameter must be a positive integer");
+            return;
+        }
+
+        display_time = dDuration;
+
+        generateGallery();
+
+    }
+
+    //Public function for setting the phase overlap duration
+    function public_setPhaseOverlap(pOverlap) {
+
+        if (!(typeof pOverlap === "number" && pOverlap >= 0)) {
+            throw new Error("setPhaseOverlap parameter must be a positive integer");
+            return;
+        }
+
+        phaseOverlap_duration = pOverlap;
+
+        generateGallery();
+
+    }
+
+    //Public function for setting how many times the gallery should loop
     function public_setLoopCount(lc) {
 
         var errorMsg = "setLoopCount accepts only positive integers or the keyword \"infinite\" ";
@@ -360,11 +412,21 @@ var Ixhibition = (function (){
 
         }
 
-
-
         generateGallery();
 
     }
 
+    //Public function for setting if fading is desired
+    function public_setFade(fIn, fOut) {
 
+        if (typeof fIn !== "boolean" || typeof fOut !== "boolean") {
+            throw new Error("setFade only accepts 2 boolean parameters");
+            return;
+        }
+
+        fadeIn = fIn;
+        fadeOut = fOut;
+
+    }
+    
 });
