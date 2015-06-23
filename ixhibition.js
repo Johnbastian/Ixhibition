@@ -7,7 +7,7 @@ var Ixhibition = (function (){
                                 "vertical" (scroll up), "vertical-reverse" (scroll down),
                                 "horizontal" (RtL), "horizontal-reverse" (LtR), "stack" */
 
-    var display_time = 4,           //Time image should be displayed for, (normally statically)
+    var display_duration = 4,           //Time image should be displayed for, (normally statically)
         phaseIn_duration = 1,       //Time taken to show image
         phaseOut_duration = 1,      //Time taken to hide image
         phaseOverlap_duration = 0,  /*  Overlap amount of the last bit of the phaseOut of the last slide
@@ -91,7 +91,7 @@ var Ixhibition = (function (){
     //Calculate core values required for further calculations
     function calculateCoreValues() {
 
-        fullPhase_duration = display_time + phaseIn_duration + phaseOut_duration;
+        fullPhase_duration = display_duration + phaseIn_duration + phaseOut_duration;
         transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
         phaseIn_aCount = phaseIn_animations.length;
         phaseOut_aCount = phaseOut_animations.length;
@@ -100,7 +100,7 @@ var Ixhibition = (function (){
 
         fullPhase_percentage = fullPhase_duration / totalTime * 100;
 
-        display_percentage = (display_time / fullPhase_duration) * fullPhase_percentage;
+        display_percentage = (display_duration / fullPhase_duration) * fullPhase_percentage;
         phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage;
         phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage;
         transition_percentage = transition_duration * 100 / totalTime;
@@ -362,7 +362,7 @@ var Ixhibition = (function (){
             return;
         }
 
-        display_time = dDuration;
+        display_duration = dDuration;
 
         generateGallery();
 
@@ -371,8 +371,10 @@ var Ixhibition = (function (){
     //Public function for setting the phase overlap duration
     function public_setPhaseOverlap(pOverlap) {
 
-        if (!(typeof pOverlap === "number" && pOverlap >= 0)) {
-            throw new Error("setPhaseOverlap parameter must be a positive integer");
+        var validPO = pOverlap < Math.min((phaseIn_duration + display_duration), (display_duration + phaseOut_duration));
+
+        if (!(typeof pOverlap === "number" && pOverlap >= 0 && validPO)) {
+            throw new Error("setPhaseOverlap parameter must be a positive integer. Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration");
             return;
         }
 
@@ -428,5 +430,5 @@ var Ixhibition = (function (){
         fadeOut = fOut;
 
     }
-    
+
 });
