@@ -1,26 +1,27 @@
 var Ixhibition = (function (){
 
+    //Variables that can be modified using public functions
     var urlList = [""];
 
-
-    var slide_format = null;
+    var segue_data = null;
 
     var display_time = 4,
         phaseIn_duration = 1,
         phaseOut_duration = 1,
         phaseOverlap_duration = 0,
-        loopCount = "3";
+        loopCount = "infinite";
 
     var fadeIn = true,
         fadeOut = true,
         phaseIn_animations = [{}, {}],
-        phaseOut_animations = [{}, {}],
+        phaseOut_animations = [{}, {}];
+
+
+    //Variables that are calculated by Ixhibition (see generateGallery & calculateCoreValues)
+    var fullPhase_duration = null,
+        transition_duration = null,
         phaseIn_length = phaseIn_animations.length,
         phaseOut_length = phaseOut_animations.length;
-
-
-    var fullPhase_duration = null,
-        transition_duration = null;
 
     var totalTime = null;
 
@@ -32,9 +33,11 @@ var Ixhibition = (function (){
         transition_percentage = null;
 
 
+    //Variables used for generating the code (namely CSS)
     var delayList = [0],
         keyframePositions = [0],
         keyframeValues = "";
+
 
 
     //Initial Setup (done on object instantiate, akin to constructor logic)
@@ -52,7 +55,7 @@ var Ixhibition = (function (){
                 }   \
             ";
 
-        public_setSlideFormat("stack");
+        public_setSegueType("stack");
 
         populateContainer();
 
@@ -73,6 +76,7 @@ var Ixhibition = (function (){
     }
 
 
+
     function generateGallery() {
         calculateCoreValues();
         generateDelayList();
@@ -82,12 +86,12 @@ var Ixhibition = (function (){
     }
 
 
-
-
     function calculateCoreValues() {
 
         fullPhase_duration = display_time + phaseIn_duration + phaseOut_duration;
         transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
+        phaseIn_length = phaseIn_animations.length;
+        phaseOut_length = phaseOut_animations.length;
 
         totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
 
@@ -194,10 +198,10 @@ var Ixhibition = (function (){
         var transition_css =
             "   \
                 @keyframes xibSlide{    \
-                    0%  {" + slide_format[0] + "}  \
-                    " + transition_percentage + "%  {" + slide_format[1] + "} \
-                    " + (transition_percentage + display_percentage) + "%   {" + slide_format[1] + "}  \
-                    " + (transition_percentage + display_percentage + transition_percentage) + "%   {" + slide_format[2] + "}  \
+                    0%  {" + segue_data[0] + "}  \
+                    " + transition_percentage + "%  {" + segue_data[1] + "} \
+                    " + (transition_percentage + display_percentage) + "%   {" + segue_data[1] + "}  \
+                    " + (transition_percentage + display_percentage + transition_percentage) + "%   {" + segue_data[2] + "}  \
                     100%    {}  \
                 }   \
                 .ixb_wrapper{   \
@@ -223,62 +227,71 @@ var Ixhibition = (function (){
 
 
 
+
     //Public functions
     return {
         setImageList : public_setImageURLs,
-        setSlideFormat : public_setSlideFormat,
-        setDurations : public_setDurations
+        setSegueType : public_setSegueType,
+        setDurations : public_setDurations,
+        setLoopCount : public_setLoopCount
     };
 
-
+    //Public function for setting the list of image urls in the form of a string array of background-image values
     function public_setImageURLs(imgList) {
 
-        if (!Array.isArray(imgList)) {
-            throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
-            return;
+        if (Array.isArray(imgList)) {
+
+            var typeString = imgList.every(function (cVal) { //Check contents are all strings
+                return typeof cVal == "string";
+            });
+
+            if (imgList.length && typeString) {
+                urlList = imgList;
+                populateContainer();
+                generateGallery();
+                return;
+            }
+
         }
 
-        if (imgList.length) {
-            urlList = imgList;
-            populateContainer();
-            generateGallery();
-        }
+        throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
 
     }
 
-    function public_setSlideFormat(sType) { //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
+    //Public function for setting the sgue/transition method for going from slide to slide
+    function public_setSegueType(sType) { //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
 
         switch (sType) {
             case "stack":
-                slide_format = [
+                segue_data = [
                     "",
                     "",
                     ""
                 ];
                 break;
             case "vertical":
-                slide_format = [
+                segue_data = [
                     "transform: translate(0px, 100%)",
                     "transform: translate(0px, 0%)",
                     "transform: translate(0px, -100%)"
                 ];
                 break;
             case "vertical-reverse":
-                slide_format = [
+                segue_data = [
                     "transform: translate(0px, -100%)",
                     "transform: translate(0px, 0%)",
                     "transform: translate(0px, 100%)"
                 ];
                 break;
             case "horizontal":
-                slide_format = [
+                segue_data = [
                     "transform: translate(100%, 0px)",
                     "transform: translate(0%, 0px)",
                     "transform: translate(-100%, 0px)"
                 ];
                 break;
             case "horizontal-reverse":
-                slide_format = [
+                segue_data = [
                     "transform: translate(-100%, 0px)",
                     "transform: translate(0%, 0px)",
                     "transform: translate(100%, 0px)"
@@ -296,18 +309,15 @@ var Ixhibition = (function (){
 
     function public_setDurations(pIn, dDuration, pOut) {
 
-        var errorMsg = "The 3 parameters for setDurations accepts only positive integer values, in the order: phase-in duration value, display duration value, phase-out duration value";
+        var errorMsg = "The 3 parameters for setDurations accepts only positive integer values, in the order: \
+                        phase-in duration value, display duration value, phase-out duration value";
 
-        if ((typeof pIn !== "number") || (typeof dDuration !== "number") || (typeof pOut !== "number")) {
-
+        if ((typeof pIn !== "number") || (typeof dDuration !== "number") || (typeof pOut !== "number")){
             throw new Error(errorMsg);
             return;
-
-        }else if (!(pIn >= 0) || !(dDuration >= 0) || !(pOut >= 0)) {
-
+        }else if (!(pIn >= 0) || !(dDuration >= 0) || !(pOut >= 0)){
             throw new Error(errorMsg);
             return;
-
         }
 
         phaseIn_duration = pIn;
@@ -316,6 +326,41 @@ var Ixhibition = (function (){
 
         phaseIn_length = phaseIn_animations.length,
         phaseOut_length = phaseOut_animations.length;
+
+        generateGallery();
+
+    }
+
+    function public_setLoopCount(lc) {
+
+        var errorMsg = "setLoopCount accepts only positive integers or the keyword \"infinite\" ";
+
+        var lcType = typeof lc;
+
+        if (lcType === "string") {
+
+            if (!isNaN(lc)) public_setLoopCount(parseInt(lc));
+
+            lc = lc.toLowerCase();
+            if (lc !== "infinite") {
+                throw new Error(errorMsg);
+                return;
+            }
+
+            loopCount = lc;
+
+        }else if (lcType === "number") {
+
+            if (lc < 0) {
+                throw new Error(errorMsg);
+                return;
+            }
+
+            loopCount = Math.floor(lc);
+
+        }
+
+
 
         generateGallery();
 
