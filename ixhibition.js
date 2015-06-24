@@ -183,6 +183,7 @@ var Ixhibition = (function (){
     //Generate animation CSS and apply to document
     function processAndApplyAnimation() {
 
+
         var animation_css =
             "   \
                 @keyframes ixbTransition{   " + keyframeValues + "    }   \
@@ -192,6 +193,16 @@ var Ixhibition = (function (){
                 }   \
             ";
 
+        /*
+        var animation_css =
+            "   \
+                @keyframes ixbTransition{   " + keyframeValues + "    }   \
+                .ixb_images{ \
+                    animation: ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
+                }   \
+            ";
+        */
+        
         var transition_css =
             "   \
                 @keyframes xibSlide{    \
@@ -233,7 +244,8 @@ var Ixhibition = (function (){
         setPhaseOut : public_setPhaseOut,
         setDisplayDuration : public_setDisplayDuration,
         setPhaseOverlap : public_setPhaseOverlap,
-        setLoopCount : public_setLoopCount
+        setLoopCount : public_setLoopCount,
+        setFade : public_setFade
     };
 
 
@@ -357,7 +369,7 @@ var Ixhibition = (function (){
     //Public function for setting the display duration
     function public_setDisplayDuration(dDuration) {
 
-        if (!(typeof dDuration === "number" && pOut >= 0)) {
+        if (!(typeof dDuration === "number" && dDuration >= 0)) {
             throw new Error("setDisplayDuration parameter must be a positive integer");
             return;
         }
@@ -428,6 +440,8 @@ var Ixhibition = (function (){
 
         fadeIn = fIn;
         fadeOut = fOut;
+
+        generateGallery();
 
     }
 
