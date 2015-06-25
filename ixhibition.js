@@ -120,21 +120,22 @@ var Ixhibition = (function (){
     function processPhaseAnimations() {
 
         if (fadeIn) {
-            if (phaseIn_aCount) {
-                phaseIn_animations[0]["opacity"] = "0";
+            phaseIn_animations[0]["opacity"] = "0";
+            phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
+        }else {
+            if (phaseIn_animations[0].hasOwnProperty("opacity") || phaseIn_animations[phaseIn_aCount - 1].hasOwnProperty("opacity")) {
+                phaseIn_animations[0]["opacity"] = "1";
                 phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
-            }else {
-                phaseIn_animations[0] = {"opacity": "0"};
-                phaseIn_animations[1] = {"opacity": "1"};
             }
         }
+
         if (fadeOut) {
-            if (phaseOut_aCount) {
+            phaseOut_animations[0]["opacity"] = "1";
+            phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "0";
+        }else {
+            if (phaseOut_animations[0].hasOwnProperty("opacity") || phaseOut_animations[phaseOut_aCount - 1].hasOwnProperty("opacity")) {
                 phaseOut_animations[0]["opacity"] = "1";
-                phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "0";
-            }else {
-                phaseOut_animations[0] = {"opacity": "1"};
-                phaseOut_animations[1] = {"opacity": "0"};
+                phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "1";
             }
         }
 
@@ -164,12 +165,13 @@ var Ixhibition = (function (){
         while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
         while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
+        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.0001 / totalTime));
         keyframePositions.push(100);
 
         console.log("keyframePositions is: ");
         console.log(keyframePositions);
 
-        var phase_animations = phaseIn_animations.concat(phaseOut_animations).concat([{}]);
+        var phase_animations = phaseIn_animations.concat(phaseOut_animations).concat([{"opacity" : "0"}, {}]);
 
         keyframeValues = "";
         for (var paCounter = 0; paCounter < phase_animations.length; paCounter++)
@@ -183,26 +185,6 @@ var Ixhibition = (function (){
     //Generate animation CSS and apply to document
     function processAndApplyAnimation() {
 
-
-        var animation_css =
-            "   \
-                @keyframes ixbTransition{   " + keyframeValues + "    }   \
-                .ixb_images{ \
-                    " + (fadeIn ? "opacity: 0;" : "") + " \
-                    animation: ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
-                }   \
-            ";
-
-        /*
-        var animation_css =
-            "   \
-                @keyframes ixbTransition{   " + keyframeValues + "    }   \
-                .ixb_images{ \
-                    animation: ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
-                }   \
-            ";
-        */
-        
         var transition_css =
             "   \
                 @keyframes xibSlide{    \
@@ -210,11 +192,20 @@ var Ixhibition = (function (){
                     " + transition_percentage + "%  {" + segue_data[1] + "} \
                     " + (transition_percentage + display_percentage) + "%   {" + segue_data[1] + "}  \
                     " + (transition_percentage + display_percentage + transition_percentage) + "%   {" + segue_data[2] + "}  \
-                    100%    {}  \
+                    100%    {" + segue_data[2] + "}  \
                 }   \
                 .ixb_wrapper{   \
-                    position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; \
+                    position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
                     animation: xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; animation-timing-function: ease-in-out; \
+                }   \
+            ";
+
+        var animation_css =
+            "   \
+                @keyframes ixbTransition{   " + keyframeValues + "    }   \
+                .ixb_images{ \
+                    opacity: 0; \
+                    animation: ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
                 }   \
             ";
 
@@ -228,8 +219,8 @@ var Ixhibition = (function (){
             transition_delays += "#ixb_wrapper" + dlCounter + "{ animation-delay: " + (delayList[dlCounter] - (transition_duration - phaseIn_duration)) + "s}\n";
         }
 
-        document.getElementById("ixb_animation").innerHTML = animation_css + "\n" + transition_css;
-        document.getElementById("ixb_delays").innerHTML = animation_delays + "\n" + transition_delays;
+        document.getElementById("ixb_animation").innerHTML = transition_css + "\n" + animation_css;
+        document.getElementById("ixb_delays").innerHTML = transition_delays + "\n" + animation_delays;
 
     }
 
@@ -284,30 +275,30 @@ var Ixhibition = (function (){
                 break;
             case "vertical":
                 segue_data = [
-                    "transform: translate(0px, 100%)",
-                    "transform: translate(0px, 0%)",
-                    "transform: translate(0px, -100%)"
+                    "transform: translate(0px, 100%);",
+                    "transform: translate(0px, 0%);",
+                    "transform: translate(0px, -100%);"
                 ];
                 break;
             case "vertical-reverse":
                 segue_data = [
-                    "transform: translate(0px, -100%)",
-                    "transform: translate(0px, 0%)",
-                    "transform: translate(0px, 100%)"
+                    "transform: translate(0px, -100%);",
+                    "transform: translate(0px, 0%);",
+                    "transform: translate(0px, 100%);"
                 ];
                 break;
             case "horizontal":
                 segue_data = [
-                    "transform: translate(100%, 0px)",
+                    "transform: translate(100%, 0px);",
                     "transform: translate(0%, 0px)",
-                    "transform: translate(-100%, 0px)"
+                    "transform: translate(-100%, 0px);"
                 ];
                 break;
             case "horizontal-reverse":
                 segue_data = [
-                    "transform: translate(-100%, 0px)",
-                    "transform: translate(0%, 0px)",
-                    "transform: translate(100%, 0px)"
+                    "transform: translate(-100%, 0px);",
+                    "transform: translate(0%, 0px);",
+                    "transform: translate(100%, 0px);"
                 ];
                 break;
             default:
