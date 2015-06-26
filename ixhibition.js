@@ -7,11 +7,12 @@ var Ixhibition = (function (){
                                 "vertical" (scroll up), "vertical-reverse" (scroll down),
                                 "horizontal" (RtL), "horizontal-reverse" (LtR), "stack" */
 
-    var display_duration = 4,           //Time image should be displayed for, (normally statically)
+    var display_duration = 4,       //Time image should be displayed for, (normally statically)
         phaseIn_duration = 1,       //Time taken to show image
         phaseOut_duration = 1,      //Time taken to hide image
         phaseOverlap_duration = 0,  /*  Overlap amount of the last bit of the phaseOut of the last slide
                                         and start bit of the phaseIn of the new slide */
+        segue_duration = "full",    //Either "full" or "overlap", indicating which duration
         loopCount = "infinite";     //Number of times to repeast the gallery (same as animation-iteration-count value)
 
     var fadeIn = true,                  //If the image should fade in during phaseIn (done via opacity)
@@ -33,7 +34,7 @@ var Ixhibition = (function (){
     var display_percentage = null,
         phaseIn_percentage = null,
         phaseOut_percentage = null,
-        transition_percentage = null;
+        transition_percentages = null;
 
 
     //Variables used for generating the code (namely CSS)
@@ -98,12 +99,28 @@ var Ixhibition = (function (){
 
         totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
 
-        fullPhase_percentage = fullPhase_duration / totalTime * 100;
+        fullPhase_percentage = fullPhase_duration * 100 / totalTime ;
 
         display_percentage = (display_duration / fullPhase_duration) * fullPhase_percentage;
         phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage;
         phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage;
-        transition_percentage = transition_duration * 100 / totalTime;
+
+        transition_percentages = null;
+        transition_percentages = [0];
+        if (segue_duration === "full") {
+            transition_percentages[1] = transition_duration * 100 / totalTime;
+            transition_percentages[2] = transition_percentages[1] + display_percentage;
+            transition_percentages[3] = transition_percentages[2] + transition_percentages[1];
+            transition_percentages[4] = 100;
+        }else if (segue_duration === "overlap") {
+            transition_percentages[1] = phaseOverlap_duration * 100 / totalTime;
+            transition_percentages[2] = fullPhase_percentage - transition_percentages[1];
+            transition_percentages[3] = fullPhase_percentage;
+            transition_percentages[4] = 100;
+        }
+
+        console.log("transition_percentages:");
+        console.log(transition_percentages);
 
     }
 
@@ -188,11 +205,11 @@ var Ixhibition = (function (){
         var transition_css =
             "   \
                 @keyframes xibSlide{    \
-                    0%  {" + segue_data[0] + "}  \
-                    " + transition_percentage + "%  {" + segue_data[1] + "} \
-                    " + (transition_percentage + display_percentage) + "%   {" + segue_data[1] + "}  \
-                    " + (transition_percentage + display_percentage + transition_percentage) + "%   {" + segue_data[2] + "}  \
-                    100%    {" + segue_data[2] + "}  \
+                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \
+                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \
+                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \
+                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
+                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
                 }   \
                 .ixb_wrapper{   \
                     position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
@@ -216,7 +233,7 @@ var Ixhibition = (function (){
             transition_delays = "";
         for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
             animation_delays += "#ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
-            transition_delays += "#ixb_wrapper" + dlCounter + "{ animation-delay: " + (delayList[dlCounter] - (transition_duration - phaseIn_duration)) + "s}\n";
+            transition_delays += "#ixb_wrapper" + dlCounter + "{ animation-delay: " + (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) ) + "s}\n";
         }
 
         document.getElementById("ixb_animation").innerHTML = transition_css + "\n" + animation_css;
@@ -235,6 +252,7 @@ var Ixhibition = (function (){
         setPhaseOut : public_setPhaseOut,
         setDisplayDuration : public_setDisplayDuration,
         setPhaseOverlap : public_setPhaseOverlap,
+        setSegueDurationType : public_setSegueDurationType,
         setLoopCount : public_setLoopCount,
         setFade : public_setFade
     };
@@ -384,6 +402,28 @@ var Ixhibition = (function (){
         phaseOverlap_duration = pOverlap;
 
         generateGallery();
+
+    }
+
+    //Public function for setting the segue duration type
+    function public_setSegueDurationType(sDuration) {
+
+        if (typeof sDuration === "string") {
+
+            sDuration = sDuration.toLowerCase();
+            if (sDuration === "full" || sDuration === "overlap") {
+
+                segue_duration = sDuration;
+
+                generateGallery();
+
+                return;
+
+            }
+
+        }
+
+        throw new Error("setSegueDurationType parameter must either be \"full\" or \"overlap\" ");
 
     }
 

@@ -9,9 +9,9 @@ var imgList = [
 
 ixb.setImageList(imgList);
 
-ixb.setSegueType("stack");
+ixb.setSegueType("vertical");
 
-
+/*
 ixb.setPhaseIn(2, [
     {"transform" : "scale(0.7, 0.7) translate(0px, 200%)"},
     {"transform" : "scale(0.7, 0.7) translate(0px, 200%)"},
@@ -27,8 +27,21 @@ ixb.setPhaseOut(2, [
     {"transform" : "scale(0.7, 0.7) translate(0px, -200%)"},
     {}
 ]);
+*/
 
-ixb.setDisplayDuration(4);
+ixb.setPhaseIn(2, [
+    {"transform" : "scale(0.7, 0.7)"},
+    {"transform" : "scale(0.7, 0.7)"},
+    {"transform" : "scale(1, 1)"}
+]);
+
+ixb.setPhaseOut(2, [
+    {"transform" : "scale(1.05, 1.05)"},
+    {"transform" : "scale(0.7, 0.7)"},
+    {"transform" : "scale(0.7, 0.7)"},
+]);
+
+//ixb.setDisplayDuration(4);
 
 ixb.setPhaseOverlap(1);
 
