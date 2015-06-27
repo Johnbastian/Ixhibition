@@ -1,4 +1,4 @@
-var Ixhibition = (function (){
+var Ixhibition = (function (containerID){
 
     //Variables that can be modified using public functions
     var urlList = [""];     //List of image urls that are set in "background-image:url([value])"
@@ -45,15 +45,24 @@ var Ixhibition = (function (){
 
 
     //Initial Setup (done on object instantiate, akin to constructor logic)
-    (function initialSetup(){
+    var successState = (function initialSetup(){
 
-        document.getElementsByTagName("head")[0].innerHTML += "<style id='ixb_main'></style><style id='ixb_animation'></style><style id='ixb_delays'></style>";
+        if (typeof containerID === "undefined") containerID = "ixhibition"; //Default value
 
-        document.getElementById("ixb_main").innerHTML =
+        if (!document.getElementById(containerID)) {
+            throw new Error("DIV element with ID \"" + containerID + "\" cannot be found");
+            return false;
+        }
+
+        document.getElementsByTagName("head")[0].innerHTML += " <style id='ixb_main_" + containerID + "'></style> \
+                                                                <style id='ixb_animation_" + containerID + "'></style> \
+                                                                <style id='ixb_delays_" + containerID + "'></style>";
+
+        document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
-                #ixhibition{/* overflow: hidden !important; */ padding: 0px !important;}    \
-                #ixb_listcontainer{ height: 100%; width: 100%;    } \
-                .ixb_images{       \
+                #" + containerID + " {/* overflow: hidden !important; */ padding: 0px !important;}    \
+                #" + containerID + " #ixb_listcontainer { height: 100%; width: 100%;    } \
+                #" + containerID + " .ixb_images {       \
                     height: 100%; width: 100%;  \
                     background-size: contain; background-repeat: no-repeat; background-position: center center; \
                 }   \
@@ -63,7 +72,11 @@ var Ixhibition = (function (){
 
         populateContainer();
 
+        return true;
+
     })();
+    if (!successState) return;
+
 
     //Populate the HTML with
     function populateContainer() {
@@ -73,7 +86,7 @@ var Ixhibition = (function (){
             imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
             imageListHTML += "</div>";
         }
-        document.getElementById("ixhibition").innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "<div>";
+        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "<div>";
 
         generateGallery();
 
@@ -204,25 +217,25 @@ var Ixhibition = (function (){
 
         var transition_css =
             "   \
-                @keyframes xibSlide{    \
+                @keyframes " + containerID + "_xibSlide {    \
                     " + transition_percentages[0] + "%  {" + segue_data[0] + "} \
                     " + transition_percentages[1] + "%  {" + segue_data[1] + "} \
                     " + transition_percentages[2] + "%  {" + segue_data[1] + "} \
                     " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
                     " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
                 }   \
-                .ixb_wrapper{   \
+                #" + containerID + " .ixb_wrapper{   \
                     position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
-                    animation: xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; animation-timing-function: ease-in-out; \
+                    animation: " + containerID + "_xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; animation-timing-function: ease-in-out; \
                 }   \
             ";
 
         var animation_css =
             "   \
-                @keyframes ixbTransition{   " + keyframeValues + "    }   \
-                .ixb_images{ \
+                @keyframes " + containerID + "_ixbTransition {   " + keyframeValues + "    }   \
+                #" + containerID + " .ixb_images{ \
                     opacity: 0; \
-                    animation: ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
+                    animation: " + containerID + "_ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
                 }   \
             ";
 
@@ -232,14 +245,15 @@ var Ixhibition = (function (){
         var animation_delays = "",
             transition_delays = "";
         for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
-            animation_delays += "#ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
-            transition_delays += "#ixb_wrapper" + dlCounter + "{ animation-delay: " + (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) ) + "s}\n";
+            animation_delays += "#" + containerID + " #ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
+            transition_delays += "#" + containerID + " #ixb_wrapper" + dlCounter + "{ animation-delay: " + (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) ) + "s}\n";
         }
 
-        document.getElementById("ixb_animation").innerHTML = transition_css + "\n" + animation_css;
-        document.getElementById("ixb_delays").innerHTML = transition_delays + "\n" + animation_delays;
+        document.getElementById("ixb_animation_" + containerID).innerHTML = transition_css + "\n" + animation_css;
+        document.getElementById("ixb_delays_" + containerID).innerHTML = transition_delays + "\n" + animation_delays;
 
     }
+
 
 
 
@@ -252,7 +266,7 @@ var Ixhibition = (function (){
         setPhaseOut : public_setPhaseOut,
         setDisplayDuration : public_setDisplayDuration,
         setPhaseOverlap : public_setPhaseOverlap,
-        setSegueDurationType : public_setSegueDurationType,
+        setSegueDuration : public_setSegueDuration,
         setLoopCount : public_setLoopCount,
         setFade : public_setFade
     };
@@ -400,20 +414,21 @@ var Ixhibition = (function (){
         }
 
         phaseOverlap_duration = pOverlap;
+        segue_duration = ( phaseOverlap_duration ? segue_duration : "full" );
 
         generateGallery();
 
     }
 
     //Public function for setting the segue duration type
-    function public_setSegueDurationType(sDuration) {
+    function public_setSegueDuration(sDuration) {
 
         if (typeof sDuration === "string") {
 
             sDuration = sDuration.toLowerCase();
             if (sDuration === "full" || sDuration === "overlap") {
 
-                segue_duration = sDuration;
+                segue_duration = ( phaseOverlap_duration ? sDuration : "full" );
 
                 generateGallery();
 
@@ -423,7 +438,7 @@ var Ixhibition = (function (){
 
         }
 
-        throw new Error("setSegueDurationType parameter must either be \"full\" or \"overlap\" ");
+        throw new Error("setSegueDuration parameter must either be \"full\" or \"overlap\". Additionally, if setPhaseOverlap is set to 0, the full will be set regardless.");
 
     }
 

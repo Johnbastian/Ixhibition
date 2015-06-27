@@ -1,4 +1,4 @@
-var ixb = Ixhibition();
+var ixb = Ixhibition("testDiv");
 
 var imgList = [
     "images/EarthMoon.jpg"
@@ -46,5 +46,7 @@ ixb.setPhaseOut(2, [
 ixb.setPhaseOverlap(1);
 
 ixb.setLoopCount(3);
+
+ixb.setSegueDuration("overlap");
 
 ixb.setFade(false, false);
