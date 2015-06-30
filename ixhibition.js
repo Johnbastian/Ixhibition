@@ -20,6 +20,8 @@ var Ixhibition = (function (containerID){
         phaseIn_animations = [{}, {}],  //The keyframe animations to perform durinng the phaseIn
         phaseOut_animations = [{}, {}]; //The keyframe animations to perform durinng the phaseOut
 
+    var savedOptions = {};  //Stores all the presets added in by public_saveOption, to be used in public_loadOption
+
 
     //Variables that are calculated by Ixhibition (see generateGallery & calculateCoreValues)
     var fullPhase_duration = null,
@@ -75,7 +77,7 @@ var Ixhibition = (function (containerID){
         return true;
 
     })();
-    if (!successState) return;
+    if (!successState) return;  //Return empty instead of functions
 
 
     //Populate the HTML with
@@ -95,11 +97,13 @@ var Ixhibition = (function (containerID){
 
     //Calculate, generate, and apply gallery to HTML document
     function generateGallery() {
+
         calculateCoreValues();
         generateDelayList();
         processPhaseAnimations();
         processKeyFrames();
         processAndApplyAnimation();
+
     }
 
     //Calculate core values required for further calculations
@@ -260,6 +264,7 @@ var Ixhibition = (function (containerID){
 
     //Public functions
     return {
+
         setImageList : public_setImageURLs,
         setSegueType : public_setSegueType,
         setPhaseIn : public_setPhaseIn,
@@ -268,12 +273,16 @@ var Ixhibition = (function (containerID){
         setPhaseOverlap : public_setPhaseOverlap,
         setSegueDuration : public_setSegueDuration,
         setLoopCount : public_setLoopCount,
-        setFade : public_setFade
+        setFade : public_setFade,
+
+        saveOption : public_saveOption,
+        loadOption : public_loadOption
+
     };
 
 
-    //Public function for setting the list of image urls in the form of a string array of background-image values
-    function public_setImageURLs(imgList) {
+    //Validators for checking if the parameters are in the correct format/correct type
+    function validate_imgList(imgList) {
 
         if (Array.isArray(imgList)) {
 
@@ -281,213 +290,347 @@ var Ixhibition = (function (containerID){
                 return typeof cVal == "string";
             });
 
-            if (imgList.length && typeString) {
-                urlList = imgList;
-                populateContainer();
-                generateGallery();
-                return;
-            }
+            if (imgList.length && typeString) return true;
 
         }
 
-        throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
+        return false;
+
+    }
+
+    function validate_segueType(sType) {
+
+        switch (sType) {
+            case "stack":
+            case "vertical":
+            case "vertical-reverse":
+            case "horizontal":
+            case "horizontal-reverse":
+                return true;
+                break;
+        }
+
+        return false;
+
+    }
+
+    function validate_phaseValDuration(pVal) {    return (typeof pVal === "number" && pVal >= 0);   }
+
+    function validate_phaseAnimations(pAnimations) {  return (Array.isArray(pAnimations) && pAnimations.length != 1); }
+
+    function validate_displayDuration(dDuration) {  return (typeof dDuration === "number" && dDuration >= 0);   }
+
+    function validate_phaseOverlap(pOverlap) {
+
+        var validPO = pOverlap < Math.min((phaseIn_duration + display_duration), (display_duration + phaseOut_duration));
+        return (typeof pOverlap === "number" && pOverlap >= 0 && validPO);
+
+    }
+
+    function validate_segueDuration(sDuration) {
+
+        if (typeof sDuration === "string") {
+            sDuration = sDuration.toLowerCase();
+            if (sDuration === "full" || sDuration === "overlap") return true;
+        }
+
+        return false;
+
+    }
+
+    function validate_loopCount(lc) {
+
+        var lcType = typeof lc;
+
+        if (lcType === "string") {
+
+            if (!isNaN(lc)) return validate_loopCount(parseInt(lc));
+
+            lc = lc.toLowerCase();
+            if (lc === "infinite") return lc;
+
+        }else if (lcType === "number") {    if (lc > 0)  return Math.floor(lc);   }
+
+        return false;
+
+    }
+
+    function validate_fadeValues(fIn, fOut) {
+
+        if (typeof fIn === "boolean" && typeof fOut === "boolean") return true;
+        return false;
+
+    }
+
+
+
+    //Public function for setting the list of image urls in the form of a string array of background-image values
+    function public_setImageURLs(imgList) {
+
+        if(validate_imgList(imgList)){
+
+            urlList = imgList;
+            populateContainer();
+            generateGallery();
+
+        }else throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
 
     }
 
     //Public function for setting the sgue/transition method for going from slide to slide
     function public_setSegueType(sType) { //vertical, vertical-reverse, horizontal, horizontal-reverse, stack
 
-        switch (sType) {
-            case "stack":
-                segue_data = [
-                    "",
-                    "",
-                    ""
-                ];
-                break;
-            case "vertical":
-                segue_data = [
-                    "transform: translate(0px, 100%);",
-                    "transform: translate(0px, 0%);",
-                    "transform: translate(0px, -100%);"
-                ];
-                break;
-            case "vertical-reverse":
-                segue_data = [
-                    "transform: translate(0px, -100%);",
-                    "transform: translate(0px, 0%);",
-                    "transform: translate(0px, 100%);"
-                ];
-                break;
-            case "horizontal":
-                segue_data = [
-                    "transform: translate(100%, 0px);",
-                    "transform: translate(0%, 0px)",
-                    "transform: translate(-100%, 0px);"
-                ];
-                break;
-            case "horizontal-reverse":
-                segue_data = [
-                    "transform: translate(-100%, 0px);",
-                    "transform: translate(0%, 0px);",
-                    "transform: translate(100%, 0px);"
-                ];
-                break;
-            default:
-                throw new Error("The parameter for setSlideFormat accepts only the following values:  stack, vertical, vertical-reverse, horizontal, horizontal-reverse");
-                return;
-                break;
-        }
+        if(validate_segueType(sType)){
 
-        generateGallery();
+            switch (sType) {
+                case "stack":
+                    segue_data = [
+                        "",
+                        "",
+                        ""
+                    ];
+                    break;
+                case "vertical":
+                    segue_data = [
+                        "transform: translate(0px, 100%);",
+                        "transform: translate(0px, 0%);",
+                        "transform: translate(0px, -100%);"
+                    ];
+                    break;
+                case "vertical-reverse":
+                    segue_data = [
+                        "transform: translate(0px, -100%);",
+                        "transform: translate(0px, 0%);",
+                        "transform: translate(0px, 100%);"
+                    ];
+                    break;
+                case "horizontal":
+                    segue_data = [
+                        "transform: translate(100%, 0px);",
+                        "transform: translate(0%, 0px)",
+                        "transform: translate(-100%, 0px);"
+                    ];
+                    break;
+                case "horizontal-reverse":
+                    segue_data = [
+                        "transform: translate(-100%, 0px);",
+                        "transform: translate(0%, 0px);",
+                        "transform: translate(100%, 0px);"
+                    ];
+                    break;
+            }
+
+            generateGallery();
+
+        }else throw new Error(" The parameter for setSegueType accepts only the following values:  \
+                                stack, vertical, vertical-reverse, horizontal, horizontal-reverse   ");
+
 
     }
 
     //Public function for setting the phaseIn duration and animation set as an array of keyframes
     function public_setPhaseIn(pIn, pAnimations) {
 
-        if (!(typeof pIn === "number" && pIn >= 0)) {
-            throw new Error("The first parameter of setPhaseIn must be a positive integer");
-            return;
-        }
+        if(validate_phaseValDuration(pIn) && validate_phaseAnimations(pAnimations)){
 
-        if(!(Array.isArray(pAnimations) && pAnimations.length != 1)) {
-            throw new Error("   The second parameter of setPhaseIn must be an array of objects containing CSS key-pair values. \
-                                Additionally, the array must have a length of either 0 or 2 and higher");
-            return;
-        }
+            if (pAnimations.length == 0) pAnimations = [{}, {}];
 
-        if (pAnimations.length == 0) pAnimations = [{}, {}];
+            phaseIn_duration = pIn;
+            phaseIn_animations = pAnimations;
 
-        phaseIn_duration = pIn;
-        phaseIn_animations = pAnimations;
+            generateGallery();
 
-        generateGallery();
+        } else throw new Error("    The first parameter of setPhaseIn must be a positive integer. \
+                                    The second parameter of setPhaseIn must be an array of objects containing CSS key-pair values. \
+                                    Additionally, the array must have a length of either 0, or 2 and higher. ");
 
     }
 
     //Public function for setting the phaseOut duration and animation set as an array of keyframes
     function public_setPhaseOut(pOut, pAnimations) {
 
-        if (!(typeof pOut === "number" && pOut >= 0)) {
-            throw new Error("The first parameter of setPhaseOut must be a positive integer");
-            return;
-        }
+        if(validate_phaseValDuration(pOut) && validate_phaseAnimations(pAnimations)){
 
-        if(!(Array.isArray(pAnimations) && pAnimations.length != 1)) {
-            throw new Error("   The second parameter of  must be an array of objects containing CSS key-pair values. \
-                                Additionally, the array must have a length of either 0 or 2 and higher");
-            return;
-        }
+            if (pAnimations.length == 0) pAnimations = [{}, {}];
 
-        if (pAnimations.length == 0) pAnimations = [{}, {}];
+            phaseOut_duration = pOut;
+            phaseOut_animations = pAnimations;
 
-        phaseOut_duration = pOut;
-        phaseOut_animations = pAnimations;
+            generateGallery();
 
-        generateGallery();
+        } else throw new Error("    The first parameter of setPhaseOut must be a positive integer. \
+                                    The second parameter of setPhaseOut must be an array of objects containing CSS key-pair values. \
+                                    Additionally, the array must have a length of either 0, or 2 and higher. ");
 
     }
 
     //Public function for setting the display duration
     function public_setDisplayDuration(dDuration) {
 
-        if (!(typeof dDuration === "number" && dDuration >= 0)) {
-            throw new Error("setDisplayDuration parameter must be a positive integer");
-            return;
-        }
+        if (validate_displayDuration(dDuration)) {
 
-        display_duration = dDuration;
+            display_duration = dDuration;
 
-        generateGallery();
+            generateGallery();
+
+        } else throw new Error("setDisplayDuration parameter must be a positive integer");
 
     }
 
     //Public function for setting the phase overlap duration
     function public_setPhaseOverlap(pOverlap) {
 
-        var validPO = pOverlap < Math.min((phaseIn_duration + display_duration), (display_duration + phaseOut_duration));
+        if (validate_phaseOverlap(pOverlap)) {
 
-        if (!(typeof pOverlap === "number" && pOverlap >= 0 && validPO)) {
-            throw new Error("setPhaseOverlap parameter must be a positive integer. Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration");
-            return;
-        }
+            phaseOverlap_duration = pOverlap;
+            segue_duration = ( phaseOverlap_duration ? segue_duration : "full" );
 
-        phaseOverlap_duration = pOverlap;
-        segue_duration = ( phaseOverlap_duration ? segue_duration : "full" );
+            generateGallery();
 
-        generateGallery();
+        } else throw new Error("    setPhaseOverlap parameter must be a positive integer. \
+                                    Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration.   ");
 
     }
 
     //Public function for setting the segue duration type
     function public_setSegueDuration(sDuration) {
 
-        if (typeof sDuration === "string") {
-
-            sDuration = sDuration.toLowerCase();
-            if (sDuration === "full" || sDuration === "overlap") {
+        if (validate_segueDuration(sDuration)) {
 
                 segue_duration = ( phaseOverlap_duration ? sDuration : "full" );
-
                 generateGallery();
 
-                return;
-
-            }
-
-        }
-
-        throw new Error("setSegueDuration parameter must either be \"full\" or \"overlap\". Additionally, if setPhaseOverlap is set to 0, the full will be set regardless.");
+        } else throw new Error("    setSegueDuration parameter must either be \"full\" or \"overlap\". \
+                                    Additionally, if setPhaseOverlap is set to 0, then full will be set regardless.  ");
 
     }
 
     //Public function for setting how many times the gallery should loop
     function public_setLoopCount(lc) {
 
-        var errorMsg = "setLoopCount accepts only positive integers or the keyword \"infinite\" ";
+        var lcResult = validate_loopCount(lc);
+        if (lcResult) {
 
-        var lcType = typeof lc;
+            loopCount = lcResult;
+            generateGallery();
 
-        if (lcType === "string") {
-
-            if (!isNaN(lc)) public_setLoopCount(parseInt(lc));
-
-            lc = lc.toLowerCase();
-            if (lc !== "infinite") {
-                throw new Error(errorMsg);
-                return;
-            }
-
-            loopCount = lc;
-
-        }else if (lcType === "number") {
-
-            if (lc < 0) {
-                throw new Error(errorMsg);
-                return;
-            }
-
-            loopCount = Math.floor(lc);
-
-        }
-
-        generateGallery();
+        } else throw new Error("setLoopCount accepts only positive integers greater than 0 or the keyword \"infinite\" ");
 
     }
 
     //Public function for setting if fading is desired
     function public_setFade(fIn, fOut) {
 
-        if (typeof fIn !== "boolean" || typeof fOut !== "boolean") {
-            throw new Error("setFade only accepts 2 boolean parameters");
+        if (validate_fadeValues(fIn, fOut)) {
+
+            fadeIn = fIn;
+            fadeOut = fOut;
+            generateGallery();
+
+        } else throw new Error("setFade only accepts 2 boolean parameters");
+
+    }
+
+
+    //Public function for storing options associated with a name, if the values are acceptable
+    function public_saveOption(optName, callback) {
+
+        var data = {
+            "displayDuration" : display_duration,
+            "phaseInDuration" : phaseIn_duration,
+            "phaseOutDuration" : phaseOut_duration,
+            "phaseOverlap" : phaseOverlap_duration
+        };
+
+        var optionSettings = callback(data);
+
+        for (var attribute in optionSettings) {
+            console.log("attribute is: " + attribute);
+            var currentValue = optionSettings[attribute];
+            switch (attribute) {
+                case "segueType":
+                    if (!validate_segueType(currentValue))
+                        throw new Error("   segueType attribute accepts only the following values:  \
+                                            stack, vertical, vertical-reverse, horizontal, horizontal-reverse   ");
+                    break;
+                case "phaseInDuration":
+                case "phaseOutDuration":
+                    if (!validate_phaseValDuration(currentValue))
+                        throw new Error("   " + attribute + " attribute accepts only positive integers    ");
+                    break;
+                case "phaseInAnimations":
+                case "phaseOutAnimations":
+                    if (!validate_phaseAnimations(currentValue))
+                        throw new Error("   " + attribute + " attribute accepts only an array of objects containing CSS key-pair values. \
+                                            Additionally, the array must have a length of either 0, or 2 and higher.   ");
+                    break;
+                case "phaseOverlap":
+                    if (!validate_phaseOverlap(currentValue))
+                        throw new Error("   phaseOverlap attribute accepts only a positive integer. \
+                                            Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration.   ");
+                    break;
+                case "loopCount":
+                    if (!validate_loopCount(currentValue))
+                        throw new Error("   loopCount attribute accepts only positive integers greater than 0 or the keyword \"infinite\"   ");
+                    break;
+                case "segueDuration":
+                    if (!validate_segueDuration(currentValue))
+                        throw new Error("   segueDuration attribute accepts only either \"full\" or \"overlap\". \
+                                            Additionally, if setPhaseOverlap is set to 0, then full will be set regardless.   ");
+                    break;
+                case "fadeIn":
+                case "fadeOut":
+                    if (!validate_fadeValues(currentValue, currentValue))
+                        throw new Error("   " + attribute + " attribute accepts only a boolean value ");
+                    break;
+                default:
+                    throw new Error("   " + attribute + " attribute is not recognised/accepted ");
+                    break;
+            }
+
+        }
+
+        savedOptions[optName] = callback;
+
+    }
+
+    //Public function for loading an option given a name, if it has been stored
+    function public_loadOption(optName) {
+
+        try {
+            if (!savedOptions.hasOwnProperty(optName)) throw new Error("    option does not exist  ");
+        } catch (err) {
             return;
         }
 
-        fadeIn = fIn;
-        fadeOut = fOut;
+        var data = {
+            "displayDuration" : display_duration,
+            "phaseInDuration" : phaseIn_duration,
+            "phaseOutDuration" : phaseOut_duration,
+            "phaseOverlap" : phaseOverlap_duration,
+            "loopCount" : loopCount
+        };
+        var optionSettings = savedOptions[optName](data);
 
-        generateGallery();
+
+        if (optionSettings.hasOwnProperty("segueType")) public_setSegueType(optionSettings["segueType"]);
+
+        var pIn = (optionSettings.hasOwnProperty("phaseInDuration") ? optionSettings["phaseInDuration"] : phaseIn_duration ),
+            pAIn = (optionSettings.hasOwnProperty("phaseInAnimations") ? optionSettings["phaseInAnimations"] : phaseIn_animations ),
+            pOut = (optionSettings.hasOwnProperty("phaseOutDuration") ? optionSettings["phaseOutDuration"] : phaseOut_duration ),
+            pAOut = (optionSettings.hasOwnProperty("phaseOutAnimations") ? optionSettings["phaseOutAnimations"] : phaseOut_animations );
+        public_setPhaseIn(pIn, pAIn);
+        public_setPhaseOut(pOut, pAOut);
+
+        if (optionSettings.hasOwnProperty("phaseOverlap")) public_setPhaseOverlap(optionSettings["phaseOverlap"]);
+
+        if (optionSettings.hasOwnProperty("loopCount")) public_setLoopCount(optionSettings["loopCount"]);
+
+        if (optionSettings.hasOwnProperty("segueDuration")) public_setSegueDuration(optionSettings["segueDuration"]);
+
+        var fIn = ( optionSettings.hasOwnProperty("fadeIn") ? optionSettings["fadeIn"] : fadeIn ),
+            fOut = ( optionSettings.hasOwnProperty("fadeOut") ? optionSettings["fadeOut"] : fadeOut );
+        public_setFade(fIn, fOut);
 
     }
 
