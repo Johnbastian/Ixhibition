@@ -1,4 +1,4 @@
-var ixb = Ixhibition("testDiv");
+var ixb = Ixhibition();
 
 var imgList = [
     "images/EarthMoon.jpg"
