@@ -1,9 +1,9 @@
 # Ixhibition
 *Image Exhibition*
 
-A Javascript and CSS3 Animation based image gallery, providing full control over the transitioning/seguing of slides using attributes supported by CSS3 animations.
+A Javascript and CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
 
-#Introduction
+###Introduction
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
 
 Ixhibition is 100% open source.
@@ -27,7 +27,7 @@ Javascript: `var ixb = Ixhibition("myGallery");`
 
 
 ##Loading Images
-In order to load a set of images in, an array of image urls in string format is needed to be passed into the `setImageList` function.
+In order to load a set of images in, an array of image urls in string format must be passed as the parameter into the `setImageList` function.
 
 ```javascript
 var imgList = [
@@ -40,12 +40,19 @@ var imgList = [
 ixb.setImageList(imgList);
 ```
 
+##Segue (Transition) Type
+There are 5 built in segue animations which dictate the transitioning from image to image. These include: "stack", "vertical", "vertical-reverse", "horizontal" and "horizontal-reverse". The default is "vertical".
+
+[img]
+
+```javascript
+ixb.setSegueType("stack");
+```
 
 
 
 
 
-setImageList : public_setImageURLs,
 setSegueType : public_setSegueType,
 setPhaseIn : public_setPhaseIn,
 setPhaseOut : public_setPhaseOut,
