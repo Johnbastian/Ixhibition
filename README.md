@@ -2,12 +2,13 @@
 *Image Exhibition*
 
 A Javascript and CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
-
-###Introduction
+<br />
+###Overview
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
 
 Ixhibition is 100% open source.
-
+<br />
+<br />
 #Using Ixhibition
 ##Getting Started
 Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated.
@@ -26,7 +27,7 @@ Javascript: `var ixb = Ixhibition("myGallery");`
 
 
 ##Loading Images
-In order to load a set of images in, an array of image urls in string format must be passed as the parameter into the `setImageList` function.
+In order to load a set of images in, an array of image urls in string format must be passed as the parameter into the `setImageList(imgList)` function.
 
 ```javascript
 var imgList = [
@@ -39,8 +40,8 @@ var imgList = [
 ixb.setImageList(imgList);
 ```
 
-##Segue (Transition) Type
-There are 5 built in segue animations which dictate the transitioning from image to image. These include: **"stack"**, **"vertical"**, **"vertical-reverse"**, **"horizontal"** and **"horizontal-reverse"**. The default is "vertical".
+##Setting Segue Type
+There are 5 built in segue (transition) animations which dictate the transitioning from image to image. These include: **"stack"**, **"vertical"**, **"vertical-reverse"**, **"horizontal"** and **"horizontal-reverse"**. The default is "vertical".
 
 [img]
 
@@ -82,7 +83,7 @@ ixb.setDisplayDuration(4);
 ```
 
 ##Setting Phases
-Phase values (phaseIn & phaseOut) indicate the duration values for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
+Phase values (phaseIn and phaseOut) indicate the duration values for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
 
 [img pointing at phase durations]
 ```javascript
@@ -121,14 +122,14 @@ var phaseIn_animationB = [
         {"transform" : "scale(0.7, 0.7)"}   //Keyframe @ 100% of phaseOut
     ];
 ```
-Both the setPhaseIn and setPhaseOut functions require 2 parameters, where the first value is the duration (as a positive integer), and the second parameter requires the associated phase animations (as an array of objects), like so:
+Both `setPhaseIn(pIn_duration, pIn_animation)` and `setPhaseOut(pOut_duration, pOut_animation)` functions require 2 parameters, where the first value is the duration (as a positive integer), and the second parameter requires the associated phase animations (as an array of objects), like so:
 
 ```javascript
 ixb.setPhaseIn(phaseIn_duration, phaseIn_animation);
 ixb.setPhaseOut(phaseOut_duration, phaseOut_animation);
 ```
 
-###Static vs Dynamic Display
+####Static vs Dynamic Display
 **Static:** This is the most common option. In order to achieve a static display, the last (keyframe) object in the phaseIn animation and the first object in the phaseOut animation must match.
 
 ```javascript
@@ -198,17 +199,83 @@ ixb.setFade(true, true);
 
 ##Saving and Loading Options
 ###Saving
-It is possible to save a preset and load it later. To do so, the [code: ixb function] function is used. The function requires 2 parameters: a preset keyname as a string, and a (callback) function which accepts a single parameter and must return an object. The object may contain any of the following keys will corresponding values:
-[code: all attributes]
+It is possible to save a preset and load it later. To do so, the `saveOption(keyname, callback)` function is used. The function requires 2 parameters: a preset *keyname* as a string, and a *callback* function which accepts a single parameter and must return an object. The object may contain any of the following keys will corresponding values:
+```javascript
+{
+    "segueType" : "vertical",       //(see Setting Segue Type)
+    "phaseInDuration" : 2,          //(see Setting Phases - phaseIn_duration)
+    "phaseInAnimations" : [],       //(see Setting Phases - phaseIn_animation)
+    "phaseOutDuration" : 2,         //(see Setting Phases - phaseOut_duration)
+    "phaseOutAnimations" : [],      //(see Setting Phases - phaseOut_animation)
+    "phaseOverlap" : 1,             //(see Setting Phase Overlap)
+    "segueDuration" : "overlap",    //(see Setting Segue Duration)
+    "loopCount" : 3,                //(see Setting Loop Count)
+    "fadeIn" : false,               //(see Setting Fading - fadeIn)
+    "fadeOut" : false               //(see Setting Fading - fadeOut)
+}
+```
 
 A callback function allows presets to perform calculations if desired before returning the object with desired attributes.
-[code: ixb function]
+```javascript
+ixb.saveOption("test-option", function(data){
+
+    var settingsX = {
+        "segueType" : "vertical",
+        "phaseInDuration" : 2,
+        "phaseInAnimations" : [
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(1, 1)"}
+        ],
+        "phaseOutDuration" : 2,
+        "phaseOutAnimations" : [
+            {"transform" : "scale(1.05, 1.05)"},
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(0.7, 0.7)"}
+        ],
+        "phaseOverlap" : 1,
+        "loopCount" : 3,
+        "segueDuration" : "overlap",
+        "fadeIn" : false,
+        "fadeOut" : false
+    };
+
+    return settingsX;
+
+});
+```
+
 
 ###Loading
-If a preset has been saved, it can be loaded using the associated keyname:
-[code: ixb function]
+If a preset has been saved, then the `loadOption(keyname)` function can be used to load it, given the associate keyname:
+```javascript
+ixb.loadOption("test-option");
+```
 
 
-
+<br />
+<br />
 #Creating Packages
-While Ixhibition is open-source and
+It is encouraged to develop and use packages that utilise Ixhibition, especially packages that add more  animation sets and ones that provide additional functionality. However, in an attempt to streamline and standardise this such that multiple packages could be used in a project, a set of guidelines are provided to improve quality of life.
+
+##General Guidelines
+These are the guidelines for all packages:
+
+1. The package should request for an instance of ixhibition to be passed in as the parameter when the package is instantiated. E.g.
+
+```javascript
+var ixb = Ixhibition();
+
+MyPackage(ixb);
+//Or
+var mypackage = MyPackage(ixb);
+```
+
+2.
+
+
+##Animation Packages
+Packages that only provide additional animation sets should follow these requirements:
+
+1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finnally followed by the preset name, i.e. *{package name}* __ *{preset name}*
+<br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
