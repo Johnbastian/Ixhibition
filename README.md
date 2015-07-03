@@ -274,8 +274,14 @@ var mypackage = MyPackage(ixb);
 2.
 
 
-##Animation Packages
+##Animation Package Guidelines
 Packages that only provide additional animation sets should follow these requirements:
 
 1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finnally followed by the preset name, i.e. *{package name}* __ *{preset name}*
 <br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
+
+
+##Functional Package Guidelines
+Packages that provide additional functionality with or without animation sets should follow these requirements:
+
+1. 
