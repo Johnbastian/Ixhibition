@@ -202,8 +202,11 @@ ixb.setFade(true, true);
 It is possible to save a preset and load it later. To do so, the `saveOption(keyname, callback)` function is used. The function requires 2 parameters: a preset *keyname* as a string, and a *callback* function which accepts a single parameter and must return an object.
 The object provided (from the parameter) is a data object containing the following value:
 ```javascript
-{
-    "segueType" : "vertical",       //(see Setting Segue Type)
+data = {
+    "displayDuration" : display_duration,   //Provides display_duration value
+    "phaseInDuration" : phaseIn_duration,   //Provides phaseIn_duration value
+    "phaseOutDuration" : phaseOut_duration, //Provides phaseOut_duration value
+    "phaseOverlap" : phaseOverlap_duration  //Provides phaseOverlap_duration value
 }
 ```
 
@@ -227,21 +230,26 @@ A callback function allows presets to perform calculations if desired before ret
 ```javascript
 ixb.saveOption("test-option", function(data){
 
+    var higherVal = Maths.max(data.phaseInDuration, data.phaseOutDuration);
+    var pIn = higherVal,
+        pOut = higherVal;
+    var pOverlap = pIn / 2;
+
     var settingsX = {
         "segueType" : "vertical",
-        "phaseInDuration" : 2,
+        "phaseInDuration" : pIn,
         "phaseInAnimations" : [
             {"transform" : "scale(0.7, 0.7)"},
             {"transform" : "scale(0.7, 0.7)"},
             {"transform" : "scale(1, 1)"}
         ],
-        "phaseOutDuration" : 2,
+        "phaseOutDuration" : pOut,
         "phaseOutAnimations" : [
             {"transform" : "scale(1.05, 1.05)"},
             {"transform" : "scale(0.7, 0.7)"},
             {"transform" : "scale(0.7, 0.7)"}
         ],
-        "phaseOverlap" : 1,
+        "phaseOverlap" : pOverlap,
         "loopCount" : 3,
         "segueDuration" : "overlap",
         "fadeIn" : false,

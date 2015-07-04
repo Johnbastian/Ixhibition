@@ -607,7 +607,7 @@ var Ixhibition = (function (containerID){
             "displayDuration" : display_duration,
             "phaseInDuration" : phaseIn_duration,
             "phaseOutDuration" : phaseOut_duration,
-            "phaseOverlap" : phaseOverlap_duration,
+            "phaseOverlap" : phaseOverlap_duration
         };
         var optionSettings = savedOptions[optName](data);
 
