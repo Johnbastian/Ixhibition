@@ -315,7 +315,7 @@ Packages that only provide additional animation sets should follow these require
     });
     ```
 
-2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#Saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
+2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
 
 ##Functional Package Guidelines
 Packages that provide additional functionality with or without animation sets should follow these requirements:
@@ -324,4 +324,4 @@ Packages that provide additional functionality with or without animation sets sh
 
 2. The package may be dependent on other APIs and/or Libraries, and therefore this should be made clear within the package documentation, and possibly resolve the dependancies itself by appending the required scripts to the DOM upon package instantiation.
 
-3. Animations should follow the [Animation Package Guidelines](#Animation Package Guidelines) and provide (public) functions regardlessly.
+3. Animations should follow the [Animation Package Guidelines](#animation-package-guidelines) and provide (public) functions regardlessly.
