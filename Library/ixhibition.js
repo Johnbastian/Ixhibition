@@ -608,7 +608,6 @@ var Ixhibition = (function (containerID){
             "phaseInDuration" : phaseIn_duration,
             "phaseOutDuration" : phaseOut_duration,
             "phaseOverlap" : phaseOverlap_duration,
-            "loopCount" : loopCount
         };
         var optionSettings = savedOptions[optName](data);
 
