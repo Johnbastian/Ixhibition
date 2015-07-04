@@ -289,7 +289,7 @@ Packages that only provide additional animation sets should follow these require
 <br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
 
 ```javascript
-//Example:
+//Example of saving a preset:
 ixb.saveOption("max_1", function(data){
 
     var settingsX = {
@@ -307,18 +307,12 @@ ixb.saveOption("max_1", function(data){
             {"transform" : "scale(0.7, 0.7)"}
         ],
         "phaseOverlap" : 1,
-        "loopCount" : 3,
         "segueDuration" : "overlap",
-        "fadeIn" : false,
-        "fadeOut" : false
     };
 
     return settingsX;
 
 });
-
-//Later
-ixb.loadOption("max_1");
 ```
 
 2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](###Saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
@@ -328,6 +322,6 @@ Packages that provide additional functionality with or without animation sets sh
 
 1. It is recommended that the package (object) provides (public) functions in order to use the package.
 
-2. 
+2.
 
 3. Animations should follow [Animation Package Guidelines](##Animation Package Guidelines) and provide (public) functions regardlessly.
