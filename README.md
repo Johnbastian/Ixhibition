@@ -271,15 +271,15 @@ These guidelines apply to all packages:
 
 1. The package should request for an instance of ixhibition to be passed in as the parameter when the package is instantiated. E.g.
 
-```javascript
-var ixb = Ixhibition();
+    ```javascript
+    var ixb = Ixhibition();
 
-MyPackage(ixb);
-//Or
-var mypackage = MyPackage(ixb);
-```
+    MyPackage(ixb);
+    //Or
+    var mypackage = MyPackage(ixb);
+    ```
 
-2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.
+2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.</li>
 
 
 ##Animation Package Guidelines
@@ -288,40 +288,40 @@ Packages that only provide additional animation sets should follow these require
 1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finnally followed by the preset name, i.e. *{package name}* __ *{preset name}*
 <br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
 
-```javascript
-//Example of saving a preset:
-ixb.saveOption("max_1", function(data){
+    ```javascript
+    //Example of saving a preset:
+    ixb.saveOption("max_1", function(data){
 
-    var settingsX = {
-        "segueType" : "vertical",
-        "phaseInDuration" : 2,
-        "phaseInAnimations" : [
-            {"transform" : "scale(0.7, 0.7)"},
-            {"transform" : "scale(0.7, 0.7)"},
-            {"transform" : "scale(1, 1)"}
-        ],
-        "phaseOutDuration" : 2,
-        "phaseOutAnimations" : [
-            {"transform" : "scale(1.05, 1.05)"},
-            {"transform" : "scale(0.7, 0.7)"},
-            {"transform" : "scale(0.7, 0.7)"}
-        ],
-        "phaseOverlap" : 1,
-        "segueDuration" : "overlap",
-    };
+        var settingsX = {
+            "segueType" : "vertical",
+            "phaseInDuration" : 2,
+            "phaseInAnimations" : [
+                {"transform" : "scale(0.7, 0.7)"},
+                {"transform" : "scale(0.7, 0.7)"},
+                {"transform" : "scale(1, 1)"}
+            ],
+            "phaseOutDuration" : 2,
+            "phaseOutAnimations" : [
+                {"transform" : "scale(1.05, 1.05)"},
+                {"transform" : "scale(0.7, 0.7)"},
+                {"transform" : "scale(0.7, 0.7)"}
+            ],
+            "phaseOverlap" : 1,
+            "segueDuration" : "overlap",
+        };
 
-    return settingsX;
+        return settingsX;
 
-});
-```
+    });
+    ```
 
-2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](###Saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
+2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#Saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
 
 ##Functional Package Guidelines
 Packages that provide additional functionality with or without animation sets should follow these requirements:
 
-1. It is recommended that the package (object) provides (public) functions in order to use the package.
+1. It is recommended that the package (object) is encapsulated and self-contained (similar to Ixhibition), and provides (public) functions in order to perform various tasks. This is not only to regulate name-space,  but also to retain and maintain control within the package itself.
 
-2.
+2. The package may be dependent on other APIs and/or Libraries, and therefore this should be made clear within the package documentation, and possibly resolve the dependancies itself by appending the required scripts to the DOM upon package instantiation.
 
-3. Animations should follow [Animation Package Guidelines](##Animation Package Guidelines) and provide (public) functions regardlessly.
+3. Animations should follow the [Animation Package Guidelines](#Animation Package Guidelines) and provide (public) functions regardlessly.
