@@ -1,7 +1,7 @@
 # Ixhibition
 *Image Exhibition*
 
-A Javascript and CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
+A Javascript generated CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
 <br />
 ###Overview
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
@@ -13,6 +13,10 @@ Ixhibition has been developed with the goal of reducing as much Javascript inter
 <br />
 <br />
 #Using Ixhibition
+##Logic
+The following example provides a general overview of the logic used by Ixhibition:
+<img src="Resources/TimeGraph.jpeg"/>
+
 ##Getting Started
 Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated.
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
@@ -70,14 +74,14 @@ There are 5 built in segue (transition) animations which dictate the transitioni
 </table>
 
 ##Setting Display Duration
-In order to set the display duration, a positive number must be set as the parameter:
+In order to set the display duration (in seconds), a positive number must be set as the parameter:
 ```javascript
 ixb.setDisplayDuration(4);
 ```
 <img src="Resources/Display.jpeg"/>
 
 ##Setting Phases
-Phase values (phaseIn and phaseOut) indicate the duration values for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
+Phase values (phaseIn and phaseOut) indicate the duration values (in seconds) for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
 ```javascript
 var phaseIn_duration = 2,
     phaseOut_duration = 2;
@@ -154,7 +158,7 @@ var phaseIn_animation = [
 ```
 
 ##Setting Phase Overlap
-The phase overlap dictates how much of the phaseOut duration of the phasing-out slide and how much of the phaseIn duration of the phasing-in slide overlap.
+The phase overlap dictates how much of the phaseOut duration of the phasing-out slide and how much of the phaseIn duration of the phasing-in slide overlap in seconds.
 
 ```javascript
 ixb.setPhaseOverlap(1);
