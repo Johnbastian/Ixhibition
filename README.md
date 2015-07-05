@@ -156,23 +156,26 @@ var phaseIn_animation = [
 ##Setting Phase Overlap
 The phase overlap dictates how much of the phaseOut duration of the phasing-out slide and how much of the phaseIn duration of the phasing-in slide overlap.
 
-[img exemplifying overlap]
 ```javascript
 ixb.setPhaseOverlap(1);
 ```
+<img src="Resources/PhaseOverlap.jpeg"/>
 This provides control over the transitioning and can be used to achieve specific animations.
 
+<br />
 ##Segue Duration
 The segue duration accepts two values: "full" and "overlap". The segue duration indicates at what point the transition (going from one slide to the next) occurs and how long it lasts.
-<br/>If **"full"** is set (default), then the segue duration is indicated by:  phaseOut + phaseIn - phaseOverlap. The segue duration starts at the beginning of the phaseOut duration of the phasing-out slide and ends at the end of the phaseIn duration of the phasing-in slide. Note: if segue type is "stack", the segue duration is "full" regardlessly.
-[img exemplifying full]
-
-<br/>If **"overlap"** is set, then the segue duration is equal to the phaseOverlap value and starts and ends at the same time.
-
-[img exemplifying overlap]
+<br/>If **"full"** (default) is set, then the segue duration is indicated by:  phaseOut + phaseIn - phaseOverlap. The segue duration starts at the beginning of the phaseOut duration of the phasing-out slide and ends at the end of the phaseIn duration of the phasing-in slide. Note: if segue type is "stack", the segue duration is set to "full" regardlessly.
 ```javascript
 ixb.setSegueDuration("full");
 ```
+<img src="Resources/Full.jpeg"/>
+
+<br/>If **"overlap"** is set, then the segue duration is equal to the phaseOverlap value and starts and ends at the same time.
+```javascript
+ixb.setSegueDuration("overlap");
+```
+<img src="Resources/Overlap.jpeg"/>
 
 
 ##Set Loop Count
