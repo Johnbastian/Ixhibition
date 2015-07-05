@@ -7,6 +7,9 @@ A Javascript and CSS3 Animation based image gallery, providing control over the 
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
 
 Ixhibition is 100% open source.
+
+###Aims
+Ixhibition has been developed with the goal of reducing as much Javascript interaction as possible. What is meant by this is that while JS is used to instantiate and generate the gallery (HTML and CSS), JS is meant to play no role after loading it into the DOM: all animation and transitioning is governed by CSS3 animations only. Therefore, once the gallery has been loaded into the DOM, Ixhibition will not be performing and executing any further JS unless invoked by a public function.
 <br />
 <br />
 #Using Ixhibition
@@ -43,53 +46,43 @@ ixb.setImageList(imgList);
 ##Setting Segue Type
 There are 5 built in segue (transition) animations which dictate the transitioning from image to image. These include: **"stack"**, **"vertical"**, **"vertical-reverse"**, **"horizontal"** and **"horizontal-reverse"**. The default is "vertical".
 
-[img]
-
-```javascript
-ixb.setSegueType("stack");
-```
-
-[img]
-
-```javascript
-ixb.setSegueType("vertical");
-```
-
-[img]
-
-```javascript
-ixb.setSegueType("vertical-reverse");
-```
-
-[img]
-
-```javascript
-ixb.setSegueType("horizontal");
-```
-
-[img]
-
-```javascript
-ixb.setSegueType("horizontal-reverse");
-```
+<table style="width: 100%; border: none;">
+    <tr style="background-color:#FFF;">
+        <td> `ixb.setSegueType("stack");` </td>
+        <td style="text-align: center;"> <img style="height: 200px;" src="Resources/stack.jpeg"/> </td>
+    </tr>
+    <tr style="background-color:#FFF;">
+        <td> `ixb.setSegueType("vertical");` </td>
+        <td style="text-align: center;"> <img style="height: 200px;" src="Resources/vertical.jpeg"/> </td>
+    </tr>
+    <tr style="background-color:#FFF;">
+        <td> `ixb.setSegueType("vertical-reverse");` </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/vertical-reverse.jpeg"/> </td>
+    </tr>
+    <tr style="background-color:#FFF;">
+        <td> `ixb.setSegueType("horizontal");` </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/horizontal.jpeg"/> </td>
+    </tr>
+    <tr style="background-color:#FFF;">
+        <td> `ixb.setSegueType("horizontal-reverse");` </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/horizontal-reverse.jpeg"/> </td>
+    </tr>
+</table>
 
 ##Setting Display Duration
 In order to set the display duration, a positive number must be set as the parameter:
-
-[img pointing at display duration]
-
 ```javascript
 ixb.setDisplayDuration(4);
 ```
+<img src="Resources/Display.jpeg"/>
 
 ##Setting Phases
 Phase values (phaseIn and phaseOut) indicate the duration values for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
-
-[img pointing at phase durations]
 ```javascript
 var phaseIn_duration = 2,
     phaseOut_duration = 2;
 ```
+<img src="Resources/Phases.jpeg"/>
 
 Phase animations indicate what animation should be performed during the phaseIn and phaseOut durations. These are defined by passing in an array of objects. The objects must contain key-value pairs where the key is the must be a CSS3 attribute and the value should be the associated CSS3 value. Each object in the array is treated as a key frame, and the number of objects indicate the number of key frames, divided at regular intervals: therefore the array must either be 0 or 2 and greater, (an array of length 1 will throw an error).
 
@@ -200,7 +193,8 @@ ixb.setFade(true, true);
 ##Saving and Loading Options
 ###Saving
 It is possible to save a preset and load it later. To do so, the `saveOption(keyname, callback)` function is used. The function requires 2 parameters: a preset *keyname* as a string, and a *callback* function which accepts a single parameter and must return an object.
-The object provided (from the parameter) is a data object containing the following value:
+
+<br />The object provided (from the parameter) is a data object containing the following attributes:
 ```javascript
 data = {
     "displayDuration" : display_duration,   //Provides display_duration value
@@ -210,7 +204,7 @@ data = {
 }
 ```
 
-The return object may contain any of the following keys will corresponding values:
+<br />The return object may contain any of the following keys/attributes with corresponding values:
 ```javascript
 {
     "segueType" : "vertical",       //(see Setting Segue Type)
@@ -226,7 +220,7 @@ The return object may contain any of the following keys will corresponding value
 }
 ```
 
-A callback function allows presets to perform calculations if desired before returning the object with desired attributes.
+<br />A callback function allows presets to perform calculations if desired before returning the object with desired attributes.
 ```javascript
 ixb.saveOption("test-option", function(data){
 
@@ -287,6 +281,7 @@ These guidelines apply to all packages:
     var mypackage = MyPackage(ixb);
     ```
 
+<br />
 2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.</li>
 
 
