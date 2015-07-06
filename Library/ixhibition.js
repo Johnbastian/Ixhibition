@@ -62,7 +62,7 @@ var Ixhibition = (function (containerID){
 
         document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
-                #" + containerID + " {/* overflow: hidden !important; */ padding: 0px !important;}    \
+                #" + containerID + " {  overflow: hidden !important; padding: 0px !important;   }    \
                 #" + containerID + " #ixb_listcontainer { height: 100%; width: 100%;    } \
                 #" + containerID + " .ixb_images {       \
                     height: 100%; width: 100%;  \
@@ -157,20 +157,16 @@ var Ixhibition = (function (containerID){
             phaseIn_animations[0]["opacity"] = "0";
             phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
         }else {
-            if (phaseIn_animations[0].hasOwnProperty("opacity") || phaseIn_animations[phaseIn_aCount - 1].hasOwnProperty("opacity")) {
-                phaseIn_animations[0]["opacity"] = "1";
-                phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
-            }
+            phaseIn_animations[0]["opacity"] = "1";
+            phaseIn_animations[phaseIn_aCount - 1]["opacity"] = "1";
         }
 
         if (fadeOut) {
             phaseOut_animations[0]["opacity"] = "1";
             phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "0";
         }else {
-            if (phaseOut_animations[0].hasOwnProperty("opacity") || phaseOut_animations[phaseOut_aCount - 1].hasOwnProperty("opacity")) {
-                phaseOut_animations[0]["opacity"] = "1";
-                phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "1";
-            }
+            phaseOut_animations[0]["opacity"] = "1";
+            phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "1";
         }
 
     }
@@ -230,7 +226,7 @@ var Ixhibition = (function (containerID){
                 }   \
                 #" + containerID + " .ixb_wrapper{   \
                     position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
-                    animation: " + containerID + "_xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; animation-timing-function: ease-in-out; \
+                    animation: " + containerID + "_xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; /* animation-timing-function: ease-in-out; */ \
                 }   \
             ";
 
@@ -545,7 +541,7 @@ var Ixhibition = (function (containerID){
         var optionSettings = callback(data);
 
         for (var attribute in optionSettings) {
-            console.log("attribute is: " + attribute);
+
             var currentValue = optionSettings[attribute];
             switch (attribute) {
                 case "segueType":
@@ -597,9 +593,11 @@ var Ixhibition = (function (containerID){
     //Public function for loading an option given a name, if it has been stored
     function public_loadOption(optName) {
 
+        //In a try-catch such that error doesn't stop JS
         try {
             if (!savedOptions.hasOwnProperty(optName)) throw new Error("    option does not exist  ");
         } catch (err) {
+            console.error(err);
             return;
         }
 

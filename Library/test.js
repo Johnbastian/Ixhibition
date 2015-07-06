@@ -62,3 +62,5 @@ ixb.saveOption("testA", function(data){
     return settingsX;
 
 });
+
+ixb.loadOption("testA");
