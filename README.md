@@ -221,7 +221,6 @@ data = {
     "phaseOutAnimations" : [],      //(see Setting Phases - phaseOut_animation)
     "phaseOverlap" : 1,             //(see Setting Phase Overlap)
     "segueDuration" : "overlap",    //(see Setting Segue Duration)
-    "loopCount" : 3,                //(see Setting Loop Count)
     "fadeIn" : false,               //(see Setting Fading - fadeIn)
     "fadeOut" : false               //(see Setting Fading - fadeOut)
 }
