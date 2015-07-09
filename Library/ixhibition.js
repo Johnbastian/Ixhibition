@@ -1,3 +1,27 @@
+/*
+MIT License
+
+Copyright (c) 2015 Johnbastian Emilianus (http://github.com/Johnbastian)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 var Ixhibition = (function (containerID){
 
     //Variables that can be modified using public functions
@@ -565,10 +589,6 @@ var Ixhibition = (function (containerID){
                         throw new Error("   phaseOverlap attribute accepts only a positive integer. \
                                             Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration.   ");
                     break;
-                case "loopCount":
-                    if (!validate_loopCount(currentValue))
-                        throw new Error("   loopCount attribute accepts only positive integers greater than 0 or the keyword \"infinite\"   ");
-                    break;
                 case "segueDuration":
                     if (!validate_segueDuration(currentValue))
                         throw new Error("   segueDuration attribute accepts only either \"full\" or \"overlap\". \
@@ -620,8 +640,6 @@ var Ixhibition = (function (containerID){
         public_setPhaseOut(pOut, pAOut);
 
         if (optionSettings.hasOwnProperty("phaseOverlap")) public_setPhaseOverlap(optionSettings["phaseOverlap"]);
-
-        if (optionSettings.hasOwnProperty("loopCount")) public_setLoopCount(optionSettings["loopCount"]);
 
         if (optionSettings.hasOwnProperty("segueDuration")) public_setSegueDuration(optionSettings["segueDuration"]);
 
