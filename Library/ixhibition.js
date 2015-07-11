@@ -1,3 +1,27 @@
+/*
+MIT License
+
+Copyright (c) 2015 Johnbastian Emilianus (http://github.com/Johnbastian)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 var Ixhibition = (function (containerID){
 
     //Variables that can be modified using public functions
@@ -73,6 +97,8 @@ var Ixhibition = (function (containerID){
         public_setSegueType("stack");
 
         populateContainer();
+
+        defaultOptions();
 
         return true;
 
@@ -253,6 +279,247 @@ var Ixhibition = (function (containerID){
         document.getElementById("ixb_delays_" + containerID).innerHTML = transition_delays + "\n" + animation_delays;
 
     }
+
+
+    function defaultOptions() {
+
+        //Stack (no fade)
+        savedOptions["ixb_1"] = function(data){
+
+            return {
+                "segueType" : "stack",
+                "phaseInDuration" : 0,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : 0,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : 0,
+                "segueDuration" : "full",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Vertical simple slide
+        savedOptions["ixb_2"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "vertical",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : pIn,
+                "segueDuration" : "full",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Vertical-reverse simple slide
+        savedOptions["ixb_3"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "vertical-reverse",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : pIn,
+                "segueDuration" : "full",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Horizontal simple slide
+        savedOptions["ixb_4"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "horizontal",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : pIn,
+                "segueDuration" : "full",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Horizontal-reverse simple slide
+        savedOptions["ixb_5"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "horizontal-reverse",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : pIn,
+                "segueDuration" : "full",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Stack with fade
+        savedOptions["ixb_6"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "stack",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [],
+                "phaseOverlap" : (pIn / 2),
+                "segueDuration" : "full",
+                "fadeIn" : true,
+                "fadeOut" : true
+            };
+
+        };
+
+        //Fade, with fade-out drop
+        savedOptions["ixb_7"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
+                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "stack",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [
+                    {"transform" : "translateY(0)", "opacity" : "1"},
+                    {"transform" : "translateY(2%)", "opacity" : "0.8"},
+                    {"transform" : "translateY(100%)", "opacity" : "0"}
+                ],
+                "phaseOverlap" : (pIn / 2),
+                "segueDuration" : "full",
+                "fadeIn" : true,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Slide focus, with slight zoom
+        savedOptions["ixb_8"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
+                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "vertical",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [
+                    {"transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(1, 1)"}
+                ],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [
+                    {"transform" : "scale(1.05, 1.05)"},
+                    {"transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(0.7, 0.7)"}
+                ],
+                "phaseOverlap" : (pIn / 2),
+                "segueDuration" : "overlap",
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Squash to focus
+        savedOptions["ixb_9"] = function(data){
+
+            var pIn = ( data.phaseIn_duration ? data.phaseIn_duration : 1 ),
+                pOut = ( data.phaseOut_duration ? data.phaseOut_duration : 1);
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "horizontal",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [
+                    {"transform-origin" : "right center" ,"transform" : "scaleX(1)"},
+                    {"transform-origin" : "right center", "transform" : "scaleX(0)"}
+                ],
+                "phaseOverlap" : pIn,
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+        //Fold-in Fold-out
+        savedOptions["ixb_10"] = function(data){
+
+            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
+                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+            pIn = pOut = Math.min(pIn, pOut);
+
+            return {
+                "segueType" : "stack",
+                "phaseInDuration" : pIn,
+                "phaseInAnimations" : [
+                    {"transform-origin" : "right center", "transform" : "scale(0.5, 0.5) rotateY(90deg)"},
+                    {"transform-origin" : "right center", "transform" : "scale(0.5, 0.5) rotateY(45deg)"},
+                    {"transform" : "scale(1, 1)"}
+                ],
+                "phaseOutDuration" : pOut,
+                "phaseOutAnimations" : [
+                    {"transform" : "scale(1, 1)"},
+                    {"transform-origin" : "left center", "transform" : "scale(0.5, 0.5)  rotateY(-45deg)"},
+                    {"transform-origin" : "left center", "transform" : "scale(0.5, 0.5)  rotateY(-90deg)"}
+                ],
+                "phaseOverlap" : pIn,
+                "fadeIn" : false,
+                "fadeOut" : false
+            };
+
+        };
+
+
+
+    }
+
 
 
 
@@ -565,10 +832,6 @@ var Ixhibition = (function (containerID){
                         throw new Error("   phaseOverlap attribute accepts only a positive integer. \
                                             Additionally, it must be smaller than phaseIn + display duration and phaseOut + display duration.   ");
                     break;
-                case "loopCount":
-                    if (!validate_loopCount(currentValue))
-                        throw new Error("   loopCount attribute accepts only positive integers greater than 0 or the keyword \"infinite\"   ");
-                    break;
                 case "segueDuration":
                     if (!validate_segueDuration(currentValue))
                         throw new Error("   segueDuration attribute accepts only either \"full\" or \"overlap\". \
@@ -620,8 +883,6 @@ var Ixhibition = (function (containerID){
         public_setPhaseOut(pOut, pAOut);
 
         if (optionSettings.hasOwnProperty("phaseOverlap")) public_setPhaseOverlap(optionSettings["phaseOverlap"]);
-
-        if (optionSettings.hasOwnProperty("loopCount")) public_setLoopCount(optionSettings["loopCount"]);
 
         if (optionSettings.hasOwnProperty("segueDuration")) public_setSegueDuration(optionSettings["segueDuration"]);
 

@@ -221,7 +221,6 @@ data = {
     "phaseOutAnimations" : [],      //(see Setting Phases - phaseOut_animation)
     "phaseOverlap" : 1,             //(see Setting Phase Overlap)
     "segueDuration" : "overlap",    //(see Setting Segue Duration)
-    "loopCount" : 3,                //(see Setting Loop Count)
     "fadeIn" : false,               //(see Setting Fading - fadeIn)
     "fadeOut" : false               //(see Setting Fading - fadeOut)
 }
@@ -272,7 +271,7 @@ ixb.loadOption("test-option");
 
 <br />
 <br />
-#Creating Packages
+#Creating Packages (Add-ons)
 It is encouraged to develop and use packages that utilise Ixhibition, especially packages that add more  animation sets and ones that provide additional functionality. However, in an attempt to streamline and standardise this such that multiple packages could be used in a project, a set of guidelines are provided.
 
 ##General Guidelines
@@ -288,7 +287,6 @@ These guidelines apply to all packages:
     var mypackage = MyPackage(ixb);
     ```
 
-<br />
 2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.</li>
 
 
