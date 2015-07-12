@@ -268,6 +268,12 @@ If a preset has been saved, then the `loadOption(keyname)` function can be used 
 ixb.loadOption("test-option");
 ```
 
+##Restarting
+By default, if any attribute is changed (except for `setImageList(imgList)`), the animation will simply continue depending on where the animation should be time-wise. If a complete restart of the animation is required, the following can be called:
+```javascript
+ixb.restart();
+```
+
 
 <br />
 <br />

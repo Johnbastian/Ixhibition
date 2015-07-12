@@ -281,6 +281,7 @@ var Ixhibition = (function (containerID){
     }
 
 
+    //Add default options to savedOptions store
     function defaultOptions() {
 
         //Stack (no fade)
@@ -524,7 +525,6 @@ var Ixhibition = (function (containerID){
 
 
 
-
     //Public functions
     return {
 
@@ -539,9 +539,12 @@ var Ixhibition = (function (containerID){
         setFade : public_setFade,
 
         saveOption : public_saveOption,
-        loadOption : public_loadOption
+        loadOption : public_loadOption,
+
+        restart : public_restart
 
     };
+
 
 
     //Validators for checking if the parameters are in the correct format/correct type
@@ -889,6 +892,17 @@ var Ixhibition = (function (containerID){
         var fIn = ( optionSettings.hasOwnProperty("fadeIn") ? optionSettings["fadeIn"] : fadeIn ),
             fOut = ( optionSettings.hasOwnProperty("fadeOut") ? optionSettings["fadeOut"] : fadeOut );
         public_setFade(fIn, fOut);
+
+    }
+
+
+    //Public function to restart animation
+    function public_restart() {
+
+        var containerHTML = document.getElementById(containerID).innerHTML;
+        document.getElementById(containerID).innerHTML = "";
+
+        setTimeout(function(){  document.getElementById(containerID).innerHTML = containerHTML;  }, 1);
 
     }
 
