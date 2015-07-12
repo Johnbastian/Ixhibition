@@ -204,10 +204,10 @@ It is possible to save a preset and load it later. To do so, the `saveOption(key
 <br />The object provided (from the parameter) is a data object containing the following attributes:
 ```javascript
 data = {
-    "displayDuration" : display_duration,   //Provides display_duration value
-    "phaseInDuration" : phaseIn_duration,   //Provides phaseIn_duration value
-    "phaseOutDuration" : phaseOut_duration, //Provides phaseOut_duration value
-    "phaseOverlap" : phaseOverlap_duration  //Provides phaseOverlap_duration value
+    "displayDuration" : 4,  //Provides display_duration value
+    "phaseInDuration" : 2,  //Provides phaseIn_duration value
+    "phaseOutDuration" : 1, //Provides phaseOut_duration value
+    "phaseOverlap" : 0.5    //Provides phaseOverlap_duration value
 }
 ```
 
