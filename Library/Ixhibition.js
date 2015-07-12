@@ -304,8 +304,8 @@ var Ixhibition = (function (containerID){
         //Vertical simple slide
         savedOptions["ixb_2"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -326,8 +326,8 @@ var Ixhibition = (function (containerID){
         //Vertical-reverse simple slide
         savedOptions["ixb_3"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -348,8 +348,8 @@ var Ixhibition = (function (containerID){
         //Horizontal simple slide
         savedOptions["ixb_4"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -370,8 +370,8 @@ var Ixhibition = (function (containerID){
         //Horizontal-reverse simple slide
         savedOptions["ixb_5"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -392,8 +392,8 @@ var Ixhibition = (function (containerID){
         //Stack with fade
         savedOptions["ixb_6"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 1 ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration >= 1 ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -414,8 +414,8 @@ var Ixhibition = (function (containerID){
         //Fade, with fade-out drop
         savedOptions["ixb_7"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
-                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+            var pIn = ( data.phaseInDuration >= 2 ? data.phaseInDuration : 2 ),
+                pOut = ( data.phaseOutDuration >= 2 ? data.phaseOutDuration : 2);
 
             pIn = pOut = Math.min(pIn, pOut);
 
@@ -440,8 +440,8 @@ var Ixhibition = (function (containerID){
         //Slide focus, with slight zoom
         savedOptions["ixb_8"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
-                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+            var pIn = ( data.phaseInDuration >= 2 ? data.phaseInDuration : 2 ),
+                pOut = ( data.phaseOutDuration >= 2 ? data.phaseOutDuration : 2);
             pIn = pOut = Math.min(pIn, pOut);
 
             return {
@@ -469,8 +469,8 @@ var Ixhibition = (function (containerID){
         //Squash to focus
         savedOptions["ixb_9"] = function(data){
 
-            var pIn = ( data.phaseIn_duration ? data.phaseIn_duration : 1 ),
-                pOut = ( data.phaseOut_duration ? data.phaseOut_duration : 1);
+            var pIn = ( data.phaseInDuration ? data.phaseInDuration : 1 ),
+                pOut = ( data.phaseOutDuration ? data.phaseOutDuration : 1);
             pIn = pOut = Math.min(pIn, pOut);
 
             return {
@@ -492,8 +492,8 @@ var Ixhibition = (function (containerID){
         //Fold-in Fold-out
         savedOptions["ixb_10"] = function(data){
 
-            var pIn = ( data.phaseIn_duration >= 2 ? data.phaseIn_duration : 2 ),
-                pOut = ( data.phaseOut_duration >= 2 ? data.phaseOut_duration : 2);
+            var pIn = ( data.phaseInDuration >= 2 ? data.phaseInDuration : 2 ),
+                pOut = ( data.phaseOutDuration >= 2 ? data.phaseOutDuration : 2);
             pIn = pOut = Math.min(pIn, pOut);
 
             return {

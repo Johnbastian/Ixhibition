@@ -15,7 +15,7 @@ Ixhibition has been developed with the goal of reducing as much Javascript inter
 #Using Ixhibition
 ##Logic
 The following example provides a general overview of the logic used by Ixhibition:
-<img src="Resources/TimeGraph.jpeg"/>
+<img src="Diagrams/TimeGraph.jpeg"/>
 
 ##Getting Started
 Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have a `height` and `width` set, with other attributes being optional, such as `border` and `background-color`.
@@ -53,23 +53,23 @@ There are 5 built in segue (transition) animations which dictate the transitioni
 <table style="width: 100%; border: none;">
     <tr style="background-color:#FFF;">
         <td> `ixb.setSegueType("stack");` </td>
-        <td style="text-align: center;"> <img style="height: 200px;" src="Resources/stack.jpeg"/> </td>
+        <td style="text-align: center;"> <img style="height: 200px;" src="Diagrams/stack.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
         <td> `ixb.setSegueType("vertical");` </td>
-        <td style="text-align: center;"> <img style="height: 200px;" src="Resources/vertical.jpeg"/> </td>
+        <td style="text-align: center;"> <img style="height: 200px;" src="Diagrams/vertical.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
         <td> `ixb.setSegueType("vertical-reverse");` </td>
-        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/vertical-reverse.jpeg"/> </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/vertical-reverse.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
         <td> `ixb.setSegueType("horizontal");` </td>
-        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/horizontal.jpeg"/> </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/horizontal.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
         <td> `ixb.setSegueType("horizontal-reverse");` </td>
-        <td  style="text-align: center;"> <img style="height: 200px;" src="Resources/horizontal-reverse.jpeg"/> </td>
+        <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/horizontal-reverse.jpeg"/> </td>
     </tr>
 </table>
 
@@ -78,7 +78,7 @@ In order to set the display duration (in seconds), a positive number must be set
 ```javascript
 ixb.setDisplayDuration(4);
 ```
-<img src="Resources/Display.jpeg"/>
+<img src="Diagrams/Display.jpeg"/>
 
 ##Setting Phases
 Phase values (phaseIn and phaseOut) indicate the duration values (in seconds) for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
@@ -86,7 +86,7 @@ Phase values (phaseIn and phaseOut) indicate the duration values (in seconds) fo
 var phaseIn_duration = 2,
     phaseOut_duration = 2;
 ```
-<img src="Resources/Phases.jpeg"/>
+<img src="Diagrams/Phases.jpeg"/>
 
 Phase animations indicate what animation should be performed during the phaseIn and phaseOut durations. These are defined by passing in an array of objects. The objects must contain key-value pairs where the key is the must be a CSS3 attribute and the value should be the associated CSS3 value. Each object in the array is treated as a key frame, and the number of objects indicate the number of key frames, divided at regular intervals: therefore the array must either be 0 or 2 and greater, (an array of length 1 will throw an error).
 
@@ -163,7 +163,7 @@ The phase overlap dictates how much of the phaseOut duration of the phasing-out 
 ```javascript
 ixb.setPhaseOverlap(1);
 ```
-<img src="Resources/PhaseOverlap.jpeg"/>
+<img src="Diagrams/PhaseOverlap.jpeg"/>
 This provides control over the transitioning and can be used to achieve specific animations.
 
 <br />
@@ -173,13 +173,13 @@ The segue duration accepts two values: "full" and "overlap". The segue duration 
 ```javascript
 ixb.setSegueDuration("full");
 ```
-<img src="Resources/Full.jpeg"/>
+<img src="Diagrams/Full.jpeg"/>
 
 <br/>If **"overlap"** is set, then the segue duration is equal to the phaseOverlap value and starts and ends at the same time.
 ```javascript
 ixb.setSegueDuration("overlap");
 ```
-<img src="Resources/Overlap.jpeg"/>
+<img src="Diagrams/Overlap.jpeg"/>
 
 
 ##Set Loop Count
@@ -204,10 +204,10 @@ It is possible to save a preset and load it later. To do so, the `saveOption(key
 <br />The object provided (from the parameter) is a data object containing the following attributes:
 ```javascript
 data = {
-    "displayDuration" : display_duration,   //Provides display_duration value
-    "phaseInDuration" : phaseIn_duration,   //Provides phaseIn_duration value
-    "phaseOutDuration" : phaseOut_duration, //Provides phaseOut_duration value
-    "phaseOverlap" : phaseOverlap_duration  //Provides phaseOverlap_duration value
+    "displayDuration" : 4,  //Provides display_duration value
+    "phaseInDuration" : 2,  //Provides phaseIn_duration value
+    "phaseOutDuration" : 1, //Provides phaseOut_duration value
+    "phaseOverlap" : 0.5    //Provides phaseOverlap_duration value
 }
 ```
 
