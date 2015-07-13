@@ -119,6 +119,8 @@ var phaseIn_animationB = [
         {"transform" : "scale(0.7, 0.7)"}   //Keyframe @ 100% of phaseOut
     ];
 ```
+**Note:** it may be necessary to include prefixed version of the CSS attributes, such as `-webkit-`.
+
 Both `setPhaseIn(pIn_duration, pIn_animation)` and `setPhaseOut(pOut_duration, pOut_animation)` functions require 2 parameters, where the first value is the duration (as a positive integer), and the second parameter requires the associated phase animations (as an array of objects), like so:
 
 ```javascript
