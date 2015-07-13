@@ -250,18 +250,30 @@ var Ixhibition = (function (containerID){
                     " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
                     " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
                 }   \
+                @-webkit-keyframes " + containerID + "_xibSlide {    \
+                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \
+                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \
+                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \
+                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
+                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
+                }   \
                 #" + containerID + " .ixb_wrapper{   \
                     position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
-                    animation: " + containerID + "_xibSlide; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + "; /* animation-timing-function: ease-in-out; */ \
+                    animation-name: " + containerID + "_xibSlide; -webkit-animation-name: " + containerID + "_xibSlide; \
+                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \
+                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \
                 }   \
             ";
 
         var animation_css =
             "   \
                 @keyframes " + containerID + "_ixbTransition {   " + keyframeValues + "    }   \
+                @-webkit-keyframes " + containerID + "_ixbTransition {   " + keyframeValues + "    }   \
                 #" + containerID + " .ixb_images{ \
                     opacity: 0; \
-                    animation: " + containerID + "_ixbTransition; animation-duration: " + totalTime + "s; animation-iteration-count: " + loopCount + ";   \
+                    animation-name: " + containerID + "_ixbTransition; -webkit-animation-name: " + containerID + "_ixbTransition; \
+                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \
+                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \
                 }   \
             ";
 
@@ -271,8 +283,10 @@ var Ixhibition = (function (containerID){
         var animation_delays = "",
             transition_delays = "";
         for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
-            animation_delays += "#" + containerID + " #ixb_image" + dlCounter + "{ animation-delay: " + delayList[dlCounter] + "s}\n";
-            transition_delays += "#" + containerID + " #ixb_wrapper" + dlCounter + "{ animation-delay: " + (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) ) + "s}\n";
+            var adVal = delayList[dlCounter],
+                tdVal = (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) );
+            animation_delays += "#" + containerID + " #ixb_image" + dlCounter + "{ animation-delay: " + adVal + "s; -webkit-animation-delay: " + adVal + "s; }\n";
+            transition_delays += "#" + containerID + " #ixb_wrapper" + dlCounter + "{ animation-delay: " + tdVal + "s; -webkit-animation-delay: " + tdVal + "s; }\n";
         }
 
         document.getElementById("ixb_animation_" + containerID).innerHTML = transition_css + "\n" + animation_css;
@@ -425,9 +439,9 @@ var Ixhibition = (function (containerID){
                 "phaseInAnimations" : [],
                 "phaseOutDuration" : pOut,
                 "phaseOutAnimations" : [
-                    {"transform" : "translateY(0)", "opacity" : "1"},
-                    {"transform" : "translateY(2%)", "opacity" : "0.8"},
-                    {"transform" : "translateY(100%)", "opacity" : "0"}
+                    {"transform" : "translateY(0)", "-webkit-transform" : "translateY(0)", "opacity" : "1"},
+                    {"transform" : "translateY(2%)", "-webkit-transform" : "translateY(2%)", "opacity" : "0.8"},
+                    {"transform" : "translateY(100%)", "-webkit-transform" : "translateY(100%)", "opacity" : "0"}
                 ],
                 "phaseOverlap" : (pIn / 2),
                 "segueDuration" : "full",
@@ -448,15 +462,15 @@ var Ixhibition = (function (containerID){
                 "segueType" : "vertical",
                 "phaseInDuration" : pIn,
                 "phaseInAnimations" : [
-                    {"transform" : "scale(0.7, 0.7)"},
-                    {"transform" : "scale(0.7, 0.7)"},
-                    {"transform" : "scale(1, 1)"}
+                    {"transform" : "scale(0.7, 0.7)", "-webkit-transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(0.7, 0.7)", "-webkit-transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(1, 1)", "-webkit-transform" : "scale(1, 1)"}
                 ],
                 "phaseOutDuration" : pOut,
                 "phaseOutAnimations" : [
-                    {"transform" : "scale(1.05, 1.05)"},
-                    {"transform" : "scale(0.7, 0.7)"},
-                    {"transform" : "scale(0.7, 0.7)"}
+                    {"transform" : "scale(1.05, 1.05)", "-webkit-transform" : "scale(1.05, 1.05)"},
+                    {"transform" : "scale(0.7, 0.7)", "-webkit-transform" : "scale(0.7, 0.7)"},
+                    {"transform" : "scale(0.7, 0.7)", "-webkit-transform" : "scale(0.7, 0.7)"}
                 ],
                 "phaseOverlap" : (pIn / 2),
                 "segueDuration" : "overlap",
@@ -479,8 +493,14 @@ var Ixhibition = (function (containerID){
                 "phaseInAnimations" : [],
                 "phaseOutDuration" : pOut,
                 "phaseOutAnimations" : [
-                    {"transform-origin" : "right center" ,"transform" : "scaleX(1)"},
-                    {"transform-origin" : "right center", "transform" : "scaleX(0)"}
+                    {
+                        "transform-origin" : "right center", "-webkit-transform-origin" : "right center",
+                        "transform" : "scaleX(1)", "-webkit-transform" : "scaleX(1)"
+                    },
+                    {
+                        "transform-origin" : "right center", "-webkit-transform-origin" : "right center",
+                        "transform" : "scaleX(0)", "-webkit-transform" : "scaleX(0)"
+                    }
                 ],
                 "phaseOverlap" : pIn,
                 "fadeIn" : false,
@@ -500,15 +520,27 @@ var Ixhibition = (function (containerID){
                 "segueType" : "stack",
                 "phaseInDuration" : pIn,
                 "phaseInAnimations" : [
-                    {"transform-origin" : "right center", "transform" : "scale(0.5, 0.5) rotateY(90deg)"},
-                    {"transform-origin" : "right center", "transform" : "scale(0.5, 0.5) rotateY(45deg)"},
-                    {"transform" : "scale(1, 1)"}
+                    {
+                        "transform-origin" : "right center", "-webkit-transform-origin" : "right center",
+                        "transform" : "scale(0.5, 0.5) rotateY(90deg)", "-webkit-transform" : "scale(0.5, 0.5) rotateY(90deg)"
+                    },
+                    {
+                        "transform-origin" : "right center", "-webkit-transform-origin" : "right center",
+                        "transform" : "scale(0.5, 0.5) rotateY(45deg)", "-webkit-transform" : "scale(0.5, 0.5) rotateY(45deg)"
+                    },
+                    {"transform" : "scale(1, 1)", "-webkit-transform" : "scale(1, 1)"}
                 ],
                 "phaseOutDuration" : pOut,
                 "phaseOutAnimations" : [
-                    {"transform" : "scale(1, 1)"},
-                    {"transform-origin" : "left center", "transform" : "scale(0.5, 0.5)  rotateY(-45deg)"},
-                    {"transform-origin" : "left center", "transform" : "scale(0.5, 0.5)  rotateY(-90deg)"}
+                    {"transform" : "scale(1, 1)", "-webkit-transform" : "scale(1, 1)"},
+                    {
+                        "transform-origin" : "left center", "-webkit-transform-origin" : "left center",
+                        "transform" : "scale(0.5, 0.5)  rotateY(-45deg)", "-webkit-transform" : "scale(0.5, 0.5) rotateY(-45deg)"
+                    },
+                    {
+                        "transform-origin" : "left center", "-webkit-transform-origin" : "left center",
+                        "transform" : "scale(0.5, 0.5)  rotateY(-90deg)", "-webkit-transform" : "scale(0.5, 0.5) rotateY(-90deg)"
+                    }
                 ],
                 "phaseOverlap" : pIn,
                 "fadeIn" : false,
@@ -658,30 +690,30 @@ var Ixhibition = (function (containerID){
                     break;
                 case "vertical":
                     segue_data = [
-                        "transform: translate(0px, 100%);",
-                        "transform: translate(0px, 0%);",
-                        "transform: translate(0px, -100%);"
+                        "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);",
+                        "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
+                        "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);"
                     ];
                     break;
                 case "vertical-reverse":
                     segue_data = [
-                        "transform: translate(0px, -100%);",
-                        "transform: translate(0px, 0%);",
-                        "transform: translate(0px, 100%);"
+                        "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);",
+                        "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
+                        "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);"
                     ];
                     break;
                 case "horizontal":
                     segue_data = [
-                        "transform: translate(100%, 0px);",
-                        "transform: translate(0%, 0px)",
-                        "transform: translate(-100%, 0px);"
+                        "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);",
+                        "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
+                        "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);"
                     ];
                     break;
                 case "horizontal-reverse":
                     segue_data = [
-                        "transform: translate(-100%, 0px);",
-                        "transform: translate(0%, 0px);",
-                        "transform: translate(100%, 0px);"
+                        "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);",
+                        "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
+                        "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);"
                     ];
                     break;
             }

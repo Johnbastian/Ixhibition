@@ -8,4 +8,4 @@ var imgList = [
 ];
 ixb.setImageList(imgList);
 ixb.setDisplayDuration(4);
-ixb.loadOption("ixb_1");
+ixb.loadOption("ixb_10");
