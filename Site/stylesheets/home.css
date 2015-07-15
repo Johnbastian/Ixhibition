@@ -28,6 +28,9 @@ html, body{
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    -webkit-flex-flow: column nowrap;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
 
     height: 100%;
     width: 100%;
@@ -62,6 +65,9 @@ html, body{
     flex-flow: row nowrap;
     justify-content: space-around;
     align-items: center;
+    -webkit-flex-flow: row nowrap;
+    -webkit-justify-content: space-around;
+    -webkit-align-items: center;
 
     height: 100%;
     width: 100%;
@@ -72,7 +78,7 @@ html, body{
 
 .logoLink{
 
-    flex: 24 0 auto;
+    -webkit-flex: 24 0 auto;
 
     text-align: center;
 
@@ -95,7 +101,7 @@ html, body{
 
 .title{
 
-    flex: 25 0 auto;
+    -webkit-flex: 25 0 auto;
 
     margin: 0px 30px 0px 10px;
     height: 60px;
@@ -111,7 +117,7 @@ html, body{
 
 .menuContainer{
 
-    flex: 181 0 auto;
+    -webkit-flex: 181 0 auto;
     position: relative;
 
     height: 100%;
@@ -124,6 +130,9 @@ html, body{
     flex-flow: row nowrap;
     justify-content: center;
     align-items: flex-end;
+    -webkit-flex-flow: row nowrap;
+    -webkit-justify-content: center;
+    -webkit-align-items: flex-end;
 
     position: absolute;
     margin: 0px;
@@ -156,7 +165,7 @@ html, body{
 
 .contentWrapper{
 
-    flex: 1 0 auto;
+    -webkit-flex: 1 0 auto;
     position: relative;
     width: 100%;
 
@@ -166,7 +175,6 @@ html, body{
     position: absolute;
     height: 100%;
     width: 100%;
-    max-width: 1280px;
 }
 
 #ixhibition{
