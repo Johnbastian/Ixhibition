@@ -78,6 +78,7 @@ html, body{
 
 .logoLink{
 
+    flex: 24 0 auto;
     -webkit-flex: 24 0 auto;
 
     text-align: center;
@@ -101,6 +102,7 @@ html, body{
 
 .title{
 
+    flex: 25 0 auto;
     -webkit-flex: 25 0 auto;
 
     margin: 0px 30px 0px 10px;
@@ -117,6 +119,7 @@ html, body{
 
 .menuContainer{
 
+    flex: 181 0 auto;
     -webkit-flex: 181 0 auto;
     position: relative;
 
