@@ -253,17 +253,21 @@ html, body{
     width: 100%;
 
     text-align: center;
-    
+
+}
+
+#contentContainer > *{
+
+    display: inline-block;
+    max-width: 1280px;
+
 }
 
 #ixhibition{
 
-    display: inline-block;
-
     height: 100%;
     width: 100%;
-    max-width: 1280px;
-
+    
 }
 
 
