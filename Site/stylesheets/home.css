@@ -28,6 +28,7 @@ html, body{
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    display: -webkit-flex;
     -webkit-flex-flow: column nowrap;
     -webkit-justify-content: center;
     -webkit-align-items: center;
@@ -65,6 +66,7 @@ html, body{
     flex-flow: row nowrap;
     justify-content: space-around;
     align-items: center;
+    display: -webkit-inline-flex;
     -webkit-flex-flow: row nowrap;
     -webkit-justify-content: space-around;
     -webkit-align-items: center;
@@ -133,6 +135,7 @@ html, body{
     flex-flow: row nowrap;
     justify-content: center;
     align-items: flex-end;
+    display: -webkit-flex;
     -webkit-flex-flow: row nowrap;
     -webkit-justify-content: center;
     -webkit-align-items: flex-end;
