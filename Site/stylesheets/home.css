@@ -1,14 +1,196 @@
-body{
+@font-face {
+    font-family: comme;
+    font-weight: 400;
+    src: url(../vendors/comme/Comme-Regular.ttf);
+}
+@font-face {
+    font-family: comme;
+    font-weight: 200;
+    src: url(../vendors/comme/Comme-ExtraLight.ttf);
+}
+
+html, body{
     margin: 0px;
     padding: 0px;
+
+    height: 100%;
+    width: 100%;
+
+    font-family: comme, "Trebuchet MS", Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+
+}
+
+.bodyWrapper{
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+    min-width: 960px;
+
+    background-color: #000;
+
+}
+
+
+.headerWrapper{
+
+    height: 70px;
+    //height: 100px;
+    width: 100%;
+
+    text-align: center;
+
+    background-color: #FFF;
+
+    transition: height, 0.7s, ease;
+
+}
+
+.headerWrapper:hover{
+    height: 100px;
+}
+
+.headerContainer{
+
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+    max-width: 1280px;
+
+
+}
+
+.logoLink{
+
+    flex: 24 0 auto;
+
+    text-align: center;
+
+}
+
+.logo{
+
+    display: inline-block;
+
+    margin: 0px 20px;
+    height: 60px;
+    width: 96px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("../images/IxhibitionLogo.png");
+
+}
+
+.title{
+
+    flex: 25 0 auto;
+
+    margin: 0px 30px 0px 10px;
+    height: 60px;
+
+    font-weight: 200;
+    font-size: 2.5em;
+    line-height: 60px;
+    text-align: center;
+
+    cursor: default;
+
+}
+
+.menuContainer{
+
+    flex: 181 0 auto;
+    position: relative;
+
+    height: 100%;
+
+}
+
+.menu{
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-end;
+
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    top: 55px;
+    height: 40px;
+    width: 100%;
+
+    list-style-type: none;
+
+}
+.menu a{
+
+    text-decoration: none;
+
+}
+
+.menu li{
+
+    margin: 0px 5px;
+    padding: 0px 5px;
+    height: 30px;
+
+    line-height: 35px;
+    color: black;
+
+    border-top: 3px solid black;
+
+}
+
+.contentWrapper{
+
+    flex: 1 0 auto;
+    position: relative;
+    width: 100%;
+
+}
+
+.contentContainer{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    max-width: 1280px;
 }
 
 #ixhibition{
 
-    position: absolute;
-    top: calc(50% - 179px);
-    left: calc(50% - 319px);
-    height: 360px;
-    width: 640px;
-    
+    height: 100%;
+    width: 100%;
+
+}
+
+
+.footerWrapper{
+
+    height: 30px;
+    width: 100%;
+
+    background-color: #FFF;
+
+}
+
+.footerContainer{
+
+    box-sizing: border-box;
+    padding-right: 10px;
+
+    text-align: right;
+    line-height: 30px;
 }

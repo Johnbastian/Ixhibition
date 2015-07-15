@@ -86,7 +86,7 @@ var Ixhibition = (function (containerID){
 
         document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
-                #" + containerID + " {  overflow: hidden !important; padding: 0px !important;   }    \
+                #" + containerID + " {  position: relative; overflow: hidden !important; padding: 0px !important;   }    \
                 #" + containerID + " #ixb_listcontainer { height: 100%; width: 100%;    } \
                 #" + containerID + " .ixb_images {       \
                     height: 100%; width: 100%;  \

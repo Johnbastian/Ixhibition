@@ -22,12 +22,16 @@ Firstly, before instantiating the library in javascript, a `<div>` tag with an I
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
 
 ####Default ID
+CSS: `#ixhibition{ height: 360px; width: 640px; }`
+
 HTML: `<div id="ixhibition"></div> `
 
 Javascript: `var ixb = Ixhibition();`
 
 
 ####Custom ID
+CSS: `#myGallery{ height: 360px; width: 640px; }`
+
 HTML: `<div id="myGallery"></div>`
 
 Javascript: `var ixb = Ixhibition("myGallery");`
