@@ -52,8 +52,8 @@ html, body{
 
     background-color: #FFF;
 
-    transition: height, 0.7s, ease;
-    -webkit-transition: height, 0.7s, ease;
+    transition: height 0.7s ease;
+    -webkit-transition: height 0.7s ease;
 
 }
 
