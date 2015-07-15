@@ -1,19 +1,25 @@
-var ixb = Ixhibition();
+/*When index.html is loaded and ready */
+$(document).ready(function() {
 
-var imgList = [
-    "images/img1.jpg",
-    "images/img2.jpg",
-    "images/img3.jpg",
-    "images/img4.jpg",
-    "images/img5.jpg",
-    "images/img6.jpg",
-    "images/img7.jpg",
-    "images/img8.jpg",
-    "images/img9.jpg",
-    "images/img10.jpg"
-];
-ixb.setImageList(imgList);
-ixb.setDisplayDuration(4);
-ixb.setPhaseIn(2, []);
-ixb.setPhaseOut(2, []);
-ixb.loadOption("ixb_4");
+	/* Handels on-click of menu buttons - block coding */
+	$("#menu a").click(function(){
+
+		/* Getting the linked page */
+		var toLoad = $(this).attr("href");
+        $("#contentContainer").load(toLoad);
+
+        $("#menu li").removeClass("active_li");
+        $("#" + this.id + " li").addClass("active_li");
+
+
+		/* In order to stop the browser actually navigating to the page, false is returned */
+		return false;
+
+	});
+
+	/* Initial Load - load homepage by simulation of clicking on home*/ /* Need to validate for redirection to login page*/
+	$("#homeLink").click();
+
+    $("#logo").click(function(){    $("#homeLink").click(); });
+
+});

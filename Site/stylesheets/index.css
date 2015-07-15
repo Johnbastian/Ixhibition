@@ -22,7 +22,7 @@ html, body{
 
 }
 
-.bodyWrapper{
+#bodyWrapper{
 
     display: flex;
     flex-flow: column nowrap;
@@ -42,7 +42,7 @@ html, body{
 }
 
 
-.headerWrapper{
+#headerWrapper{
 
     height: 70px;
     //height: 100px;
@@ -57,11 +57,11 @@ html, body{
 
 }
 
-.headerWrapper:hover{
+#headerWrapper:hover{
     height: 100px;
 }
 
-.headerContainer{
+#headerContainer{
 
     display: inline-flex;
     flex-flow: row nowrap;
@@ -79,18 +79,10 @@ html, body{
 
 }
 
-.logoLink{
+#logo{
 
     flex: 24 0 auto;
     -webkit-flex: 24 0 auto;
-
-    text-align: center;
-
-}
-
-.logo{
-
-    display: inline-block;
 
     margin: 0px 20px;
     height: 60px;
@@ -101,9 +93,11 @@ html, body{
     background-position: center center;
     background-image: url("../images/IxhibitionLogo.png");
 
+    cursor: pointer;
+
 }
 
-.title{
+#title{
 
     flex: 25 0 auto;
     -webkit-flex: 25 0 auto;
@@ -120,7 +114,7 @@ html, body{
 
 }
 
-.menuContainer{
+#menuContainer{
 
     flex: 181 0 auto;
     -webkit-flex: 181 0 auto;
@@ -130,7 +124,78 @@ html, body{
 
 }
 
-.menu{
+#menuContainer a{
+
+    text-decoration: none;
+    color: black;
+
+}
+
+#projectLinks{
+
+    display: flex;
+    flex-flow: row; nowrap;
+    justify-content: space-around;
+    align-items: center;
+    display: -webkit-flex;
+    -webkit-flex-flow: row nowrap;
+    -webkit-justify-content: space-around;
+    -webkit-align-items: center;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 50px;
+    width: 100%;
+
+}
+
+#downloadBtn, #githubBtn{
+
+    display: block;
+
+    height: 36px;
+
+    font-size: 1.1em;
+    line-height: 30px;
+
+    border: 2px solid black;
+
+}
+
+#downloadBtn {
+
+    width: 100px;
+
+}
+
+#downloadBtn div{
+
+    margin: 3px;
+
+}
+
+#githubBtn {
+
+    width: 108px;
+
+}
+
+#githubBtn div{
+
+    margin: 3px;
+    width: 100px;
+
+    text-align: right;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 4px center;
+    background-image: url("../vendors/github/GitHub-Mark-120px-plus.png");
+
+}
+
+#menu{
 
     display: flex;
     flex-flow: row nowrap;
@@ -151,13 +216,8 @@ html, body{
     list-style-type: none;
 
 }
-.menu a{
 
-    text-decoration: none;
-
-}
-
-.menu li{
+#menu li{
 
     margin: 0px 5px;
     padding: 0px 5px;
@@ -166,22 +226,36 @@ html, body{
     line-height: 35px;
     color: black;
 
-    border-top: 3px solid black;
+    border-top: 3px solid white;
 
+    transition: border-top 0.5s ease;
+    -webkit-transition: border-top 0.5s ease;
+
+}
+
+.active_li{
+    border-top: 3px solid black !important;
 }
 
 .contentWrapper{
 
+    flex: 1 0 auto;
     -webkit-flex: 1 0 auto;
     position: relative;
     width: 100%;
 
 }
 
-.contentContainer{
-    position: absolute;
+#contentContainer{
+
+    display: block;
+
+    //position: absolute;
+    margin: 0px auto;
     height: 100%;
     width: 100%;
+    max-width: 1280px;
+
 }
 
 #ixhibition{

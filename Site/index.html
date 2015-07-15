@@ -11,28 +11,32 @@
 
 <body>
 
-<div class="bodyWrapper">
+<div id="bodyWrapper">
 
-    <div class="headerWrapper">
-        <div class="headerContainer">
+    <div id="headerWrapper">
+        <div id="headerContainer">
 
-            <a class="logoLink" href="#"><div class="logo"></div></a>
-            <div class="title">I x h i b i t i o n</div>
-            <div class="menuContainer">
-                <ul class="menu">
-                    <a href="#"><li>Home</li></a>
-                    <a href="#"><li>About</li></a>
-                    <a href="#"><li>Using</li></a>
-                    <a href="#"><li>Defaults</li></a>
-                    <a href="#"><li>Packages</li></a>
+            <div id="logo"></div>
+            <div id="title">I x h i b i t i o n</div>
+            <div id="menuContainer">
+                <div id="projectLinks">
+                    <a id="downloadBtn" href="../Library/Ixhibition.js" download="Ixhibition.js"><div>Download</div></a>
+                    <a id="githubBtn" href="https://github.com/Johnbastian/Ixhibition"><div>GitHub</div></a>
+                </div>
+                <ul id="menu">
+                    <a id="homeLink" href="home.html"><li>Home</li></a>
+                    <a id="aboutLink" href="about.html"><li>About</li></a>
+                    <a id="usingLink" href="#"><li>Using</li></a>
+                    <a id="defaultsLink" href="#"><li>Defaults</li></a>
+                    <a id="packagesLink" href="#"><li>Packages</li></a>
                 </ul>
             </div>
         </div>
     </div>
 
     <div class="contentWrapper">
-        <div class="contentContainer">
-            <div id="ixhibition"></div>
+        <div id="contentContainer">
+
         </div>
     </div>
 
@@ -44,6 +48,7 @@
 
 </div>
 
+<script type="text/javascript" src="vendors/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../Library/Ixhibition.js"></script>
 <script type="text/javascript" src="scripts/index.js"></script>
 </body>
