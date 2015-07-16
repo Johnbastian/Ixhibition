@@ -86,7 +86,7 @@ var Ixhibition = (function (containerID){
 
         document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
-                #" + containerID + " {  overflow: hidden !important; padding: 0px !important;   }    \
+                #" + containerID + " {  position: relative; overflow: hidden !important; padding: 0px !important;   }    \
                 #" + containerID + " #ixb_listcontainer { height: 100%; width: 100%;    } \
                 #" + containerID + " .ixb_images {       \
                     height: 100%; width: 100%;  \
@@ -114,7 +114,7 @@ var Ixhibition = (function (containerID){
             imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
             imageListHTML += "</div>";
         }
-        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "<div>";
+        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
 
         generateGallery();
 
@@ -221,7 +221,7 @@ var Ixhibition = (function (containerID){
         while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
         while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
-        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.0001 / totalTime));
+        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.001 / totalTime)); //This precision is safe for Safari, no lower
         keyframePositions.push(100);
 
         console.log("keyframePositions is: ");

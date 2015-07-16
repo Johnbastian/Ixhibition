@@ -13,25 +13,30 @@ Ixhibition has been developed with the goal of reducing as much Javascript inter
 <br />
 <br />
 #Using Ixhibition
-##Logic
-The following example provides a general overview of the logic used by Ixhibition:
-<img src="Diagrams/TimeGraph.jpeg"/>
 
 ##Getting Started
-Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have a `height` and `width` set, with other attributes being optional, such as `border` and `background-color`.
+Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have a `height` and `width` set (which are in effect), with other attributes being optional, such as `border` and `background-color`.
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
 
 ####Default ID
+CSS: `#ixhibition{ height: 360px; width: 640px; }`
+
 HTML: `<div id="ixhibition"></div> `
 
 Javascript: `var ixb = Ixhibition();`
 
 
 ####Custom ID
+CSS: `#myGallery{ height: 360px; width: 640px; }`
+
 HTML: `<div id="myGallery"></div>`
 
 Javascript: `var ixb = Ixhibition("myGallery");`
 
+
+##Logic
+The following example provides a general overview of the logic used by Ixhibition:
+<img src="Diagrams/TimeGraph.jpeg"/>
 
 ##Loading Images
 In order to load a set of images in, an array of image urls in string format must be passed as the parameter into the `setImageList(imgList)` function.
