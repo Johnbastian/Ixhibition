@@ -170,9 +170,9 @@ var Ixhibition = (function (containerID){
     //Generate array of animation delay values
     function generateDelayList() {
 
-        delayList = [0];
+        delayList = [0.1];
         var ulCounter = urlList.length - 1;
-        while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - phaseOverlap_duration);
+        while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - phaseOverlap_duration + 0.1);
 
     }
 
