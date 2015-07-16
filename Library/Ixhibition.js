@@ -221,7 +221,7 @@ var Ixhibition = (function (containerID){
         while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
         while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
-        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.0001 / totalTime));
+        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.001 / totalTime));
         keyframePositions.push(100);
 
         console.log("keyframePositions is: ");
