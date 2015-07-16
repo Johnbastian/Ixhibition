@@ -440,7 +440,7 @@ var Ixhibition = (function (containerID){
                 "phaseOutDuration" : pOut,
                 "phaseOutAnimations" : [
                     {"transform" : "translateY(0)", "-webkit-transform" : "translateY(0)", "opacity" : "1"},
-                    {"transform" : "translateY(2%)", "-webkit-transform" : "translateY(2%)", "opacity" : "0.8"},
+                    {"transform" : "translateY(10%)", "-webkit-transform" : "translateY(10%)", "opacity" : "0.8"},
                     {"transform" : "translateY(100%)", "-webkit-transform" : "translateY(100%)", "opacity" : "0"}
                 ],
                 "phaseOverlap" : (pIn / 2),
