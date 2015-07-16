@@ -114,7 +114,7 @@ var Ixhibition = (function (containerID){
             imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
             imageListHTML += "</div>";
         }
-        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "<div>";
+        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
 
         generateGallery();
 
