@@ -21,11 +21,11 @@
     display: inline-flex;
     flex-flow: row nowrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     display: -webkit-inline-flex;
     -webkit-flex-flow: row nowrap;
     -webkit-justify-content: center;
-    -webkit-align-items: center;
+    -webkit-align-items: flex-start;
 
     width: 100%;
 
@@ -63,5 +63,11 @@
 }
 
 .ixbDemoDesc {
+
+}
+
+pre, code{
+    margin-top: 0px;
     margin-bottom: 30px;
+    white-space: pre-wrap;
 }

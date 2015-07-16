@@ -14,11 +14,50 @@
                 <div class="ixbDemo" id="demo1" ></div>
                 <span class="ixbDemoName">ixb_1</span>
                 <span class="ixbDemoDesc">Stack (no fade)</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_1&quot;, function(data){
+
+    return {
+        &quot;segueType&quot; : &quot;stack&quot;,
+        &quot;phaseInDuration&quot; : 0,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : 0,
+        &quot;phaseOutAnimations&quot; : [],
+        &quot;phaseOverlap&quot; : 0,
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo2" ></div>
                 <span class="ixbDemoName">ixb_2</span>
                 <span class="ixbDemoDesc">Vertical simple</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_2&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration >= 1 ? data.phaseOutDuration : 1);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        "segueType" : "vertical",
+        "phaseInDuration" : pIn,
+        "phaseInAnimations" : [],
+        "phaseOutDuration" : pOut,
+        "phaseOutAnimations" : [],
+        "phaseOverlap" : pIn,
+        "segueDuration" : "full",
+        "fadeIn" : false,
+        "fadeOut" : false
+    };
+
+});
+                </code></pre>
             </div>
         </div>
         <div class="rowSection">
@@ -26,11 +65,55 @@
                 <div class="ixbDemo" id="demo3" ></div>
                 <span class="ixbDemoName">ixb_3</span>
                 <span class="ixbDemoDesc">Vertical-reverse simple</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_3&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration &gt;= 1 ? data.phaseOutDuration : 1);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;vertical-reverse&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [],
+        &quot;phaseOverlap&quot; : pIn,
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo4" ></div>
                 <span class="ixbDemoName">ixb_4</span>
                 <span class="ixbDemoDesc">Horizontal simple</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_4&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration &gt;= 1 ? data.phaseOutDuration : 1);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;horizontal&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [],
+        &quot;phaseOverlap&quot; : pIn,
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
         </div>
         <div class="rowSection">
@@ -38,11 +121,55 @@
                 <div class="ixbDemo" id="demo5" ></div>
                 <span class="ixbDemoName">ixb_5</span>
                 <span class="ixbDemoDesc">Horizontal-reverse simple</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_5&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration &gt;= 1 ? data.phaseOutDuration : 1);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;horizontal-reverse&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [],
+        &quot;phaseOverlap&quot; : pIn,
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo6" ></div>
                 <span class="ixbDemoName">ixb_6</span>
                 <span class="ixbDemoDesc">Stack with fade</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_6&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration &gt;= 1 ? data.phaseOutDuration : 1);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;stack&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [],
+        &quot;phaseOverlap&quot; : (pIn / 2),
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : true,
+        &quot;fadeOut&quot; : true
+    };
+
+});
+                </code></pre>
             </div>
         </div>
         <div class="rowSection">
@@ -50,11 +177,66 @@
                 <div class="ixbDemo" id="demo7" ></div>
                 <span class="ixbDemoName">ixb_7</span>
                 <span class="ixbDemoDesc">Fade, with fade-out drop</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_7&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
+        pOut = ( data.phaseOutDuration &gt;= 2 ? data.phaseOutDuration : 2);
+
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;stack&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [
+            {&quot;transform&quot; : &quot;translateY(0)&quot;, &quot;-webkit-transform&quot; : &quot;translateY(0)&quot;, &quot;opacity&quot; : &quot;1&quot;},
+            {&quot;transform&quot; : &quot;translateY(10%)&quot;, &quot;-webkit-transform&quot; : &quot;translateY(10%)&quot;, &quot;opacity&quot; : &quot;0.8&quot;},
+            {&quot;transform&quot; : &quot;translateY(100%)&quot;, &quot;-webkit-transform&quot; : &quot;translateY(100%)&quot;, &quot;opacity&quot; : &quot;0&quot;}
+        ],
+        &quot;phaseOverlap&quot; : (pIn / 2),
+        &quot;segueDuration&quot; : &quot;full&quot;,
+        &quot;fadeIn&quot; : true,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo8" ></div>
                 <span class="ixbDemoName">ixb_8</span>
                 <span class="ixbDemoDesc">Slide focus, with slight zoom</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_8&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
+        pOut = ( data.phaseOutDuration &gt;= 2 ? data.phaseOutDuration : 2);
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;vertical&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [
+            {&quot;transform&quot; : &quot;scale(0.7, 0.7)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.7, 0.7)&quot;},
+            {&quot;transform&quot; : &quot;scale(0.7, 0.7)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.7, 0.7)&quot;},
+            {&quot;transform&quot; : &quot;scale(1, 1)&quot;, &quot;-webkit-transform&quot; : &quot;scale(1, 1)&quot;}
+        ],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [
+            {&quot;transform&quot; : &quot;scale(1.05, 1.05)&quot;, &quot;-webkit-transform&quot; : &quot;scale(1.05, 1.05)&quot;},
+            {&quot;transform&quot; : &quot;scale(0.7, 0.7)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.7, 0.7)&quot;},
+            {&quot;transform&quot; : &quot;scale(0.7, 0.7)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.7, 0.7)&quot;}
+        ],
+        &quot;phaseOverlap&quot; : (pIn / 2),
+        &quot;segueDuration&quot; : &quot;overlap&quot;,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
         </div>
         <div class="rowSection">
@@ -62,11 +244,78 @@
                 <div class="ixbDemo" id="demo9" ></div>
                 <span class="ixbDemoName">ixb_9</span>
                 <span class="ixbDemoDesc">Squash to focus</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_9&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration ? data.phaseInDuration : 1 ),
+        pOut = ( data.phaseOutDuration ? data.phaseOutDuration : 1);
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;horizontal&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [
+            {
+                &quot;transform-origin&quot; : &quot;right center&quot;, &quot;-webkit-transform-origin&quot; : &quot;right center&quot;,
+                &quot;transform&quot; : &quot;scaleX(1)&quot;, &quot;-webkit-transform&quot; : &quot;scaleX(1)&quot;
+            },
+            {
+                &quot;transform-origin&quot; : &quot;right center&quot;, &quot;-webkit-transform-origin&quot; : &quot;right center&quot;,
+                &quot;transform&quot; : &quot;scaleX(0)&quot;, &quot;-webkit-transform&quot; : &quot;scaleX(0)&quot;
+            }
+        ],
+        &quot;phaseOverlap&quot; : pIn,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    };
+
+});
+                </code></pre>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo10" ></div>
                 <span class="ixbDemoName">ixb_10</span>
                 <span class="ixbDemoDesc">Fold-in Fold-out</span>
+                <pre><code>
+ixb.saveOption(&quot;ixb_10&quot;, function(data){
+
+    var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
+        pOut = ( data.phaseOutDuration &gt;= 2 ? data.phaseOutDuration : 2);
+    pIn = pOut = Math.min(pIn, pOut);
+
+    return {
+        &quot;segueType&quot; : &quot;stack&quot;,
+        &quot;phaseInDuration&quot; : pIn,
+        &quot;phaseInAnimations&quot; : [
+            {
+                &quot;transform-origin&quot; : &quot;right center&quot;, &quot;-webkit-transform-origin&quot; : &quot;right center&quot;,
+                &quot;transform&quot; : &quot;scale(0.5, 0.5) rotateY(90deg)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.5, 0.5) rotateY(90deg)&quot;
+            },
+            {
+                &quot;transform-origin&quot; : &quot;right center&quot;, &quot;-webkit-transform-origin&quot; : &quot;right center&quot;,
+                &quot;transform&quot; : &quot;scale(0.5, 0.5) rotateY(45deg)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.5, 0.5) rotateY(45deg)&quot;
+            },
+            {&quot;transform&quot; : &quot;scale(1, 1)&quot;, &quot;-webkit-transform&quot; : &quot;scale(1, 1)&quot;}
+        ],
+        &quot;phaseOutDuration&quot; : pOut,
+        &quot;phaseOutAnimations&quot; : [
+            {&quot;transform&quot; : &quot;scale(1, 1)&quot;, &quot;-webkit-transform&quot; : &quot;scale(1, 1)&quot;},
+            {
+                &quot;transform-origin&quot; : &quot;left center&quot;, &quot;-webkit-transform-origin&quot; : &quot;left center&quot;,
+                &quot;transform&quot; : &quot;scale(0.5, 0.5)  rotateY(-45deg)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.5, 0.5) rotateY(-45deg)&quot;
+            },
+            {
+                &quot;transform-origin&quot; : &quot;left center&quot;, &quot;-webkit-transform-origin&quot; : &quot;left center&quot;,
+                &quot;transform&quot; : &quot;scale(0.5, 0.5)  rotateY(-90deg)&quot;, &quot;-webkit-transform&quot; : &quot;scale(0.5, 0.5) rotateY(-90deg)&quot;
+            }
+        ],
+        &quot;phaseOverlap&quot; : pIn,
+        &quot;fadeIn&quot; : false,
+        &quot;fadeOut&quot; : false
+    });
+                </code></pre>
             </div>
         </div>
 
