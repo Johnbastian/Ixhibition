@@ -1,0 +1,14 @@
+#packagesWrapper{
+
+    display: inline-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    display: -webkit-inline-flex;
+    -webkit-flex-flow: column nowrap;
+    -webkit-justify-content: flex-start;
+    -webkit-align-items: center;
+
+    padding: 20px 100px;
+
+}
