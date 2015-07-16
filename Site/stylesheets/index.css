@@ -78,7 +78,7 @@ html, body{
 #titleContainer{
 
     flex: 1 0 0;
-    -webkit-flex: 0 0 0;
+    -webkit-flex: 1 0 0;
 
     display: flex;
     flex-flow: column nowrap;
@@ -100,7 +100,7 @@ html, body{
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-    display: -webkit-inline-flex;
+    display: -webkit-flex;
     -webkit-flex-flow: row nowrap;
     -webkit-justify-content: center;
     -webkit-align-items: center;
