@@ -195,7 +195,7 @@ html, body{
 
 }
 
-#downloadBtn, #githubBtn{
+#downloadBtn, #githubBtn, #githubBtn div{
 
     cursor: pointer;
 
@@ -215,7 +215,7 @@ html, body{
 
 }
 
-#githubBtn div:hover{   background-image: url("../vendors/github/GitHub-Mark-Light-120px-plus.png");  }
+#githubBtn:hover div{   background-image: url("../vendors/github/GitHub-Mark-Light-120px-plus.png");  }
 
 #menu{
 
@@ -294,14 +294,11 @@ html, body{
 #contentContainer > *{
 
     display: inline-block;
-    max-width: 1280px;
-
-}
-
-#ixhibition{
-
     height: 100%;
     width: 100%;
+    max-width: 1280px;
+
+    text-align: left;
 
 }
 

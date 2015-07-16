@@ -20,7 +20,7 @@ $(document).ready(function() {
 	/* Initial Load - load homepage by simulation of clicking on home*/ /* Need to validate for redirection to login page*/
 	$("#homeLink").click();
 
-
+    //Logo home link
     $("#logo").click(function(){    $("#homeLink").click(); });
 
 });
