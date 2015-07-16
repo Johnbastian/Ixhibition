@@ -69,5 +69,11 @@
 pre, code{
     margin-top: 0px;
     margin-bottom: 30px;
+    padding: 5px;
     white-space: pre-wrap;
+}
+
+pre{
+    border-left: 1px solid white;
+    border-right: 1px solid white;
 }
