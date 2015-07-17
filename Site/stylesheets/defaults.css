@@ -13,6 +13,21 @@
 
 }
 
+#loLink{
+
+    display: inline-block;
+
+    color: white;
+    text-decoration: none;
+
+    background-color: #777;
+    border: 0px solid #777;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-radius: 4px;
+
+}
+
 .rowSection{
 
     flex: 1 0 auto;
@@ -51,8 +66,8 @@
 
 .ixbDemo{
 
-    height: 180px;
-    width: 320px;
+    height: 197px;
+    width: 350px;
 
     border: 1px solid white;
 
@@ -63,17 +78,29 @@
 }
 
 .ixbDemoDesc {
-
+    margin-bottom: 5px;
 }
 
-pre, code{
-    margin-top: 0px;
-    margin-bottom: 30px;
-    padding: 5px;
-    white-space: pre-wrap;
+.codeContainer{
+
+    position: relative;
+    margin: 0px 10px 50px 10px;
+    height: 300px;
+    width: calc(100% - 22px);
+
+    border: 1px solid white;
+
+    overflow: scroll;
+
 }
 
 pre{
-    border-left: 1px solid white;
-    border-right: 1px solid white;
+
+    box-sizing: border-box;
+
+    position: absolute;
+    padding: 0px 15px;
+    top: 0px;
+    left: 0px;
+
 }

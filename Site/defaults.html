@@ -5,7 +5,7 @@
         <p>
             There are 10 defaults animations preloaded with Ixhibition, which use the naming
             convention "ixb_#", where # is a number from 1 to 10. These defaults can be used using
-            the <a href="https://github.com/Johnbastian/Ixhibition#loading">"loadOption"</a> function.
+            the <a id="loLink" href="https://github.com/Johnbastian/Ixhibition#loading">loadOption</a> function.
             <br />The following show a demo for each option.
         </p>
 
@@ -14,7 +14,7 @@
                 <div class="ixbDemo" id="demo1" ></div>
                 <span class="ixbDemoName">ixb_1</span>
                 <span class="ixbDemoDesc">Stack (no fade)</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_1&quot;, function(data){
 
     return {
@@ -30,13 +30,13 @@ ixb.saveOption(&quot;ixb_1&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo2" ></div>
                 <span class="ixbDemoName">ixb_2</span>
                 <span class="ixbDemoDesc">Vertical simple</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_2&quot;, function(data){
 
     var pIn = ( data.phaseInDuration >= 1 ? data.phaseInDuration : 1 ),
@@ -57,7 +57,7 @@ ixb.saveOption(&quot;ixb_2&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
         </div>
         <div class="rowSection">
@@ -65,7 +65,7 @@ ixb.saveOption(&quot;ixb_2&quot;, function(data){
                 <div class="ixbDemo" id="demo3" ></div>
                 <span class="ixbDemoName">ixb_3</span>
                 <span class="ixbDemoDesc">Vertical-reverse simple</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_3&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
@@ -86,13 +86,13 @@ ixb.saveOption(&quot;ixb_3&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo4" ></div>
                 <span class="ixbDemoName">ixb_4</span>
                 <span class="ixbDemoDesc">Horizontal simple</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_4&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
@@ -113,7 +113,7 @@ ixb.saveOption(&quot;ixb_4&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
         </div>
         <div class="rowSection">
@@ -121,7 +121,7 @@ ixb.saveOption(&quot;ixb_4&quot;, function(data){
                 <div class="ixbDemo" id="demo5" ></div>
                 <span class="ixbDemoName">ixb_5</span>
                 <span class="ixbDemoDesc">Horizontal-reverse simple</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_5&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
@@ -142,13 +142,13 @@ ixb.saveOption(&quot;ixb_5&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo6" ></div>
                 <span class="ixbDemoName">ixb_6</span>
                 <span class="ixbDemoDesc">Stack with fade</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_6&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 1 ? data.phaseInDuration : 1 ),
@@ -169,7 +169,7 @@ ixb.saveOption(&quot;ixb_6&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
         </div>
         <div class="rowSection">
@@ -177,7 +177,7 @@ ixb.saveOption(&quot;ixb_6&quot;, function(data){
                 <div class="ixbDemo" id="demo7" ></div>
                 <span class="ixbDemoName">ixb_7</span>
                 <span class="ixbDemoDesc">Fade, with fade-out drop</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_7&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
@@ -202,13 +202,13 @@ ixb.saveOption(&quot;ixb_7&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo8" ></div>
                 <span class="ixbDemoName">ixb_8</span>
                 <span class="ixbDemoDesc">Slide focus, with slight zoom</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_8&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
@@ -236,7 +236,7 @@ ixb.saveOption(&quot;ixb_8&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
         </div>
         <div class="rowSection">
@@ -244,7 +244,7 @@ ixb.saveOption(&quot;ixb_8&quot;, function(data){
                 <div class="ixbDemo" id="demo9" ></div>
                 <span class="ixbDemoName">ixb_9</span>
                 <span class="ixbDemoDesc">Squash to focus</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_9&quot;, function(data){
 
     var pIn = ( data.phaseInDuration ? data.phaseInDuration : 1 ),
@@ -272,13 +272,13 @@ ixb.saveOption(&quot;ixb_9&quot;, function(data){
     };
 
 });
-                </code></pre>
+                </code></pre></div>
             </div>
             <div class="colSection">
                 <div class="ixbDemo" id="demo10" ></div>
                 <span class="ixbDemoName">ixb_10</span>
                 <span class="ixbDemoDesc">Fold-in Fold-out</span>
-                <pre><code>
+                <div class="codeContainer"><pre><code>
 ixb.saveOption(&quot;ixb_10&quot;, function(data){
 
     var pIn = ( data.phaseInDuration &gt;= 2 ? data.phaseInDuration : 2 ),
@@ -316,7 +316,7 @@ ixb.saveOption(&quot;ixb_10&quot;, function(data){
         &quot;fadeOut&quot; : false
     };
 )};
-                </code></pre>
+                </code></pre></div>
             </div>
         </div>
 
