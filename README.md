@@ -1,7 +1,7 @@
 # Ixhibition (beta)
 *Image Exhibition*
 
-A Javascript generated CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
+A Javascript generated CSS3 Animation based image gallery, providing control over the animation of transitioning/seguing of slides.
 <br />
 ###Overview
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
