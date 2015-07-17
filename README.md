@@ -1,7 +1,7 @@
 # Ixhibition (beta)
 *Image Exhibition*
 
-A Javascript generated CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
+A Javascript generated CSS3 Animation based image gallery, providing control over the animation of transitioning/seguing of slides.
 <br />
 ###Overview
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
@@ -204,6 +204,7 @@ It is possible to indicate whether fading in and/or out is desired, which occurs
 ixb.setFade(true, true);
 ```
 
+
 ##Saving and Loading Options
 ###Saving
 It is possible to save a preset and load it later. To do so, the `saveOption(keyname, callback)` function is used. The function requires 2 parameters: a preset *keyname* as a string, and a *callback* function which accepts a single parameter and must return an object.
@@ -289,14 +290,21 @@ ixb_6 | Stack with fade
 ixb_7 | Fade, with fade-out drop
 ixb_8 | Slide focus, with slight zoom
 ixb_9 | Squash to focus
-ixb_10 | Fold-in Fold-out 
-
+ixb_10 | Fold-in Fold-out
 
 ##Restarting
 By default, if any attribute is changed (except for `setImageList(imgList)`), the animation will simply continue depending on where the animation should be time-wise. If a complete restart of the animation is required, the following can be called:
 ```javascript
 ixb.restart();
 ```
+
+#Performance and Optimisation
+1. For a set of medium sized images, it is recommended to keep the image count well below 200 for a single instance of Ixhibition.
+2. To reduce painting overhead and any other CSS rendering, it is recommended that custom animations try to utilise the CSS `transform` attribute as opposed to others like `height`, `width`, `top`, `margin-right`, etc...
+<br /> For some insight on this, a [Performance Test](http://www.paulirish.com/2012/why-moving-elements-with-translate-is-better-than-posabs-topleft) was done by Paul Irish.
+3. It is best to keep in mind that the CSS3 Animation is heavily dependant on percentage precision, e.g. 10.1234% vs 10.1235%, and similar. Therefore, anything that can reduce the level precision required would increase the animation performance. Refinement of this nature include:
+  - Reducing display, phaseIn, and phaseOut durations
+  - Reducing the number of keyframe steps/objects in the animation (array) for phaseIn and phaseOut
 
 
 <br />
