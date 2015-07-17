@@ -1,4 +1,4 @@
-# Ixhibition
+# Ixhibition (beta)
 *Image Exhibition*
 
 A Javascript generated CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
@@ -15,7 +15,7 @@ Ixhibition has been developed with the goal of reducing as much Javascript inter
 #Using Ixhibition
 
 ##Getting Started
-Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have a `height` and `width` set (which are in effect), with other attributes being optional, such as `border` and `background-color`.
+Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have an explicit `height` and `width` set, with other attributes being optional, such as `border` and `background-color`.
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
 
 ####Default ID
@@ -274,6 +274,23 @@ If a preset has been saved, then the `loadOption(keyname)` function can be used 
 ```javascript
 ixb.loadOption("test-option");
 ```
+
+####Defaults
+A set of default animation options are provided:
+
+Option | Description
+---|---
+ixb_1 | Stack (no fade)
+ixb_2 | Vertical simple
+ixb_3 | Vertical-reverse simple
+ixb_4 | Horizontal simple
+ixb_5 | Horizontal-reverse simple
+ixb_6 | Stack with fade
+ixb_7 | Fade, with fade-out drop
+ixb_8 | Slide focus, with slight zoom
+ixb_9 | Squash to focus
+ixb_10 | Fold-in Fold-out 
+
 
 ##Restarting
 By default, if any attribute is changed (except for `setImageList(imgList)`), the animation will simply continue depending on where the animation should be time-wise. If a complete restart of the animation is required, the following can be called:
