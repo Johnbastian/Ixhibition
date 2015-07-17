@@ -57,23 +57,23 @@ There are 5 built in segue (transition) animations which dictate the transitioni
 
 <table style="width: 100%; border: none;">
     <tr style="background-color:#FFF;">
-        <td> `ixb.setSegueType("stack");` </td>
+        <td> ixb.setSegueType("stack"); </td>
         <td style="text-align: center;"> <img style="height: 200px;" src="Diagrams/stack.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
-        <td> `ixb.setSegueType("vertical");` </td>
+        <td> ixb.setSegueType("vertical"); </td>
         <td style="text-align: center;"> <img style="height: 200px;" src="Diagrams/vertical.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
-        <td> `ixb.setSegueType("vertical-reverse");` </td>
+        <td> ixb.setSegueType("vertical-reverse"); </td>
         <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/vertical-reverse.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
-        <td> `ixb.setSegueType("horizontal");` </td>
+        <td> ixb.setSegueType("horizontal"); </td>
         <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/horizontal.jpeg"/> </td>
     </tr>
     <tr style="background-color:#FFF;">
-        <td> `ixb.setSegueType("horizontal-reverse");` </td>
+        <td> ixb.setSegueType("horizontal-reverse"); </td>
         <td  style="text-align: center;"> <img style="height: 200px;" src="Diagrams/horizontal-reverse.jpeg"/> </td>
     </tr>
 </table>
@@ -174,9 +174,11 @@ ixb.setPhaseOverlap(1);
 This provides control over the transitioning and can be used to achieve specific animations.
 
 <br />
-##Segue Duration
+##Setting Segue Duration
 The segue duration accepts two values: "full" and "overlap". The segue duration indicates at what point the transition (going from one slide to the next) occurs and how long it lasts.
-<br/>If **"full"** (default) is set, then the segue duration is indicated by:  phaseOut + phaseIn - phaseOverlap. The segue duration starts at the beginning of the phaseOut duration of the phasing-out slide and ends at the end of the phaseIn duration of the phasing-in slide. Note: if segue type is "stack", the segue duration is set to "full" regardlessly.
+<br/>If **"full"** (default) is set, then the segue duration is indicated by:
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phaseOut + phaseIn - phaseOverlap.
+<br/>The segue duration starts at the beginning of the phaseOut duration of the phasing-out slide and ends at the end of the phaseIn duration of the phasing-in slide. Note: if segue type is "stack", the segue duration is set to "full" regardlessly.
 ```javascript
 ixb.setSegueDuration("full");
 ```
@@ -189,7 +191,7 @@ ixb.setSegueDuration("overlap");
 <img src="Diagrams/Overlap.jpeg"/>
 
 
-##Set Loop Count
+##Setting Loop Count
 This indicates how many times the gallery should loop, and maps exactly to the animation-iteration-count attribute in CSS3: any legal value for the attribute will be accepted as the parameter, including "infinite".
 ```javascript
 ixb.setLoopCount(1);
@@ -374,4 +376,4 @@ Packages that provide additional functionality with or without animation sets sh
 
 2. The package may be dependent on other APIs and/or Libraries, and therefore this should be made clear within the package documentation, and possibly resolve the dependancies itself by appending the required scripts to the DOM upon package instantiation.
 
-3. Animations should follow the [Animation Package Guidelines](#animation-package-guidelines) and provide (public) functions regardlessly.
+3. Animations should follow the [Animation-oriented Package Guidelines](#animation-package-guidelines) and provide (public) functions regardlessly.
