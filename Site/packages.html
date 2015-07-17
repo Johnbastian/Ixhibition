@@ -1,0 +1,128 @@
+<div style="overflow-y:scroll;">
+<link rel="stylesheet" type="text/css" href="stylesheets/packages.css">
+
+    <div id="packagesWrapper">
+
+        <p>
+            The development of packages atop of Ixhibition is encouraged, especially packages
+            that add more  animation sets and ones that provide additional functionality.
+            However, in an attempt to streamline and standardise this such that multiple packages
+            could be used in any given project, a set of guidelines are provided.
+        </p>
+
+        <span class="spanTitle">General Guidelines</span>
+        <p>
+            These guidelines apply to all packages:
+            <ol>
+                <li>
+                    The package should request for an instance of ixhibition to be passed in as the
+                    parameter when the package is instantiated. E.g.
+<div class="codeContainer"><pre><code>
+var ixb = Ixhibition();
+
+//Do either:
+MyPackage(ixb); //Useful for packages only dealing with simple animation options
+//Or
+var mypackage = MyPackage(ixb); //Used for all other types of packages
+</code></pre></div>
+                </li>
+                <li>
+                     It is not advised to modify the Ixhibition object itself, including adding more
+                     functions, changing functions, and deleting functions. Ixhibition has been
+                     developed in an encapsulated and self-contained format, and therefore any
+                     modification to the object may have unintended consequences. The only form of
+                     acceptable interaction is through the provided functions from the object.
+                </li>
+                <li>
+                    It is strongly recommended to provide documentation for the package if the package is
+                    intended to be for public use (should go without saying).
+                </li>
+
+            </ol>
+        </p>
+
+        <span class="spanTitle">Animation-oriented Package Guidelines</span>
+        <p>
+            Packages that only provide additional animation sets should follow these requirements:
+            <ol>
+                <li>
+                    In order to avoid conflict, the keynames for the animations provided by the
+                    package should start with the package name or abbreviation, followed by an
+                    underscore, and finally followed by the preset name,
+                    i.e. <em>{package name}</em>__<em>{preset name}</em>
+                    <br/> An example would be if the package is called <em>MyAnimation</em>, then the
+                    keynames would follow these patterns: myanimation_[preset name] or ma_[preset name]
+                    <br /> e.g. myanimation_1 or ma_1
+<div class="codeContainer"><pre><code>
+ixb.saveOption("ma_1", function(data){
+
+    var settingsX = {
+        "segueType" : "vertical",
+        "phaseInDuration" : 2,
+        "phaseInAnimations" : [
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(1, 1)"}
+        ],
+        "phaseOutDuration" : 2,
+        "phaseOutAnimations" : [
+            {"transform" : "scale(1.05, 1.05)"},
+            {"transform" : "scale(0.7, 0.7)"},
+            {"transform" : "scale(0.7, 0.7)"}
+        ],
+        "phaseOverlap" : 1,
+        "segueDuration" : "overlap",
+    };
+
+    return settingsX;
+
+});
+</code></pre></div>
+                </li>
+                <li>
+                     When using preset options, due to possible additional calculations required within
+                     the preset based of the <span class="codeBlock">data</span> object provided
+                     <a class="codeBlock" href="https://github.com/Johnbastian/Ixhibition#saving">
+                         see Saving
+                     </a>,
+                     it may be  neccessary for the <span class="codeBlock">loadOption(keyname)</span>
+                     function to be executed relatively last; i.e. after setting
+                     <span class="codeBlock">setDisplayDuration(displayDuration)</span>,
+                     <span class="codeBlock">setPhaseIn(pIn_duration, pIn_animation)</span>,
+                     <span class="codeBlock">setPhaseOut(pOut_duration, pOut_animation)</span>, and/or
+                     <span class="codeBlock">setPhaseOverlap(poDuration)</span>. Therefore, if dependant
+                     on any of the values provided by the <span class="codeBlock">data</span> object, then
+                     it will be necessary to explain this within the package documentation or preferably
+                     provide functions from the package object which take into account and deal with
+                     these attributes.
+                </li>
+
+            </ol>
+        </p>
+
+        <span class="spanTitle">Functionality-oriented (and other) Package Guidelines</span>
+        <p>
+            Packages that only provide additional animation sets should follow these requirements:
+            <ol>
+                <li>
+                    It is recommended that the package (object) is encapsulated and self-contained (similar
+                    to Ixhibition), and provides (public) functions in order to perform various tasks. This
+                    is not only to regulate name-space,  but also to retain and maintain control within the
+                    package itself.
+                </li>
+                <li>
+                    The package may be dependent on other APIs and/or Libraries, and therefore this should
+                    be made clear within the package documentation, and possibly resolve the dependancies
+                    itself by appending the required scripts to the DOM upon package instantiation.
+                </li>
+                <li>
+                    Animations should follow the <em>Animation-oriented Package Guidelines</em> and provide
+                    (public) functions regardlessly.
+                </li>
+
+            </ol>
+        </p>
+
+    </div>
+
+</div>

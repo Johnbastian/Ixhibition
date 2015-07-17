@@ -1,4 +1,4 @@
-# Ixhibition
+# Ixhibition (beta)
 *Image Exhibition*
 
 A Javascript generated CSS3 Animation based image gallery, providing control over the transitioning/seguing of slides.
@@ -15,7 +15,7 @@ Ixhibition has been developed with the goal of reducing as much Javascript inter
 #Using Ixhibition
 
 ##Getting Started
-Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have a `height` and `width` set (which are in effect), with other attributes being optional, such as `border` and `background-color`.
+Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have an explicit `height` and `width` set, with other attributes being optional, such as `border` and `background-color`.
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
 
 ####Default ID
@@ -211,10 +211,10 @@ It is possible to save a preset and load it later. To do so, the `saveOption(key
 <br />The object provided (from the parameter) is a data object containing the following attributes:
 ```javascript
 data = {
-    "displayDuration" : 4,  //Provides display_duration value
-    "phaseInDuration" : 2,  //Provides phaseIn_duration value
-    "phaseOutDuration" : 1, //Provides phaseOut_duration value
-    "phaseOverlap" : 0.5    //Provides phaseOverlap_duration value
+    "displayDuration" : 4,  //Provides display duration value
+    "phaseInDuration" : 2,  //Provides phaseIn duration value
+    "phaseOutDuration" : 1, //Provides phaseOut duration value
+    "phaseOverlap" : 0.5    //Provides phaseOverlap duration value
 }
 ```
 
@@ -275,6 +275,23 @@ If a preset has been saved, then the `loadOption(keyname)` function can be used 
 ixb.loadOption("test-option");
 ```
 
+####Defaults
+A set of default animation options are provided:
+
+Option | Description
+---|---
+ixb_1 | Stack (no fade)
+ixb_2 | Vertical simple
+ixb_3 | Vertical-reverse simple
+ixb_4 | Horizontal simple
+ixb_5 | Horizontal-reverse simple
+ixb_6 | Stack with fade
+ixb_7 | Fade, with fade-out drop
+ixb_8 | Slide focus, with slight zoom
+ixb_9 | Squash to focus
+ixb_10 | Fold-in Fold-out 
+
+
 ##Restarting
 By default, if any attribute is changed (except for `setImageList(imgList)`), the animation will simply continue depending on where the animation should be time-wise. If a complete restart of the animation is required, the following can be called:
 ```javascript
@@ -295,23 +312,27 @@ These guidelines apply to all packages:
     ```javascript
     var ixb = Ixhibition();
 
-    MyPackage(ixb);
+    //Do either:
+    MyPackage(ixb); //Useful for packages only dealing with simple animation options
     //Or
-    var mypackage = MyPackage(ixb);
+    var mypackage = MyPackage(ixb); //Used for all other types of packages
     ```
 
-2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.</li>
+2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable interaction is through the provided functions from the object.
 
+3. It is strongly recommended to provide documentation for the package if the package is intended to be
+for public use (should go without saying).
 
-##Animation Package Guidelines
+##Animation-oriented Package Guidelines
 Packages that only provide additional animation sets should follow these requirements:
 
-1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finnally followed by the preset name, i.e. *{package name}* __ *{preset name}*
-<br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
+1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finally followed by the preset name, i.e. *{package name}* __ *{preset name}*
+<br/> An example would be if the package is called *MyAnimation*, then the keynames would follow these patterns: myanimation_[preset name] or ma_[preset name]
+<br /> e.g. myanimation_1 or ma_1
 
     ```javascript
     //Example of saving a preset:
-    ixb.saveOption("max_1", function(data){
+    ixb.saveOption("ma_1", function(data){
 
         var settingsX = {
             "segueType" : "vertical",
@@ -338,7 +359,7 @@ Packages that only provide additional animation sets should follow these require
 
 2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
 
-##Functional Package Guidelines
+##Functionality-oriented (and other) Package Guidelines
 Packages that provide additional functionality with or without animation sets should follow these requirements:
 
 1. It is recommended that the package (object) is encapsulated and self-contained (similar to Ixhibition), and provides (public) functions in order to perform various tasks. This is not only to regulate name-space,  but also to retain and maintain control within the package itself.
