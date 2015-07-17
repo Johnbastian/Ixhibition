@@ -329,6 +329,8 @@ html, body{
 
     text-align: center;
 
+    overflow-y: scroll;
+
 }
 
 #contentContainer > *{
@@ -340,6 +342,8 @@ html, body{
 
     text-align: left;
     color: white;
+
+    vertical-align: top;
 
 }
 
