@@ -13,12 +13,11 @@
 
 }
 
-#loLink{
+.extLink{
 
     display: inline-block;
 
     color: white;
-    text-decoration: none;
 
     background-color: #777;
     border: 0px solid #777;

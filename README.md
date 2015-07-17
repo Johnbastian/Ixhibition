@@ -211,10 +211,10 @@ It is possible to save a preset and load it later. To do so, the `saveOption(key
 <br />The object provided (from the parameter) is a data object containing the following attributes:
 ```javascript
 data = {
-    "displayDuration" : 4,  //Provides display_duration value
-    "phaseInDuration" : 2,  //Provides phaseIn_duration value
-    "phaseOutDuration" : 1, //Provides phaseOut_duration value
-    "phaseOverlap" : 0.5    //Provides phaseOverlap_duration value
+    "displayDuration" : 4,  //Provides display duration value
+    "phaseInDuration" : 2,  //Provides phaseIn duration value
+    "phaseOutDuration" : 1, //Provides phaseOut duration value
+    "phaseOverlap" : 0.5    //Provides phaseOverlap duration value
 }
 ```
 
@@ -295,23 +295,27 @@ These guidelines apply to all packages:
     ```javascript
     var ixb = Ixhibition();
 
-    MyPackage(ixb);
+    //Do either:
+    MyPackage(ixb); //Useful for packages only dealing with simple animation options
     //Or
-    var mypackage = MyPackage(ixb);
+    var mypackage = MyPackage(ixb); //Used for all other types of packages
     ```
 
-2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable modification is through the provided functions from the object.</li>
+2. It is not advised to modify the Ixhibition object itself, including adding more functions, changing functions, and deleting functions. Ixhibition has been developed in an encapsulated and self-contained format, and therefore any modification to the object may have unintended consequences. The only form of acceptable interaction is through the provided functions from the object.
 
+3. It is strongly recommended to provide documentation for the package if the package is intended to be
+for public use (should go without saying).
 
-##Animation Package Guidelines
+##Animation-oriented Package Guidelines
 Packages that only provide additional animation sets should follow these requirements:
 
-1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finnally followed by the preset name, i.e. *{package name}* __ *{preset name}*
-<br/> An example would be if the package is called *MyAnimationX*, then the keynames would be myanimationx_[preset name] or max_[preset name], e.g. myanimationx_1 or max_1
+1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finally followed by the preset name, i.e. *{package name}* __ *{preset name}*
+<br/> An example would be if the package is called *MyAnimation*, then the keynames would follow these patterns: myanimation_[preset name] or ma_[preset name]
+<br /> e.g. myanimation_1 or ma_1
 
     ```javascript
     //Example of saving a preset:
-    ixb.saveOption("max_1", function(data){
+    ixb.saveOption("ma_1", function(data){
 
         var settingsX = {
             "segueType" : "vertical",
@@ -338,7 +342,7 @@ Packages that only provide additional animation sets should follow these require
 
 2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
 
-##Functional Package Guidelines
+##Functionality-oriented (and other) Package Guidelines
 Packages that provide additional functionality with or without animation sets should follow these requirements:
 
 1. It is recommended that the package (object) is encapsulated and self-contained (similar to Ixhibition), and provides (public) functions in order to perform various tasks. This is not only to regulate name-space,  but also to retain and maintain control within the package itself.
