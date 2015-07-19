@@ -64,7 +64,8 @@ var Ixhibition = (function (containerID){
 
 
     //Variables used for generating the code (namely CSS)
-    var delayList = [0],
+    var animationDelays = [0],
+        transitionDelays = [0],
         keyframePositions = [0],
         keyframeValues = "";
 
@@ -80,9 +81,14 @@ var Ixhibition = (function (containerID){
             return false;
         }
 
-        document.getElementsByTagName("head")[0].innerHTML += " <style id='ixb_main_" + containerID + "'></style> \
+        document.getElementById(containerID).innerHTML = "  <div id='ixb_styling_" + containerID + "'></div> \
+                                                            <div id='ixb_content_" + containerID + "'></div>";
+
+        document.getElementById("ixb_styling_" + containerID).innerHTML += " \
+                                                                <style id='ixb_main_" + containerID + "'></style> \
                                                                 <style id='ixb_animation_" + containerID + "'></style> \
-                                                                <style id='ixb_delays_" + containerID + "'></style>";
+                                                                <style id='ixb_delays_" + containerID + "'></style> \
+                                                                ";
 
         document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
@@ -94,7 +100,7 @@ var Ixhibition = (function (containerID){
                 }   \
             ";
 
-        public_setSegueType("stack");
+        correlateSegueType("stack");
 
         populateContainer();
 
@@ -105,7 +111,6 @@ var Ixhibition = (function (containerID){
     })();
     if (!successState) return;  //Return empty instead of functions
 
-
     //Populate the HTML with
     function populateContainer() {
         var imageListHTML = "";
@@ -114,7 +119,7 @@ var Ixhibition = (function (containerID){
             imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
             imageListHTML += "</div>";
         }
-        document.getElementById(containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
+        document.getElementById("ixb_content_" + containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
 
         generateGallery();
 
@@ -148,7 +153,7 @@ var Ixhibition = (function (containerID){
         phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage;
         phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage;
 
-        transition_percentages = null;
+        //This is not animation with phase(In/Out) and duration, this is for wrapper - whole transitioning
         transition_percentages = [0];
         if (segue_duration === "full") {
             transition_percentages[1] = transition_duration * 100 / totalTime;
@@ -167,12 +172,20 @@ var Ixhibition = (function (containerID){
 
     }
 
-    //Generate array of animation delay values
+    //Generate array of animation and transition delay values
     function generateDelayList() {
 
-        delayList = [0];
+        animationDelays = [1.5];    //1.5 used so that all delays are > 0 - helps Safari
         var ulCounter = urlList.length - 1;
-        while (ulCounter--) delayList.push(delayList[delayList.length - 1] + fullPhase_duration - phaseOverlap_duration);
+        while (ulCounter--) animationDelays.push(animationDelays[animationDelays.length - 1] + fullPhase_duration - phaseOverlap_duration);
+
+        transitionDelays = [];
+        if (segue_duration === "overlap") transitionDelays = animationDelays;
+        else {
+            for (var adCounter = 0; adCounter < animationDelays.length; adCounter++) {
+                transitionDelays[adCounter] = animationDelays[adCounter] - (transition_duration - phaseIn_duration);
+            }
+        }
 
     }
 
@@ -218,9 +231,11 @@ var Ixhibition = (function (containerID){
             phaseOut_intervals = (phaseOut_divider ? (phaseOut_percentage / phaseOut_divider) : (phaseOut_percentage) );
 
         keyframePositions = [0];
-        while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
+        if(phaseIn_duration > 0) while (phaseIn_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseIn_intervals);
+        else phaseIn_animations = [phaseIn_animations[phaseIn_divider]];
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
-        while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
+        if (phaseOut_duration > 0) while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
+        else phaseOut_animations = [phaseOut_animations[0]];
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.001 / totalTime)); //This precision is safe for Safari, no lower
         keyframePositions.push(100);
 
@@ -231,7 +246,7 @@ var Ixhibition = (function (containerID){
 
         keyframeValues = "";
         for (var paCounter = 0; paCounter < phase_animations.length; paCounter++)
-            keyframeValues += keyframePositions[paCounter] + "% " + getCSSFormat(phase_animations[paCounter]) + " ";
+            keyframeValues += keyframePositions[paCounter] + "% " + getCSSFormat(phase_animations[paCounter]) + " \n";
 
         console.log("keyframeValues");
         console.log(keyframeValues);
@@ -243,48 +258,48 @@ var Ixhibition = (function (containerID){
 
         var transition_css =
             "   \
-                @keyframes " + containerID + "_xibSlide {    \
-                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \
-                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \
-                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \
-                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
-                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
-                }   \
-                @-webkit-keyframes " + containerID + "_xibSlide {    \
-                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \
-                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \
-                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \
-                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \
-                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \
-                }   \
-                #" + containerID + " .ixb_wrapper{   \
-                    position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \
-                    animation-name: " + containerID + "_xibSlide; -webkit-animation-name: " + containerID + "_xibSlide; \
-                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \
-                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \
+                @keyframes " + containerID + "_ixbTransition {    \n\
+                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \n\
+                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \n\
+                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \n\
+                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \n\
+                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \n\
+                }   \n\
+                @-webkit-keyframes " + containerID + "_ixbTransition {    \n\
+                    " + transition_percentages[0] + "%  {" + segue_data[0] + "} \n\
+                    " + transition_percentages[1] + "%  {" + segue_data[1] + "} \n\
+                    " + transition_percentages[2] + "%  {" + segue_data[1] + "} \n\
+                    " + transition_percentages[3] + "%  {" + segue_data[2] + "} \n\
+                    " + transition_percentages[4] + "%  {" + segue_data[2] + "} \n\
+                }   \n\
+                #" + containerID + " .ixb_wrapper{   \n\
+                    position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; " + segue_data[0] + " \n\
+                    animation-name: " + containerID + "_ixbTransition; -webkit-animation-name: " + containerID + "_ixbTransition; \n\
+                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \n\
+                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \n\
                 }   \
             ";
 
         var animation_css =
             "   \
-                @keyframes " + containerID + "_ixbTransition {   " + keyframeValues + "    }   \
-                @-webkit-keyframes " + containerID + "_ixbTransition {   " + keyframeValues + "    }   \
-                #" + containerID + " .ixb_images{ \
-                    opacity: 0; \
-                    animation-name: " + containerID + "_ixbTransition; -webkit-animation-name: " + containerID + "_ixbTransition; \
-                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \
-                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \
+                @keyframes " + containerID + "_ixbAnimation {\n   " + keyframeValues + "    \n}   \n\
+                @-webkit-keyframes " + containerID + "_ixbAnimation {\n   " + keyframeValues + "    \n}   \n\
+                #" + containerID + " .ixb_images{ \n\
+                    opacity: 0; \n\
+                    animation-name: " + containerID + "_ixbAnimation; -webkit-animation-name: " + containerID + "_ixbAnimation; \n\
+                    animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \n\
+                    animation-iteration-count: " + loopCount + "; -webkit-animation-iteration-count: " + loopCount + "; \n\
                 }   \
             ";
 
-        console.log("delayList: ");
-        console.log(delayList);
+        console.log("animationDelays: ");
+        console.log(animationDelays);
 
         var animation_delays = "",
             transition_delays = "";
-        for (var dlCounter = 0; dlCounter < delayList.length; dlCounter++) {
-            var adVal = delayList[dlCounter],
-                tdVal = (segue_duration === "overlap" ? delayList[dlCounter] : (delayList[dlCounter] - (transition_duration - phaseIn_duration)) );
+        for (var dlCounter = 0; dlCounter < animationDelays.length; dlCounter++) {
+            var adVal = animationDelays[dlCounter],
+                tdVal = transitionDelays[dlCounter];
             animation_delays += "#" + containerID + " #ixb_image" + dlCounter + "{ animation-delay: " + adVal + "s; -webkit-animation-delay: " + adVal + "s; }\n";
             transition_delays += "#" + containerID + " #ixb_wrapper" + dlCounter + "{ animation-delay: " + tdVal + "s; -webkit-animation-delay: " + tdVal + "s; }\n";
         }
@@ -579,7 +594,7 @@ var Ixhibition = (function (containerID){
 
 
 
-    //Validators for checking if the parameters are in the correct format/correct type
+    /*  Validators for checking if the parameters are in the correct format/correct type    */
     function validate_imgList(imgList) {
 
         if (Array.isArray(imgList)) {
@@ -669,9 +684,51 @@ var Ixhibition = (function (containerID){
 
             urlList = imgList;
             populateContainer();
-            generateGallery();
 
         }else throw new Error("The parameter for setImageURLs must be an array of urls (in string format)");
+
+    }
+
+    //Function to map the corresponding segueType to segue_data
+    function correlateSegueType(sType) {
+
+        switch (sType) {
+            case "stack":
+                segue_data = [
+                    "",
+                    "",
+                    ""
+                ];
+                break;
+            case "vertical":
+                segue_data = [
+                    "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);",
+                    "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
+                    "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);"
+                ];
+                break;
+            case "vertical-reverse":
+                segue_data = [
+                    "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);",
+                    "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
+                    "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);"
+                ];
+                break;
+            case "horizontal":
+                segue_data = [
+                    "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);",
+                    "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
+                    "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);"
+                ];
+                break;
+            case "horizontal-reverse":
+                segue_data = [
+                    "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);",
+                    "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
+                    "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);"
+                ];
+                break;
+        }
 
     }
 
@@ -680,44 +737,7 @@ var Ixhibition = (function (containerID){
 
         if(validate_segueType(sType)){
 
-            switch (sType) {
-                case "stack":
-                    segue_data = [
-                        "",
-                        "",
-                        ""
-                    ];
-                    break;
-                case "vertical":
-                    segue_data = [
-                        "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);",
-                        "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
-                        "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);"
-                    ];
-                    break;
-                case "vertical-reverse":
-                    segue_data = [
-                        "transform: translate(0px, -100%); -webkit-transform: translate(0px, -100%);",
-                        "transform: translate(0px, 0%); -webkit-transform: translate(0px, 0%);",
-                        "transform: translate(0px, 100%); -webkit-transform: translate(0px, 100%);"
-                    ];
-                    break;
-                case "horizontal":
-                    segue_data = [
-                        "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);",
-                        "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
-                        "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);"
-                    ];
-                    break;
-                case "horizontal-reverse":
-                    segue_data = [
-                        "transform: translate(-100%, 0px); -webkit-transform: translate(-100%, 0px);",
-                        "transform: translate(0%, 0px); -webkit-transform: translate(0%, 0px);",
-                        "transform: translate(100%, 0px); -webkit-transform: translate(100%, 0px);"
-                    ];
-                    break;
-            }
-
+            correlateSegueType(sType);
             generateGallery();
 
         }else throw new Error(" The parameter for setSegueType accepts only the following values:  \
@@ -829,18 +849,15 @@ var Ixhibition = (function (containerID){
 
     }
 
-
     //Public function for storing options associated with a name, if the values are acceptable
     function public_saveOption(optName, callback) {
 
-        var data = {
+        var optionSettings = callback({
             "displayDuration" : display_duration,
             "phaseInDuration" : phaseIn_duration,
             "phaseOutDuration" : phaseOut_duration,
             "phaseOverlap" : phaseOverlap_duration
-        };
-
-        var optionSettings = callback(data);
+        });
 
         for (var attribute in optionSettings) {
 
@@ -899,31 +916,30 @@ var Ixhibition = (function (containerID){
             return;
         }
 
-        var data = {
+        var optionSettings = savedOptions[optName]({
             "displayDuration" : display_duration,
             "phaseInDuration" : phaseIn_duration,
             "phaseOutDuration" : phaseOut_duration,
             "phaseOverlap" : phaseOverlap_duration
-        };
-        var optionSettings = savedOptions[optName](data);
+        });
 
+        if (optionSettings.hasOwnProperty("phaseInDuration")) phaseIn_duration = optionSettings["phaseInDuration"];
+        if (optionSettings.hasOwnProperty("phaseInAnimations")) phaseIn_animations = ( optionSettings["phaseInAnimations"].length ? optionSettings["phaseInAnimations"].length : [{}, {}] );
+        if (optionSettings.hasOwnProperty("phaseOutDuration")) phaseOut_duration = optionSettings["phaseOutDuration"];
+        if (optionSettings.hasOwnProperty("phaseOutAnimations")) phaseOut_animations = ( optionSettings["phaseOutAnimations"].length ? optionSettings["phaseOutAnimations"].length : [{}, {}] );
 
-        if (optionSettings.hasOwnProperty("segueType")) public_setSegueType(optionSettings["segueType"]);
+        if (optionSettings.hasOwnProperty("phaseOverlap")) {
+            phaseOverlap_duration = optionSettings["phaseOverlap"];
+            segue_duration = ( phaseOverlap_duration ? segue_duration : "full" );
+        }
+        if (optionSettings.hasOwnProperty("segueDuration")) segue_duration = ( phaseOverlap_duration ? optionSettings["segueDuration"] : "full" );
 
-        var pIn = (optionSettings.hasOwnProperty("phaseInDuration") ? optionSettings["phaseInDuration"] : phaseIn_duration ),
-            pAIn = (optionSettings.hasOwnProperty("phaseInAnimations") ? optionSettings["phaseInAnimations"] : phaseIn_animations ),
-            pOut = (optionSettings.hasOwnProperty("phaseOutDuration") ? optionSettings["phaseOutDuration"] : phaseOut_duration ),
-            pAOut = (optionSettings.hasOwnProperty("phaseOutAnimations") ? optionSettings["phaseOutAnimations"] : phaseOut_animations );
-        public_setPhaseIn(pIn, pAIn);
-        public_setPhaseOut(pOut, pAOut);
+        if (optionSettings.hasOwnProperty("fadeIn")) fadeIn = optionSettings["fadeIn"];
+        if (optionSettings.hasOwnProperty("fadeOut")) fadeOut = optionSettings["fadeOut"];
 
-        if (optionSettings.hasOwnProperty("phaseOverlap")) public_setPhaseOverlap(optionSettings["phaseOverlap"]);
+        if (optionSettings.hasOwnProperty("segueType")) correlateSegueType(optionSettings["segueType"]);
 
-        if (optionSettings.hasOwnProperty("segueDuration")) public_setSegueDuration(optionSettings["segueDuration"]);
-
-        var fIn = ( optionSettings.hasOwnProperty("fadeIn") ? optionSettings["fadeIn"] : fadeIn ),
-            fOut = ( optionSettings.hasOwnProperty("fadeOut") ? optionSettings["fadeOut"] : fadeOut );
-        public_setFade(fIn, fOut);
+        generateGallery();
 
     }
 
@@ -934,7 +950,7 @@ var Ixhibition = (function (containerID){
         var containerHTML = document.getElementById(containerID).innerHTML;
         document.getElementById(containerID).innerHTML = "";
 
-        setTimeout(function(){  document.getElementById(containerID).innerHTML = containerHTML;  }, 1);
+        setTimeout(function(){  document.getElementById("ixb_content_" + containerID).innerHTML = containerHTML;  }, 1);
 
     }
 
