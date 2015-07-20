@@ -577,8 +577,15 @@ var Ixhibition = (function (containerID){
 
         setImageList : public_setImageURLs,
         setSegueType : public_setSegueType,
+
         setPhaseIn : public_setPhaseIn,
+        setPhaseInDuration : public_setPhaseInDuration,
+        setPhaseInAnimations : public_setPhaseInAnimations,
+
         setPhaseOut : public_setPhaseOut,
+        setPhaseOutDuration : public_setPhaseOutDuration,
+        setPhaseOutAnimations : public_setPhaseOutAnimations,
+
         setDisplayDuration : public_setDisplayDuration,
         setPhaseOverlap : public_setPhaseOverlap,
         setSegueDuration : public_setSegueDuration,
@@ -764,6 +771,23 @@ var Ixhibition = (function (containerID){
 
     }
 
+    //Public function for setting the phaseIn duration
+    function public_setPhaseInDuration(pIn) {
+
+        if(validate_phaseValDuration(pIn)) public_setPhaseIn(pIn, phaseIn_animations);
+        else throw new Error("The parameter of setPhaseInDuartion must be a positive integer.");
+
+    }
+
+    //Public function for setting the phaseIn animation set as an array of keyframes
+    function public_setPhaseInAnimations(pAnimations) {
+
+        if(validate_phaseAnimations(pAnimations)) public_setPhaseIn(phaseIn_duration, pAnimations);
+        else throw new Error("    The parameter of setPhaseInAnimations must be an array of objects containing CSS key-pair values. \
+                                    Additionally, the array must have a length of either 0, or 2 and higher. ");
+
+    }
+
     //Public function for setting the phaseOut duration and animation set as an array of keyframes
     function public_setPhaseOut(pOut, pAnimations) {
 
@@ -779,6 +803,23 @@ var Ixhibition = (function (containerID){
         } else throw new Error("    The first parameter of setPhaseOut must be a positive integer. \
                                     The second parameter of setPhaseOut must be an array of objects containing CSS key-pair values. \
                                     Additionally, the array must have a length of either 0, or 2 and higher. ");
+
+    }
+
+    //Public function for setting the phaseOut duration
+    function public_setPhaseOutDuration(pOut) {
+
+        if(validate_phaseValDuration(pOut)) public_setPhaseOut(pOut, phaseOut_animations);
+        else throw new Error("The parameter of setPhaseOutDuration must be a positive integer.");
+
+    }
+
+    //Public function for setting the phaseOut animation set as an array of keyframes
+    function public_setPhaseOutAnimations(pAnimations) {
+
+        if(validate_phaseAnimations(pAnimations)) public_setPhaseOut(phaseOut_duration, pAnimations);
+        else throw new Error("    The parameter of setPhaseOutAnimations must be an array of objects containing CSS key-pair values. \
+                                  Additionally, the array must have a length of either 0, or 2 and higher. ");
 
     }
 
