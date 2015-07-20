@@ -1,0 +1,105 @@
+#defaultsWrapper{
+
+    display: inline-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    display: -webkit-inline-flex;
+    -webkit-flex-flow: column nowrap;
+    -webkit-justify-content: flex-start;
+    -webkit-align-items: center;
+
+    padding: 20px 100px;
+
+}
+
+.extLink{
+
+    display: inline-block;
+
+    color: white;
+
+    background-color: #777;
+    border: 0px solid #777;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-radius: 4px;
+
+}
+
+.rowSection{
+
+    flex: 1 0 auto;
+    -webkit-flex: 1 0 auto;
+
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    display: -webkit-inline-flex;
+    -webkit-flex-flow: row nowrap;
+    -webkit-justify-content: center;
+    -webkit-align-items: flex-start;
+
+    width: 100%;
+
+}
+
+.colSection{
+
+    flex: 1 0 auto;
+    -webkit-flex: 1 0 auto;
+
+    display: inline-flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    display: -webkit-inline-flex;
+    -webkit-flex-flow: column nowrap;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+
+    width: 50%;
+
+}
+
+.ixbDemo{
+
+    height: 197px;
+    width: 350px;
+
+    border: 1px solid white;
+
+}
+
+.ixbDemoName{
+    margin-top: 10px;
+}
+
+.ixbDemoDesc {
+    margin-bottom: 5px;
+}
+
+.codeContainer{
+
+    position: relative;
+    margin: 0px 10px 50px 10px;
+    height: 300px;
+    width: calc(100% - 22px);
+
+    border: 1px solid white;
+
+    overflow: scroll;
+
+}
+
+pre{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    padding: 0px 15px;
+    top: 0px;
+    left: 0px;
+
+}
