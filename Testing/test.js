@@ -5,26 +5,6 @@ var imgList = [
     , "images/Fuji.jpg"
     , "images/SeaMist.jpg"
     , "images/Bahamas.jpg"
-    , "images/EarthMoon.jpg"
-    , "images/Fuji.jpg"
-    , "images/SeaMist.jpg"
-    , "images/Bahamas.jpg"
-    , "images/EarthMoon.jpg"
-    , "images/Fuji.jpg"
-    , "images/SeaMist.jpg"
-    , "images/Bahamas.jpg"
-    , "images/EarthMoon.jpg"
-    , "images/Fuji.jpg"
-    , "images/SeaMist.jpg"
-    , "images/Bahamas.jpg"
-    , "images/EarthMoon.jpg"
-    , "images/Fuji.jpg"
-    , "images/SeaMist.jpg"
-    , "images/Bahamas.jpg"
-    , "images/EarthMoon.jpg"
-    , "images/Fuji.jpg"
-    , "images/SeaMist.jpg"
-    , "images/Bahamas.jpg"
 ];
 console.log("********************************");
 ixb.setImageList(imgList);
@@ -81,4 +61,4 @@ ixb.saveOption("testA", function(data){
 
 });
 
-ixb.loadOption("ixb_1");
+ixb.loadOption("ixb_10");
