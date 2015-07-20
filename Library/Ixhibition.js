@@ -111,6 +111,8 @@ var Ixhibition = (function (containerID){
     })();
     if (!successState) return;  //Return empty instead of functions
 
+
+
     //Populate the HTML with and batch load Images
     function populateContainer() {
 
@@ -152,8 +154,7 @@ var Ixhibition = (function (containerID){
 
     }
 
-
-
+    
     //Calculate, generate, and apply gallery to HTML document
     function generateGallery() {
 
