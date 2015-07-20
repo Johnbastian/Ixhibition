@@ -142,7 +142,7 @@ ixb.setPhaseIn(phaseIn_duration, phaseIn_animation);
 ixb.setPhaseOut(phaseOut_duration, phaseOut_animation);
 ```
 
-####Static vs Dynamic Display
+###Static vs Dynamic Display
 **Static:** This is the most common option. In order to achieve a static display, the last (keyframe) object in the phaseIn animation and the first object in the phaseOut animation must match.
 
 ```javascript
