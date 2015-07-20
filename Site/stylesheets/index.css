@@ -10,6 +10,7 @@
 }
 
 html, body{
+
     margin: 0px;
     padding: 0px;
 
@@ -61,11 +62,9 @@ html, body{
     display: inline-flex;
     flex-flow: row nowrap;
     justify-content: center;
-    align-items: center;
     display: -webkit-inline-flex;
     -webkit-flex-flow: row nowrap;
     -webkit-justify-content: center;
-    -webkit-align-items: center;
 
     height: 100%;
     width: 100%;
