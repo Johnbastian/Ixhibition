@@ -29,9 +29,9 @@ var imgList = [
 console.log("********************************");
 ixb.setImageList(imgList);
 console.log("********************************");
-ixb.setPhaseOverlap(1);
+//ixb.setPhaseOverlap(1);
 console.log("********************************");
-ixb.setSegueType("vertical");
+//ixb.setSegueType("vertical");
 //ixb.setSegueDuration("overlap");
 /*
 ixb.setDisplayDuration(4);
@@ -81,4 +81,4 @@ ixb.saveOption("testA", function(data){
 
 });
 
-ixb.loadOption("ixb_4");
+ixb.loadOption("ixb_1");
