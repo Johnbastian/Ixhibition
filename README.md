@@ -309,17 +309,17 @@ By default, if any attribute is changed (except for `setImageList(imgList)`), th
 ixb.restart();
 ```
 
-#Performance, Optimisation and Drawbacks
+#Performance, Optimisation and Odd Behaviour
 ##Performance and Optimisation
 1. For a set of medium sized images, it is recommended to keep the image count well below 200 for a single instance of Ixhibition.
 2. To reduce painting overhead and any other CSS rendering, it is recommended that custom animations try to utilise the CSS `transform` attribute as opposed to others like `height`, `width`, `top`, `margin-right`, etc...
 <br /> For some insight on this, a [Performance Test](http://www.paulirish.com/2012/why-moving-elements-with-translate-is-better-than-posabs-topleft) was done by Paul Irish.
-3. It is best to keep in mind that the CSS3 Animation is heavily dependant on percentage precision, e.g. 10.1234% vs 10.1235%, and similar. Therefore, anything that can reduce the level precision required would increase the animation performance. Refinement of this nature include:
+3. It is best to keep in mind that the CSS3 Animation is heavily dependant on percentage precision, e.g. 10.1234% vs 10.1235%, and similar. Therefore, anything that can reduce the level of precision required would stabilise the animation performance. Refinement of this nature include:
   - Reducing display, phaseIn, and phaseOut durations
   - Reducing the number of keyframe steps/objects in the animation (array) for phaseIn and phaseOut
 
-##Drawbacks
-There may be instances where the animation doesn't execute uniformly browsers (even if all the relevant prefixes are added). The issue here may be a case of percentage precision. As the Gallery is powered by CSS3 Animations, keyframes are used, and as keyframes support only 0% - 100%, decimal percentages (e.g. 1.2345678%) are used to add the animation for a particular keyframe. Therefore, some browsers may have difficulty in computing that level of precision, and therefore to lower the precision needed, the following are recommended:
+##Odd Behaviour
+There may be instances where the animation doesn't execute uniformly browsers (even if all the relevant prefixes are added). The issue here may be a case of percentage precision. As the Gallery is powered by CSS3 Animations, keyframes are used, and as keyframes support only 0% - 100%, decimal percentages (e.g. 1.2345678%) are used to add the animation for a particular keyframe. Therefore, some browsers may have difficulty in computing that level of precision, and therefore to decrease the level of precision needed, the following are recommended:
 1. Reduce the number of images. If many images are need to be displayed, multiple instances of Ixhibition could be used instead of one instance running all the images.
 2. Reduce the number of phaseIn and phaseOut animation keyframes required (done by reducing the number of objects in the phase animation arrays).
 
