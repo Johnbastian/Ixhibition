@@ -237,6 +237,9 @@ var Ixhibition = (function (containerID){
             phaseOut_animations[phaseOut_aCount - 1]["opacity"] = "1";
         }
 
+         phaseOut_animations[phaseOut_aCount - 1]["animation-timing-function"] = "steps(1, start)";
+         phaseOut_animations[phaseOut_aCount - 1]["-webkit-animation-timing-function"] = "steps(1, start)";
+
     }
 
     //Generate and return CSS for a list of key-value pairs
@@ -265,13 +268,12 @@ var Ixhibition = (function (containerID){
         keyframePositions.push(keyframePositions[keyframePositions.length - 1] + display_percentage);
         if (phaseOut_duration > 0) while (phaseOut_divider--) keyframePositions.push(keyframePositions[keyframePositions.length - 1] + phaseOut_intervals);
         else phaseOut_animations = [phaseOut_animations[0]];
-        keyframePositions.push(keyframePositions[keyframePositions.length - 1] + (0.001 / totalTime)); //This precision is safe for Safari, no lower
         keyframePositions.push(100);
 
         console.log("keyframePositions is: ");
         console.log(keyframePositions);
 
-        var phase_animations = phaseIn_animations.concat(phaseOut_animations).concat([{"opacity" : "0"}, {}]);
+        var phase_animations = phaseIn_animations.concat(phaseOut_animations).concat([{"opacity" : "0"}]);
 
         keyframeValues = "";
         for (var paCounter = 0; paCounter < phase_animations.length; paCounter++)
