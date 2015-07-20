@@ -154,7 +154,7 @@ var Ixhibition = (function (containerID){
 
     }
 
-    
+
     //Calculate, generate, and apply gallery to HTML document
     function generateGallery() {
 
@@ -1017,8 +1017,8 @@ var Ixhibition = (function (containerID){
     //Public function to restart animation
     function public_restart() {
 
-        var containerHTML = document.getElementById(containerID).innerHTML;
-        document.getElementById(containerID).innerHTML = "";
+        var containerHTML = document.getElementById("ixb_content_" + containerID).innerHTML;
+        document.getElementById("ixb_content_" + containerID).innerHTML = "";
 
         setTimeout(function(){  document.getElementById("ixb_content_" + containerID).innerHTML = containerHTML;  }, 1);
 
