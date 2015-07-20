@@ -111,19 +111,47 @@ var Ixhibition = (function (containerID){
     })();
     if (!successState) return;  //Return empty instead of functions
 
-    //Populate the HTML with
+    //Populate the HTML with and batch load Images
     function populateContainer() {
+
+        //Generate HTML without background-images and inject into DOM
         var imageListHTML = "";
         for (var ulCounter = 0; ulCounter < urlList.length; ulCounter++) {
             imageListHTML += "<div id='ixb_wrapper" + ulCounter + "' class='ixb_wrapper'>";
-            imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-image: url(" + urlList[ulCounter] + ");'></div>";
+            imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-color: rgba(0, 0, 0, 0);'></div>";
             imageListHTML += "</div>";
         }
         document.getElementById("ixb_content_" + containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
 
         generateGallery();
 
+        //Get nodes and prepare for batch loading - every 1 second, with intiial done immediately
+        var imageNodes = document.getElementById("ixb_content_" + containerID).getElementsByClassName("ixb_images"),
+            inCounter = 0;
+
+        imageList = JSON.parse(JSON.stringify(urlList));
+
+        var batchLoadImage = function () {
+
+            var deciCounter = 10;
+            while (deciCounter-- && imageList.length) {
+
+                var imageNode = imageNodes[inCounter];
+                inCounter++;
+
+                imageNode.style.backgroundColor = "transparent";
+                imageNode.style.backgroundImage = "url(" + imageList.shift() + ")";
+
+            }
+
+            if (imageList.length) setTimeout(function() { batchLoadImage();   }, 1000);
+
+        }
+
+        batchLoadImage();
+
     }
+
 
 
     //Calculate, generate, and apply gallery to HTML document
@@ -965,9 +993,9 @@ var Ixhibition = (function (containerID){
         });
 
         if (optionSettings.hasOwnProperty("phaseInDuration")) phaseIn_duration = optionSettings["phaseInDuration"];
-        if (optionSettings.hasOwnProperty("phaseInAnimations")) phaseIn_animations = ( optionSettings["phaseInAnimations"].length ? optionSettings["phaseInAnimations"].length : [{}, {}] );
+        if (optionSettings.hasOwnProperty("phaseInAnimations")) phaseIn_animations = ( optionSettings["phaseInAnimations"].length ? optionSettings["phaseInAnimations"] : [{}, {}] );
         if (optionSettings.hasOwnProperty("phaseOutDuration")) phaseOut_duration = optionSettings["phaseOutDuration"];
-        if (optionSettings.hasOwnProperty("phaseOutAnimations")) phaseOut_animations = ( optionSettings["phaseOutAnimations"].length ? optionSettings["phaseOutAnimations"].length : [{}, {}] );
+        if (optionSettings.hasOwnProperty("phaseOutAnimations")) phaseOut_animations = ( optionSettings["phaseOutAnimations"].length ? optionSettings["phaseOutAnimations"] : [{}, {}] );
 
         if (optionSettings.hasOwnProperty("phaseOverlap")) {
             phaseOverlap_duration = optionSettings["phaseOverlap"];
