@@ -86,14 +86,19 @@ ixb.setDisplayDuration(4);
 <img src="Diagrams/Display.jpeg"/>
 
 ##Setting Phases
-Phase values (phaseIn and phaseOut) indicate the duration values (in seconds) for transitioning in and out for a slide respectively. Only positive numbers are accepted for these values.
+###Setting Phase Duration
+Phase values (phaseIn and phaseOut) indicate the phasing duration values (in seconds) for transitioning in and out for a slide respectively. Only positive numbers are accepted as parameter values respectively.
 ```javascript
 var phaseIn_duration = 2,
     phaseOut_duration = 2;
+
+ixb.setPhaseInDuration(phaseIn_duration);   //PhaseIn
+ixb.setPhaseOutDuration(phaseOut_duration); //PhaseOut
 ```
 <img src="Diagrams/Phases.jpeg"/>
 
-Phase animations indicate what animation should be performed during the phaseIn and phaseOut durations. These are defined by passing in an array of objects. The objects must contain key-value pairs where the key is the must be a CSS3 attribute and the value should be the associated CSS3 value. Each object in the array is treated as a key frame, and the number of objects indicate the number of key frames, divided at regular intervals: therefore the array must either be 0 or 2 and greater, (an array of length 1 will throw an error).
+###Setting Phase Animations
+Phase animations indicate what animation should be performed during the phaseIn and phaseOut durations. These are defined by passing in an array of objects. The objects must contain key-value pairs where the key is the must be a CSS3 attribute and the value should be the associated CSS3 value. Each object in the array is treated as a key frame, and the number of objects indicate the number of key frames, divided at regular intervals: therefore the array must either be 0 or 2 and greater to be accepted as the passed in parameter respectively, (an array of length 1 will throw an error).
 
 ```javascript
 var phaseIn_animation = [
@@ -106,6 +111,9 @@ var phaseIn_animation = [
         {"transform" : "scale(0.7, 0.7)"},  //Keyframe @ 50% of phaseOut
         {"transform" : "scale(0.7, 0.7)"}   //Keyframe @ 100% of phaseOut
     ];
+
+ixb.setPhaseInAnimations(phaseIn_animation);
+ixb.setPhaseOutAnimations(phaseOut_animation);
 
 //Example 2
 var phaseIn_animationB = [
@@ -126,7 +134,8 @@ var phaseIn_animationB = [
 ```
 **Note:** it may be necessary to include prefixed version of the CSS attributes, such as `-webkit-`.
 
-Both `setPhaseIn(pIn_duration, pIn_animation)` and `setPhaseOut(pOut_duration, pOut_animation)` functions require 2 parameters, where the first value is the duration (as a positive integer), and the second parameter requires the associated phase animations (as an array of objects), like so:
+###Setting Duration and Animation
+To speed things up, the respective duration and animations can be set together using  `setPhaseIn(pIn_duration, pIn_animation)` and `setPhaseOut(pOut_duration, pOut_animation)` functions. They require 2 parameters, where the first value is the [Duration](#setting-phase-duration), and the second parameter requires the associated [Phase Animations](#setting-phase-animations), like so:
 
 ```javascript
 ixb.setPhaseIn(phaseIn_duration, phaseIn_animation);
