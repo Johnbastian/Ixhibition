@@ -24,7 +24,7 @@ var imgList = [
     "../Site/images/imgB.jpg",
     "../Site/images/imgC.jpg",
     "../Site/images/imgD.jpg",
-    "../Site/images/imgE.jpg",
+/*    "../Site/images/imgE.jpg",
     "../Site/images/imgA.jpg",
     "../Site/images/imgB.jpg",
     "../Site/images/imgC.jpg",
@@ -98,7 +98,7 @@ var imgList = [
     "../Site/images/imgA.jpg",
     "../Site/images/imgB.jpg",
     "../Site/images/imgC.jpg",
-    "../Site/images/imgD.jpg",
+    "../Site/images/imgD.jpg", */
     "../Site/images/imgE.jpg"
 ];
 ixb.setImageList(imgList);

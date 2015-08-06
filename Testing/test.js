@@ -5,12 +5,24 @@ var imgList = [
     , "images/Fuji.jpg"
     , "images/SeaMist.jpg"
     , "images/Bahamas.jpg"
+    , "images/EarthMoon.jpg"
+    , "images/Fuji.jpg"
+    , "images/SeaMist.jpg"
+    , "images/Bahamas.jpg"
+    , "images/EarthMoon.jpg"
+    , "images/Fuji.jpg"
+    , "images/SeaMist.jpg"
+    , "images/Bahamas.jpg"
+    , "images/EarthMoon.jpg"
+    , "images/Fuji.jpg"
+    , "images/SeaMist.jpg"
+    , "images/Bahamas.jpg"
 ];
 console.log("********************************");
 ixb.setImageList(imgList);
 console.log("********************************");
 //ixb.setPhaseOverlap(1);
-console.log("********************************");
+//console.log("********************************");
 //ixb.setSegueType("vertical");
 //ixb.setSegueDuration("overlap");
 /*
@@ -31,8 +43,8 @@ ixb.setLoopCount(3);
 ixb.setSegueDuration("overlap");
 ixb.setFade(false, false);
 */
-console.log("********************************");
-
+//console.log("********************************");
+/*
 ixb.saveOption("testA", function(data){
 
     var pIn = ( data.phaseInDuration >= 2 ? data.phaseInDuration : 2 ),
@@ -62,3 +74,4 @@ ixb.saveOption("testA", function(data){
 });
 
 ixb.loadOption("ixb_10");
+*/

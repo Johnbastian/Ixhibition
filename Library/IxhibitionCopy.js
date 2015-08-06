@@ -51,18 +51,9 @@ var Ixhibition = (function (containerID){
     var fullPhase_duration = null,
         transition_duration = null,
         phaseIn_aCount = phaseIn_animations.length,
-        phaseOut_aCount = phaseOut_animations.length,
-        overlapped_duration = null;
+        phaseOut_aCount = phaseOut_animations.length;
 
     var totalTime = null;
-
-    var batch_size = 10,
-        batch_remainder = 0,
-        batch_count = 1,
-        batch_duration = null,
-        batch_percentage = null,
-        batch_endDuration = null,
-        batch_endPercentage = null;
 
     var fullPhase_percentage = null;
 
@@ -73,8 +64,7 @@ var Ixhibition = (function (containerID){
 
 
     //Variables used for generating the code (namely CSS)
-    var batchDelays = [0],
-        animationDelays = [0],
+    var animationDelays = [0],
         transitionDelays = [0],
         keyframePositions = [0],
         keyframeValues = "";
@@ -96,7 +86,6 @@ var Ixhibition = (function (containerID){
 
         document.getElementById("ixb_styling_" + containerID).innerHTML += " \
                                                                 <style id='ixb_main_" + containerID + "'></style> \
-                                                                <style id='ixb_background_" + containerID + "'></style> \
                                                                 <style id='ixb_animation_" + containerID + "'></style> \
                                                                 <style id='ixb_delays_" + containerID + "'></style> \
                                                                 ";
@@ -104,10 +93,7 @@ var Ixhibition = (function (containerID){
         document.getElementById("ixb_main_" + containerID).innerHTML =
             "   \
                 #" + containerID + " {  position: relative; overflow: hidden !important; padding: 0px !important;   }    \
-                #ixb_content_" + containerID + " {  height: 100%; width: 100%;  } \
                 #" + containerID + " #ixb_listcontainer { height: 100%; width: 100%;    } \
-                #" + containerID + " .ixb_batch { height: 100%; width: 100%;    } \
-                #" + containerID + " .ixb_wrapper { height: 100%; width: 100%;    } \
                 #" + containerID + " .ixb_images {       \
                     height: 100%; width: 100%;  \
                     background-size: contain; background-repeat: no-repeat; background-position: center center; \
@@ -130,56 +116,33 @@ var Ixhibition = (function (containerID){
     //Populate the HTML with and batch load Images
     function populateContainer() {
 
-        batch_remainder = urlList.length % batch_size;
-        batch_count = ( (urlList.length - batch_remainder) / batch_size ) + ( batch_remainder ? 1 : 0 );
-        var batch_tempSize = batch_size;
-        if (batch_count == 1) batch_tempSize = batch_remainder;
-
+        //Generate HTML without background-images and inject into DOM
         var imageListHTML = "";
-        for (var bcCounter = 0; bcCounter < batch_count; bcCounter++) {
-
-            imageListHTML += "<div id='ixb_batch" + bcCounter + "' class='ixb_batch'>";
-
-            var startVal = bcCounter * batch_tempSize,
-                endVal =  ((bcCounter + 1) * batch_tempSize) + ( batch_count == 1 ? 0 : 1 ),
-                animationCounter = 0;
-            if (bcCounter == (batch_count - 1) && batch_remainder) endVal = startVal + batch_remainder;
-            for (var valCounter = startVal; valCounter < endVal; valCounter++) {
-                var imgVal = valCounter;
-                if (bcCounter == (batch_count - 1) && valCounter == (endVal - 1)) imgVal = 0;
-                imageListHTML += "<div id='ixb_wrapper" + imgVal + "' class='ixb_wrapper'>";
-                imageListHTML += "<div class='ixb_image" + imgVal + " ixb_images ixb_animation" + animationCounter + "'></div>";
-                imageListHTML += "</div>";
-                animationCounter++;
-            }
-
+        for (var ulCounter = 0; ulCounter < urlList.length; ulCounter++) {
+            imageListHTML += "<div id='ixb_wrapper" + ulCounter + "' class='ixb_wrapper'>";
+            imageListHTML += "<div id='ixb_image" + ulCounter + "' class='ixb_images' style='background-color: rgba(0, 0, 0, 0);'></div>";
             imageListHTML += "</div>";
-
         }
         document.getElementById("ixb_content_" + containerID).innerHTML = "<div id='ixb_listcontainer'>" + imageListHTML + "</div>";
-        console.log(imageListHTML);
-
-
 
         generateGallery();
 
-
         //Get nodes and prepare for batch loading - every 1 second, with intiial done immediately
-        var bgStyleNode = document.getElementById("ixb_background_" + containerID),
-            imageList = JSON.parse(JSON.stringify(urlList)),
-            iCounter = 0;
+        var imageNodes = document.getElementById("ixb_content_" + containerID).getElementsByClassName("ixb_images"),
+            inCounter = 0;
+
+        imageList = JSON.parse(JSON.stringify(urlList));
 
         var batchLoadImage = function () {
 
             var deciCounter = 10;
             while (deciCounter-- && imageList.length) {
 
-                var imgStyle = "#" + containerID + " .ixb_image" + iCounter;
-                iCounter++;
+                var imageNode = imageNodes[inCounter];
+                inCounter++;
 
-                imgStyle += "{ background-image: url(" + imageList.shift() + "); }\n";
-
-                bgStyleNode.innerHTML += imgStyle;
+                imageNode.style.backgroundColor = "transparent";
+                imageNode.style.backgroundImage = "url(" + imageList.shift() + ")";
 
             }
 
@@ -187,7 +150,6 @@ var Ixhibition = (function (containerID){
 
         }
 
-        bgStyleNode.innerHTML = "";
         batchLoadImage();
 
     }
@@ -197,10 +159,10 @@ var Ixhibition = (function (containerID){
     function generateGallery() {
 
         calculateCoreValues();
-        //generateDelayList();
-        //processPhaseAnimations();
-        //processKeyFrames();
-        //processAndApplyAnimation();
+        generateDelayList();
+        processPhaseAnimations();
+        processKeyFrames();
+        processAndApplyAnimation();
 
     }
 
@@ -211,50 +173,24 @@ var Ixhibition = (function (containerID){
         transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
         phaseIn_aCount = phaseIn_animations.length;
         phaseOut_aCount = phaseOut_animations.length;
-        overlapped_duration = fullPhase_duration - phaseOverlap_duration;
 
-        //TODO: rest of the calculations
+        totalTime = urlList.length * (fullPhase_duration - phaseOverlap_duration);
 
-
-
-        /*
-        fullPhase_duration = display_duration + phaseIn_duration + phaseOut_duration;
-        transition_duration = phaseOut_duration + phaseIn_duration - phaseOverlap_duration;
-        phaseIn_aCount = phaseIn_animations.length;
-        phaseOut_aCount = phaseOut_animations.length;
-        overlapped_duration = fullPhase_duration - phaseOverlap_duration;
-
-
-        totalTime = urlList.length * overlapped_duration;
-
-
-        batch_duration = (batch_size + 0.5) * overlapped_duration;
-        batch_percentage = batch_duration * 100 / totalTime;
-        batch_endDuration = (( batch_remainder ? batch_remainder : batch_size ) + 0.5) * overlapped_duration;
-        batch_endPercentage = batch_endDuration * 100 / totalTime;
-        console.log("batch_duration: " + batch_duration);
-        console.log("batch_percentage: " + batch_percentage);
-        console.log("batch_endDuration: " + batch_endDuration);
-        console.log("batch_endPercentage: " + batch_endPercentage);
-
-
-        fullPhase_percentage = fullPhase_duration * 100 / batch_duration;
-
+        fullPhase_percentage = fullPhase_duration * 100 / totalTime ;
 
         display_percentage = (display_duration / fullPhase_duration) * fullPhase_percentage;
         phaseIn_percentage = (phaseIn_duration / fullPhase_duration) * fullPhase_percentage;
         phaseOut_percentage = (phaseOut_duration / fullPhase_duration) * fullPhase_percentage;
 
-
         //This is not animation with phase(In/Out) and duration, this is for wrapper - whole transitioning
         transition_percentages = [0];
         if (segue_duration === "full") {
-            transition_percentages[1] = transition_duration * 100 / batch_duration;
+            transition_percentages[1] = transition_duration * 100 / totalTime;
             transition_percentages[2] = transition_percentages[1] + display_percentage;
             transition_percentages[3] = transition_percentages[2] + transition_percentages[1];
             transition_percentages[4] = 100;
         }else if (segue_duration === "overlap") {
-            transition_percentages[1] = phaseOverlap_duration * 100 / batch_duration;
+            transition_percentages[1] = phaseOverlap_duration * 100 / totalTime;
             transition_percentages[2] = fullPhase_percentage - transition_percentages[1];
             transition_percentages[3] = fullPhase_percentage;
             transition_percentages[4] = 100;
@@ -262,24 +198,15 @@ var Ixhibition = (function (containerID){
 
         console.log("transition_percentages:");
         console.log(transition_percentages);
-        */
 
     }
 
     //Generate array of animation and transition delay values
     function generateDelayList() {
 
-        batchDelays = [1.5];
-        var bcCounter = batch_count - 1;
-        while (bcCounter--) batchDelays.push(batchDelays[batchDelays.length - 1] + batch_duration);
-        console.log("batchDelays");
-        console.log(batchDelays);
-
         animationDelays = [1.5];    //1.5 used so that all delays are > 0 - helps Safari
-        var bsCounter = batch_size;
-        while (bsCounter--) animationDelays.push(animationDelays[animationDelays.length - 1] + overlapped_duration);
-        console.log("animationDelays");
-        console.log(animationDelays);
+        var ulCounter = urlList.length - 1;
+        while (ulCounter--) animationDelays.push(animationDelays[animationDelays.length - 1] + fullPhase_duration - phaseOverlap_duration);
 
         transitionDelays = [];
         if (segue_duration === "overlap") transitionDelays = animationDelays;
@@ -288,8 +215,6 @@ var Ixhibition = (function (containerID){
                 transitionDelays[adCounter] = animationDelays[adCounter] - (transition_duration - phaseIn_duration);
             }
         }
-        console.log("transitionDelays");
-        console.log(transitionDelays);
 
     }
 
@@ -391,7 +316,6 @@ var Ixhibition = (function (containerID){
                 @keyframes " + containerID + "_ixbAnimation {\n   " + keyframeValues + "    \n}   \n\
                 @-webkit-keyframes " + containerID + "_ixbAnimation {\n   " + keyframeValues + "    \n}   \n\
                 #" + containerID + " .ixb_images{ \n\
-                    background-color: transparent; \n\
                     opacity: 0; \n\
                     animation-name: " + containerID + "_ixbAnimation; -webkit-animation-name: " + containerID + "_ixbAnimation; \n\
                     animation-duration: " + totalTime + "s; -webkit-animation-duration: " + totalTime + "s; \n\
