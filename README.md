@@ -3,22 +3,22 @@
 
 A Javascript generated CSS3 Animation based image gallery, providing control over the animation of transitioning/seguing of slides.
 <br />
-###Overview
+### Overview
 Ixhibition is an image gallery generated in Javascript and powered by CSS3 Animations, with the additional advantage of being able to set custom and desired animations using CSS3 Animation supported attributes. Ixhibition is also intended to serve as a core library on which additional packages may be developed, for additional and/or specific functionality, including providing a more animation sets and for connecting to other APIs and libraries.
 
 Ixhibition is 100% open source.
 
-###Aims
+### Aims
 Ixhibition has been developed with the goal of reducing as much Javascript interaction as possible. What is meant by this is that while JS is used to instantiate and generate the gallery (HTML and CSS), JS is meant to play no role after loading it into the DOM: all animation and transitioning is governed by CSS3 animations only. Therefore, once the gallery has been loaded into the DOM, Ixhibition will not be performing and executing any further JS unless invoked by a public function.
 <br />
 <br />
-#Using Ixhibition
+# Using Ixhibition
 
-##Getting Started
+## Getting Started
 Firstly, before instantiating the library in javascript, a `<div>` tag with an ID must be created for the library to use. By default, the library looks for a `<div>` tag with the ID *"ixhibition"*, however another ID value can be used as long as it is passed when the library is instantiated. The `<div>` tag used **must** have an explicit `height` and `width` set, with other attributes being optional, such as `border` and `background-color`.
 <br/>Instantiation will populate the assigned div tag, and will append `<style>` tags to the head in which the associated CSS will be injected in, including the animations.
 
-####Default ID
+#### Default ID
 CSS: `#ixhibition{ height: 360px; width: 640px; }`
 
 HTML: `<div id="ixhibition"></div> `
@@ -26,7 +26,7 @@ HTML: `<div id="ixhibition"></div> `
 Javascript: `var ixb = Ixhibition();`
 
 
-####Custom ID
+#### Custom ID
 CSS: `#myGallery{ height: 360px; width: 640px; }`
 
 HTML: `<div id="myGallery"></div>`
@@ -34,11 +34,11 @@ HTML: `<div id="myGallery"></div>`
 Javascript: `var ixb = Ixhibition("myGallery");`
 
 
-##Logic
+## Logic
 The following example provides a general overview of the logic used by Ixhibition:
 <img src="Diagrams/TimeGraph.jpeg"/>
 
-##Loading Images
+## Loading Images
 In order to load a set of images in, an array of image urls in string format must be passed as the parameter into the `setImageList(imgList)` function.
 
 ```javascript
@@ -52,7 +52,7 @@ var imgList = [
 ixb.setImageList(imgList);
 ```
 
-##Setting Segue Type
+## Setting Segue Type
 There are 5 built in segue (transition) animations which dictate the transitioning from image to image. These include: **"stack"**, **"vertical"**, **"vertical-reverse"**, **"horizontal"** and **"horizontal-reverse"**. The default is "vertical".
 
 <table style="width: 100%; border: none;">
@@ -78,15 +78,15 @@ There are 5 built in segue (transition) animations which dictate the transitioni
     </tr>
 </table>
 
-##Setting Display Duration
+## Setting Display Duration
 In order to set the display duration (in seconds), a positive number must be set as the parameter:
 ```javascript
 ixb.setDisplayDuration(4);
 ```
 <img src="Diagrams/Display.jpeg"/>
 
-##Setting Phases
-###Setting Phase Duration
+## Setting Phases
+### Setting Phase Duration
 Phase values (phaseIn and phaseOut) indicate the phasing duration values (in seconds) for transitioning in and out for a slide respectively. Only positive numbers are accepted as parameter values respectively.
 ```javascript
 var phaseIn_duration = 2,
@@ -97,7 +97,7 @@ ixb.setPhaseOutDuration(phaseOut_duration); //PhaseOut
 ```
 <img src="Diagrams/Phases.jpeg"/>
 
-###Setting Phase Animations
+### Setting Phase Animations
 Phase animations indicate what animation should be performed during the phaseIn and phaseOut durations. These are defined by passing in an array of objects. The objects must contain key-value pairs where the key is the must be a CSS3 attribute and the value should be the associated CSS3 value. Each object in the array is treated as a key frame, and the number of objects indicate the number of key frames, divided at regular intervals: therefore the array must either be 0 or 2 and greater to be accepted as the passed in parameter respectively, (an array of length 1 will throw an error).
 
 ```javascript
@@ -134,7 +134,7 @@ var phaseIn_animationB = [
 ```
 **Note:** it may be necessary to include prefixed version of the CSS attributes, such as `-webkit-`.
 
-###Setting Duration and Animation
+### Setting Duration and Animation
 To speed things up, the respective duration and animations can be set together using  `setPhaseIn(pIn_duration, pIn_animation)` and `setPhaseOut(pOut_duration, pOut_animation)` functions. They require 2 parameters, where the first value is the [Duration](#setting-phase-duration), and the second parameter requires the associated [Phase Animations](#setting-phase-animations), like so:
 
 ```javascript
@@ -142,7 +142,7 @@ ixb.setPhaseIn(phaseIn_duration, phaseIn_animation);
 ixb.setPhaseOut(phaseOut_duration, phaseOut_animation);
 ```
 
-###Static vs Dynamic Display
+### Static vs Dynamic Display
 **Static:** This is the most common option. In order to achieve a static display, the last (keyframe) object in the phaseIn animation and the first object in the phaseOut animation must match.
 
 ```javascript
@@ -173,7 +173,7 @@ var phaseIn_animation = [
     ];
 ```
 
-##Setting Phase Overlap
+## Setting Phase Overlap
 The phase overlap dictates how much of the phaseOut duration of the phasing-out slide and how much of the phaseIn duration of the phasing-in slide overlap in seconds.
 
 ```javascript
@@ -183,7 +183,7 @@ ixb.setPhaseOverlap(1);
 This provides control over the transitioning and can be used to achieve specific animations.
 
 <br />
-##Setting Segue Duration
+## Setting Segue Duration
 The segue duration accepts two values: "full" and "overlap". The segue duration indicates at what point the transition (going from one slide to the next) occurs and how long it lasts.
 <br/>If **"full"** (default) is set, then the segue duration is indicated by:
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phaseOut + phaseIn - phaseOverlap.
@@ -200,7 +200,7 @@ ixb.setSegueDuration("overlap");
 <img src="Diagrams/Overlap.jpeg"/>
 
 
-##Setting Loop Count
+## Setting Loop Count
 This indicates how many times the gallery should loop, and maps exactly to the animation-iteration-count attribute in CSS3: any legal value for the attribute will be accepted as the parameter, including "infinite".
 ```javascript
 ixb.setLoopCount(1);
@@ -209,15 +209,15 @@ ixb.setLoopCount("infinite");
 ```
 
 
-##Setting Fading
+## Setting Fading
 It is possible to indicate whether fading in and/or out is desired, which occurs during the full duration of the phaseIn and phaseOut values respectively: 2 parameters are required, the first parameter being for phaseIn and the second being for phaseOut.
 ```javascript
 ixb.setFade(true, true);
 ```
 
 
-##Saving and Loading Options
-###Saving
+## Saving and Loading Options
+### Saving
 It is possible to save a preset and load it later. To do so, the `saveOption(keyname, callback)` function is used. The function requires 2 parameters: a preset *keyname* as a string, and a *callback* function which accepts a single parameter and must return an object.
 
 <br />The object provided (from the parameter) is a data object containing the following attributes:
@@ -281,13 +281,13 @@ ixb.saveOption("test-option", function(data){
 ```
 
 
-###Loading
+### Loading
 If a preset has been saved, then the `loadOption(keyname)` function can be used to load it, given the associate keyname:
 ```javascript
 ixb.loadOption("test-option");
 ```
 
-####Defaults
+#### Defaults
 A set of default animation options are provided:
 
 Option | Description
@@ -303,14 +303,14 @@ ixb_8 | Slide focus, with slight zoom
 ixb_9 | Squash to focus
 ixb_10 | Fold-in Fold-out
 
-##Restarting
+## Restarting
 By default, if any attribute is changed (except for `setImageList(imgList)`), the animation will simply continue depending on where the animation should be time-wise. If a complete restart of the animation is required, the following can be called:
 ```javascript
 ixb.restart();
 ```
 
-#Performance, Optimisation and Odd Behaviour
-##Performance and Optimisation
+# Performance, Optimisation and Odd Behaviour
+## Performance and Optimisation
 1. For a set of medium sized images, it is recommended to keep the image count well below 200 for a single instance of Ixhibition.
 2. To reduce painting overhead and any other CSS rendering, it is recommended that custom animations try to utilise the CSS `transform` attribute as opposed to others like `height`, `width`, `top`, `margin-right`, etc...
 <br /> For some insight on this, a [Performance Test](http://www.paulirish.com/2012/why-moving-elements-with-translate-is-better-than-posabs-topleft) was done by Paul Irish.
@@ -318,7 +318,7 @@ ixb.restart();
   - Reducing display, phaseIn, and phaseOut durations
   - Reducing the number of keyframe steps/objects in the animation (array) for phaseIn and phaseOut
 
-##Odd Behaviour
+## Odd Behaviour
 There may be instances where the animation doesn't execute uniformly browsers (even if all the relevant prefixes are added). The issue here may be a case of percentage precision. As the Gallery is powered by CSS3 Animations, keyframes are used, and as keyframes support only 0% - 100%, decimal percentages (e.g. 1.2345678%) are used to add the animation for a particular keyframe. Therefore, some browsers may have difficulty in computing that level of precision, and therefore to decrease the level of precision needed, the following are recommended:
 1. Reduce the number of images. If many images are need to be displayed, multiple instances of Ixhibition could be used instead of one instance running all the images.
 2. Reduce the number of phaseIn and phaseOut animation keyframes required (done by reducing the number of objects in the phase animation arrays).
@@ -326,10 +326,10 @@ There may be instances where the animation doesn't execute uniformly browsers (e
 
 <br />
 <br />
-#Creating Packages (Add-ons)
+# Creating Packages (Add-ons)
 It is encouraged to develop and use packages that utilise Ixhibition, especially packages that add more  animation sets and ones that provide additional functionality. However, in an attempt to streamline and standardise this such that multiple packages could be used in a project, a set of guidelines are provided.
 
-##General Guidelines
+## General Guidelines
 These guidelines apply to all packages:
 
 1. The package should request for an instance of ixhibition to be passed in as the parameter when the package is instantiated. E.g.
@@ -348,7 +348,7 @@ These guidelines apply to all packages:
 3. It is strongly recommended to provide documentation for the package if the package is intended to be
 for public use (should go without saying).
 
-##Animation-oriented Package Guidelines
+## Animation-oriented Package Guidelines
 Packages that only provide additional animation sets should follow these requirements:
 
 1. In order to avoid conflict, the keynames for the animations provided by the package should start with the package name or abbreviation, followed by an underscore, and finally followed by the preset name, i.e. *{package name}* __ *{preset name}*
@@ -384,7 +384,7 @@ Packages that only provide additional animation sets should follow these require
 
 2. When using preset options, due to possible additional calculations required within the preset based of the `data` object provided ([see Saving](#saving)), it may be neccessary for the `loadOption(keyname)` function to be executed relatively last; i.e. after setting `setDisplayDuration(displayDuration)`, `setPhaseIn(pIn_duration, pIn_animation)`, `setPhaseOut(pOut_duration, pOut_animation)`, and/or `setPhaseOverlap(poDuration)`. Therefore, if dependant on any of the values provided by the `data` object, then it will be necessary to explain this within the package documentation or preferably provide functions from the package object which take into account and deal with these attributes.
 
-##Functionality-oriented (and other) Package Guidelines
+## Functionality-oriented (and other) Package Guidelines
 Packages that provide additional functionality with or without animation sets should follow these requirements:
 
 1. It is recommended that the package (object) is encapsulated and self-contained (similar to Ixhibition), and provides (public) functions in order to perform various tasks. This is not only to regulate name-space,  but also to retain and maintain control within the package itself.
